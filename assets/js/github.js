@@ -103,7 +103,7 @@ function attachTilt(){
       const r=el.getBoundingClientRect();
       const x=(e.clientX - r.left)/r.width - .5;
       const y=(e.clientY - r.top)/r.height - .5;
-      el.style.transform=`perspective(900px) rotateY(${x*9}deg) rotateX(${-y*9}deg) translateY(-4px)`;
+      el.style.transform=`perspective(900px) rotateY(${x*4}deg) rotateX(${-y*4}deg) translateY(-2px)`;
     });
     el.addEventListener('mouseleave', ()=> el.style.transform='');
   });
