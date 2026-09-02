@@ -169,6 +169,56 @@ h1{font-family:Fraunces,serif; font-size:clamp(2.6rem,6vw,4.4rem); line-height:.
 .reveal{opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease; transition-delay:var(--d,0ms)}
 .reveal.in{opacity:1; transform:none}
 @media (prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none} .orb{animation:none} }
+/* marquee */
+.marquee{margin-top:22px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow:hidden; background:color-mix(in srgb, var(--card) 70%, transparent)}
+.marquee__track{display:flex; gap:18px; padding:10px 0; animation:marquee 18s linear infinite; white-space:nowrap; font-family:JetBrains Mono,monospace; font-weight:700; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* showcase */
+.showcase__wrap{overflow:hidden; margin-top:18px}
+.showcase__track{display:flex; gap:16px; transition:transform .5s cubic-bezier(.22,1,.36,1); will-change:transform}
+.showcase__track .shot{flex:0 0 calc(33.333% - 11px); min-width:280px; background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden; cursor:pointer; transition:.22s; position:relative}
+@media(max-width:900px){ .showcase__track .shot{flex:0 0 82%} }
+.shot:hover{transform:translateY(-4px); box-shadow:var(--glow); border-color:color-mix(in srgb, var(--primary) 18%, var(--line))}
+.shot__thumb{aspect-ratio:16/10; overflow:hidden; background:var(--card2); position:relative}
+.shot__thumb img{width:100%; height:100%; object-fit:cover; transition:transform .6s}
+.shot:hover .shot__thumb img{transform:scale(1.06)}
+.shot__thumb::after{content:"◉ Live Preview"; position:absolute; top:10px; left:10px; background:rgba(6,182,214,.9); color:#fff; padding:4px 8px; border-radius:999px; font-size:.7rem; font-weight:800; letter-spacing:.04em}
+.shot__body{padding:14px}
+.shot__body h3{margin:0 0 4px; font-size:1rem} .shot__body p{margin:0; color:var(--muted); font-size:.86rem; min-height:36px}
+.shot__meta{display:flex; gap:8px; margin-top:8px; font-size:.72rem; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.06em}
+.showcase__nav{display:flex; gap:8px; align-items:center}
+.dots{display:flex; gap:8px; justify-content:center; margin-top:14px}
+.dots button{width:22px; height:6px; border-radius:999px; border:0; background:var(--line); cursor:pointer; transition:.2s}
+.dots button.active{background:var(--primary); box-shadow:0 0 0 4px color-mix(in srgb, var(--primary) 16%, transparent)}
+/* toolbar */
+.toolbar{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.toolbar input{padding:10px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--text); min-width:240px; font:inherit}
+.toolbar input:focus{outline:2px solid var(--primary); border-color:transparent}
+/* card thumb + live */
+.card__thumb{aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:var(--card2); border:1px solid var(--line); margin:-2px 0 6px}
+.card__thumb img{width:100%; height:100%; object-fit:cover}
+.card__live{position:absolute; top:12px; right:12px; background:#22c55e; color:#fff; padding:3px 7px; border-radius:999px; font-size:.68rem; font-weight:800; letter-spacing:.04em; box-shadow:0 4px 12px rgba(34,197,94,.35)}
+/* tilt */
+.tilt{transform-style:preserve-3d; will-change:transform; transition:transform .15s}
+.magnetic{position:relative}
+/* modal */
+dialog#projectModal{width:min(980px, 92vw); max-height:86vh; border:1px solid var(--line); background:var(--card); color:var(--text); border-radius:18px; padding:0; overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,.6)}
+dialog#projectModal::backdrop{background:rgba(7,10,20,.68); backdrop-filter:blur(6px)}
+.modal__head{display:flex; justify-content:space-between; gap:12px; padding:16px; border-bottom:1px solid var(--line)}
+.modal__head h3{margin:0; font-size:1.2rem} .modal__tabs{display:flex; gap:8px; padding:10px 16px; border-bottom:1px solid var(--line)}
+.modal__tabs button{padding:7px 12px; border-radius:999px; border:1px solid var(--line); background:var(--bg2); color:var(--muted); font-weight:700; cursor:pointer}
+.modal__tabs button.active{background:var(--text); color:var(--bg); border-color:var(--text)}
+.modal__body{max-height:62vh; overflow:auto}
+.modal__pane{display:none; padding:16px} .modal__pane.active{display:block}
+.browser{display:flex; align-items:center; gap:8px; padding:8px 10px; background:var(--card2); border:1px solid var(--line); border-radius:10px; font-family:JetBrains Mono,monospace; font-size:.78rem}
+.browser span{width:10px; height:10px; border-radius:50%; background:var(--line)}
+.browser span:nth-child(1){background:#f87171} span:nth-child(2){background:#fbbf24} span:nth-child(3){background:#22c55e}
+.browser b{margin-left:6px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.iframeWrap{margin-top:12px; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; position:relative; aspect-ratio:16/10}
+.iframeWrap iframe{width:100%; height:100%; border:0; background:#fff}
+.fallback{position:absolute; inset:0; display:grid; place-items:center; background:var(--card); padding:16px; text-align:center}
+.fallback.hidden{display:none}
+.fallback img{max-height:260px; border-radius:12px; border:1px solid var(--line); margin-top:10px}
 /* light mesh tweak */
 [data-theme="light"] .orb{opacity:.28; mix-blend:multiply; filter:blur(60px)}
 [data-theme="light"] .grid-fade{opacity:.05}

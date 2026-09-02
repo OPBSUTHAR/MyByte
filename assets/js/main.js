@@ -1,5 +1,5 @@
-// MyByte SUPREME — motion & interactions
-const phrases = ["Python 🐍 Supreme","Web Technologies • Supreme","JavaScript / TypeScript","AI & Automation","C / C++ • Systems","supreme UI/UX"];
+// MyByte SUPREME — motion & interactions (magnetic, reveal, progress, play)
+const phrases = ["Python 🐍 Supreme","Web • Live Previews","JavaScript / TypeScript","AI & Automation","C / C++ • Systems","supreme UI/UX"];
 let pi=0, ci=0, del=false;
 const typed = document.getElementById('typed');
 function tick(){
@@ -25,30 +25,19 @@ toggle.addEventListener('click', ()=> applyTheme(document.documentElement.getAtt
 document.getElementById('menuBtn').addEventListener('click', ()=> document.getElementById('navLinks').classList.toggle('open'));
 document.querySelectorAll('#navLinks a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('navLinks').classList.remove('open')));
 
-// filter
-const filterBtns = document.querySelectorAll('.filter button');
-filterBtns.forEach(b=> b.addEventListener('click', ()=>{
-  filterBtns.forEach(x=>x.classList.remove('active')); b.classList.add('active');
-  const f=b.dataset.filter.toLowerCase();
-  document.querySelectorAll('.card').forEach(c=>{
-    const lang=(c.dataset.lang||'').toLowerCase();
-    c.style.display = (f==='all' || lang===f) ? 'flex':'none';
-  });
-}));
-
-// supreme reveal
+// reveal
 const obs = new IntersectionObserver(es=> es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }),{threshold:.14});
 document.querySelectorAll('.reveal').forEach(el=> obs.observe(el));
 document.querySelectorAll('.card').forEach((el,i)=>{ el.classList.add('reveal'); el.style.setProperty('--d', `${(i%3)*80}ms`); obs.observe(el); });
 
-// scroll progress
+// progress
 const prog = document.getElementById('progress');
 addEventListener('scroll', ()=>{
   const h = document.documentElement.scrollHeight - innerHeight;
   prog.style.width = (scrollY / (h||1) * 100) + '%';
 }, {passive:true});
 
-// parallax orbs subtle
+// parallax orbs
 let ticking=false;
 addEventListener('scroll', ()=>{
   if(ticking) return; ticking=true;
@@ -58,6 +47,27 @@ addEventListener('scroll', ()=>{
     ticking=false;
   });
 }, {passive:true});
+
+// magnetic buttons
+document.querySelectorAll('.magnetic').forEach(btn=>{
+  btn.addEventListener('mousemove', e=>{
+    const r=btn.getBoundingClientRect();
+    const x=(e.clientX - (r.left+r.width/2))*0.22;
+    const y=(e.clientY - (r.top+r.height/2))*0.28;
+    btn.style.transform=`translate(${x}px,${y}px)`;
+  });
+  btn.addEventListener('mouseleave', ()=> btn.style.transform='');
+});
+
+// play demo — scroll to showcase and trigger animation
+document.getElementById('playBtn')?.addEventListener('click', ()=>{
+  document.getElementById('showcase')?.scrollIntoView({behavior:'smooth'});
+  // flash showcase
+  const s=document.getElementById('showcaseTrack');
+  s.animate([{transform:'scale(0.98)'},{transform:'scale(1)'}], {duration:420, easing:'ease-out'});
+  // try auto-open first project
+  setTimeout(()=>{ const first=document.querySelector('.shot'); if(first) first.click(); }, 600);
+});
 
 // contact
 window.handleContact = (e)=>{
