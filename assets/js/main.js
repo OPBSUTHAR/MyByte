@@ -1,5 +1,5 @@
-// MyByte SUPREME — motion & interactions (magnetic, reveal, progress, play)
-const phrases = ["Python 🐍 Supreme","Web • Live Previews","JavaScript / TypeScript","AI & Automation","C / C++ • Systems","supreme UI/UX"];
+// MyByte — motion & interactions
+const phrases = ["Python","Web • Live Previews","JavaScript / TypeScript","AI & Automation","C / C++ • Systems","Clean UI/UX"];
 let pi=0, ci=0, del=false;
 const typed = document.getElementById('typed');
 function tick(){
@@ -10,7 +10,7 @@ function tick(){
 }
 tick();
 
-// theme — default dark supreme
+// theme — default dark
 const toggle = document.getElementById('themeToggle');
 function applyTheme(t){
   document.documentElement.setAttribute('data-theme', t);
@@ -74,8 +74,8 @@ window.handleContact = (e)=>{
   e.preventDefault();
   const fd=new FormData(e.target);
   const name=fd.get('name'), email=fd.get('email'), msg=fd.get('message');
-  const subject=encodeURIComponent(`MyByte Supreme — contact from ${name}`);
-  const body=encodeURIComponent(`From: ${name} <${email}>\n\n${msg}\n\n— via MyByte Supreme`);
+  const subject=encodeURIComponent(`MyByte — contact from ${name}`);
+  const body=encodeURIComponent(`From: ${name} <${email}>\n\n${msg}\n\n— via MyByte`);
   location.href=`mailto:opbsuthar@github.com?subject=${subject}&body=${body}`;
   document.getElementById('formMsg').textContent='Opening mail client… fallback: opbsuthar@github.com';
   return false;
