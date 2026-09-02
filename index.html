@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Omprakash Suthar — Supreme Portfolio | MyByte</title>
-  <meta name="description" content="Omprakash Suthar (@OPBSUTHAR) — Supreme portfolio. Full-stack • Python • AI • C++. 26 repos. Crafting efficient, luxurious digital experiences." />
+  <meta name="description" content="Omprakash Suthar (@OPBSUTHAR) — Supreme portfolio. Full-stack • Python • AI • C++. 26 repos. Interactive live previews, showcase, supreme craft." />
   <meta name="theme-color" content="#0b1220" />
   <link rel="canonical" href="https://opbsuthar.github.io/MyByte/" />
   <meta property="og:title" content="Omprakash Suthar — Supreme Portfolio" />
-  <meta property="og:description" content="Full-stack • Python • AI. 26 projects built with supreme attention to detail." />
+  <meta property="og:description" content="Interactive showcase • Live project previews • 26 repos • Python • AI • JS" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://opbsuthar.github.io/MyByte/" />
   <meta property="og:image" content="https://avatars.githubusercontent.com/u/178475619?v=4" />
@@ -21,16 +21,13 @@
 </head>
 <body>
   <div id="progress"></div>
-  <div class="bg-mesh" aria-hidden="true">
-    <div class="orb orb--1"></div><div class="orb orb--2"></div><div class="orb orb--3"></div>
-    <div class="grid-fade"></div>
-  </div>
+  <div class="bg-mesh" aria-hidden="true"><div class="orb orb--1"></div><div class="orb orb--2"></div><div class="orb orb--3"></div><div class="grid-fade"></div></div>
 
   <header class="nav">
     <div class="container nav__inner">
       <a class="logo" href="#"><span class="logo__mark">MB</span><span>MyByte<span class="logo__dot">•</span> <em>supreme</em></span></a>
       <nav class="nav__links" id="navLinks">
-        <a href="#about">About</a><a href="#skills">Stack</a><a href="#projects">Work</a><a href="#journey">Journey</a><a href="#contact">Contact</a>
+        <a href="#showcase">Showcase</a><a href="#projects">Work</a><a href="#skills">Stack</a><a href="#about">About</a><a href="#contact">Contact</a>
         <a class="btn btn--sm btn--glow" href="https://github.com/OPBSUTHAR" target="_blank" rel="noopener">GitHub ↗</a>
       </nav>
       <div class="nav__actions">
@@ -40,99 +37,78 @@
     </div>
   </header>
 
-  <!-- HERO SUPREME -->
+  <!-- HERO SUPREME INTERACTIVE -->
   <section class="hero">
     <div class="container hero__grid">
       <div class="hero__copy reveal">
         <div class="pill"><span class="pulse"></span> Available for collaborations • Remote • India <span class="pill__arrow">→</span></div>
         <h1>Supreme<br><span class="grad">digital craft</span><br>at byte scale<span class="dot">.</span></h1>
         <p class="typed-line"><span id="typed" class="typed"></span><span class="cursor">▌</span></p>
-        <p class="lead">I'm <strong>Omprakash Suthar</strong> (@OPBSUTHAR) — builder of efficient, accessible products. Web tech • Python • C/C++ • AI. 26 repos, shipped with obsessive polish and &lt;30KB CSS+JS.</p>
+        <p class="lead">I'm <strong>Omprakash Suthar</strong> (@OPBSUTHAR) — builder of efficient, interactive products. Web • Python • C/C++ • AI. <b>26 repos</b> with obsessive polish, live previews & true interactivity.</p>
         <div class="hero__cta">
-          <a href="#projects" class="btn btn--primary btn--xl">Explore work <span>↗</span></a>
-          <a href="https://www.linkedin.com/in/omprakash-suthar-246240318/" target="_blank" class="btn btn--ghost btn--xl">LinkedIn</a>
-          <a href="mailto:opbsuthar@github.com" class="btn btn--ghost btn--xl">Email →</a>
+          <a href="#showcase" class="btn btn--primary btn--xl magnetic">Live showcase <span>↗</span></a>
+          <a href="#projects" class="btn btn--ghost btn--xl">All projects</a>
+          <button id="playBtn" class="btn btn--ghost btn--xl">▶ Play demo</button>
         </div>
         <div class="hero__meta">
-          <div class="avatars"><img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt=""><span>Trusted by peers — 1 follower, 2 following, 23★</span></div>
+          <div class="avatars"><img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt=""><span>Interactive • Live previews • Tilt on hover — try it!</span></div>
           <div class="stats">
-            <div><b>26</b><span>Repos</span></div><div><b>23+</b><span>Stars</span></div><div><b>100%</b><span>Lighthouse</span></div><div><b>∞</b><span>Curiosity</span></div>
+            <div><b data-count="26">0</b><span>Repos</span></div><div><b data-count="23">0</b><span>Stars</span></div><div><b>100%</b><span>Lighthouse</span></div><div><b data-count="12">0</b><span>Live demos</span></div>
           </div>
         </div>
       </div>
 
       <div class="hero__visual reveal" style="--d:120ms">
-        <div class="glass-card code-card">
-          <div class="code-card__bar"><span></span><span></span><span></span><b>mybyte.py</b><span class="bar__right">● live • Python</span></div>
-<pre><code><span class="c"># supreme — minimal, fast, memorable</span>
+        <div class="glass-card code-card tilt">
+          <div class="code-card__bar"><span></span><span></span><span></span><b>mybyte.py</b><span class="bar__right">● live • Python • interactive</span></div>
+<pre><code><span class="c"># supreme — interactive, live, memorable</span>
 <span class="k">class</span> <span class="n">SupremeByte</span>:
     vibe = <span class="s">"obsessive polish"</span>
     perf = <span class="s">"≤30KB • 95+ Lighthouse"</span>
-    <span class="k">def</span> <span class="n">ship</span>(self, idea):
-        <span class="k">return</span> <span class="n">idea</span> + <span class="s">" → shipped 🚀"</span>
+    <span class="k">def</span> <span class="n">preview</span>(self, project):
+        <span class="k">return</span> <span class="n">project</span>.live + <span class="s">" → interactive 🚀"</span>
 
-<span class="k">me</span> = <span class="n">SupremeByte</span>()
-<span class="k">print</span>(me.ship(<span class="s">"your vision"</span>))</code></pre>
-          <div class="code-card__foot"><span>⚡ Zero-bloat</span><span>♿ Accessible</span><span>🐍 Python-powered</span></div>
+<span class="k">print</span>(<span class="n">SupremeByte</span>().preview(<span class="n">your_idea</span>))</code></pre>
+          <div class="code-card__foot"><span>⚡ Zero-bloat</span><span>◉ Live previews</span><span>🐍 Python-powered</span></div>
         </div>
-        <div class="profile-float">
-          <img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash" />
-          <div><b>Omprakash Suthar</b><span>Full-Stack • he/him</span></div>
-          <span class="badge">Open to collabs 🤝</span>
-        </div>
-        <div class="mini-float mf1"><b>AI Scanner</b><span>OCR • Edge</span></div>
-        <div class="mini-float mf2"><b>CrimeIntel-AI</b><span>Python • MIT</span></div>
+        <div class="profile-float tilt"><img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash" /><div><b>Omprakash Suthar</b><span>Full-Stack • he/him</span></div><span class="badge">Open to collabs 🤝</span></div>
+        <div class="mini-float mf1 tilt"><b>AI Scanner</b><span>OCR • Edge • Live ↗</span></div>
+        <div class="mini-float mf2 tilt"><b>CrimeIntel-AI</b><span>Python • Hover to tilt</span></div>
       </div>
     </div>
+    <div class="marquee" aria-hidden="true"><div class="marquee__track"><span>Python</span><span>•</span><span>JavaScript</span><span>•</span><span>TypeScript</span><span>•</span><span>HTML/CSS</span><span>•</span><span>AI • OCR • NLP</span><span>•</span><span>Supreme UI</span><span>•</span><span>Python</span><span>•</span><span>JavaScript</span><span>•</span><span>TypeScript</span><span>•</span><span>HTML/CSS</span><span>•</span><span>AI • OCR • NLP</span><span>•</span><span>Supreme UI</span></div></div>
   </section>
 
-  <!-- BENTO ABOUT -->
-  <section id="about" class="section">
+  <!-- SHOWCASE — LIVE PREVIEW CAROUSEL -->
+  <section id="showcase" class="section">
     <div class="container">
-      <div class="section__eyebrow">01 — About</div>
-      <div class="bento">
-        <div class="bento__main reveal">
-          <h2>Continuous learner.<br>Adaptable builder.</h2>
-          <p class="muted">Mindset focused on <b>continuous learning & adaptability</b> — contributing to cutting-edge projects across domains. I love web technologies, software engineering, and the smile when UX finally feels right.</p>
-          <ul class="ticks"><li>🌱 Learning HTML/CSS/JS, Python, C, C++ and beyond</li><li>💞️ Open to team builds, partnerships, OSS</li><li>📫 Reach: X @omprakashrj155 • LinkedIn • Email</li></ul>
-          <div class="chips"><span>📍 India</span><span>he/him</span><span>⚡ SMILE-driven creativity</span></div>
-        </div>
-        <div class="bento__cards">
-          <div class="b-card reveal" style="--d:60ms"><i>◐</i><h3>Supreme by default</h3><p>Linear-level precision — grid, spacing, typography obsessed.</p></div>
-          <div class="b-card reveal" style="--d:120ms"><i>⚡</i><h3>Lightning fast</h3><p>Pure static, < 30KB, instant on GitHub Pages. No jank.</p></div>
-          <div class="b-card reveal" style="--d:180ms"><i>♿</i><h3>Accessible</h3><p>Semantic, keyboard & contrast-perfect, dark/light supreme.</p></div>
-          <div class="b-card reveal" style="--d:240ms"><i>🐍</i><h3>Python brain</h3><p>Build step fetches GitHub → keeps portfolio alive.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS PREMIUM -->
-  <section id="skills" class="section section--alt">
-    <div class="container">
+      <div class="section__eyebrow">01 — Showcase • Live & Interactive</div>
       <div class="section__head">
-        <div><div class="section__eyebrow">02 — Stack</div><h2>Supreme stack, chosen for speed</h2></div>
-        <p class="muted">Minimal deps, maximal impact — the efficient luxury stack.</p>
+        <h2>Tap any project → live preview</h2>
+        <div class="showcase__nav"><button id="prevBtn" class="icon-btn">‹</button><button id="nextBtn" class="icon-btn">›</button><button id="autoBtn" class="btn btn--sm">⏸ Auto</button></div>
       </div>
-      <div class="skills-grid">
-        <div class="skill reveal"><div class="skill__head"><h3>Frontend</h3><span>Expert</span></div><div class="bar"><i style="width:92%"></i></div><div class="tags"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>TypeScript</span><span>Tailwind</span><span>React</span></div></div>
-        <div class="skill reveal" style="--d:80ms"><div class="skill__head"><h3>Backend & Languages</h3><span>Advanced</span></div><div class="bar"><i style="width:86%"></i></div><div class="tags"><span>Python</span><span>C</span><span>C++</span><span>Node.js</span><span>REST</span></div></div>
-        <div class="skill reveal" style="--d:160ms"><div class="skill__head"><h3>AI / Data</h3><span>Building</span></div><div class="bar"><i style="width:78%"></i></div><div class="tags"><span>NLP</span><span>OCR</span><span>Edge Detection</span><span>CrimeIntel</span><span>Aviation NLP</span></div></div>
-        <div class="skill reveal" style="--d:240ms"><div class="skill__head"><h3>Tools & Ops</h3><span>Fluent</span></div><div class="bar"><i style="width:88%"></i></div><div class="tags"><span>Git & GitHub</span><span>Pages</span><span>Actions</span><span>Vite</span><span>Figma</span></div></div>
+      <p class="muted">Swipe, hover for 3D tilt, click for live iframe. No more boring cards.</p>
+      <div class="showcase__wrap">
+        <div id="showcaseTrack" class="showcase__track"></div>
       </div>
+      <div id="showcaseDots" class="dots"></div>
     </div>
   </section>
 
-  <!-- PROJECTS SUPREME -->
-  <section id="projects" class="section">
+  <!-- PROJECTS — SEARCH + LIVE THUMBNAILS -->
+  <section id="projects" class="section section--alt">
     <div class="container">
+      <div class="section__eyebrow">02 — Selected Work</div>
       <div class="section__head">
-        <div><div class="section__eyebrow">03 — Selected Work</div><h2>Projects that speak supreme</h2></div>
-        <div class="filter">
-          <button data-filter="all" class="active">All</button><button data-filter="Python">Python</button><button data-filter="JavaScript">JavaScript</button><button data-filter="TypeScript">TypeScript</button><button data-filter="HTML">HTML</button>
+        <h2>All work — searchable, live</h2>
+        <div class="toolbar">
+          <input id="search" placeholder="Search projects… (e.g. AI, tracker)" />
+          <div class="filter">
+            <button data-filter="all" class="active">All</button><button data-filter="Python">Python</button><button data-filter="JavaScript">JavaScript</button><button data-filter="TypeScript">TypeScript</button><button data-filter="HTML">HTML</button>
+          </div>
         </div>
       </div>
-      <p class="muted">Live from GitHub API • Python mirror at <code>data/projects.json</code>. Hover for supreme glow.</p>
+      <p class="muted">Each card has <b>Live</b> → opens modal iframe at <code>opbsuthar.github.io/&lt;repo&gt;</code>. Thumbnails via GitHub OG. Try search + tilt!</p>
       <div id="projectsGrid" class="cards"></div>
       <div class="center mt">
         <a href="https://github.com/OPBSUTHAR?tab=repositories" target="_blank" class="btn btn--ghost">View all 26 on GitHub ↗</a>
@@ -141,50 +117,80 @@
     </div>
   </section>
 
-  <!-- JOURNEY -->
-  <section id="journey" class="section section--alt">
+  <!-- SKILLS -->
+  <section id="skills" class="section">
     <div class="container">
-      <div class="section__eyebrow">04 — Journey</div>
-      <h2>The path — demi to supreme</h2>
-      <div class="timeline">
-        <div class="tl reveal"><span>2025</span><div><h3>Foundation — First commits</h3><p>login-template, Tic-Tac-Toe, MemoryCard — learning git, HTML/CSS/JS fundamentals.</p></div></div>
-        <div class="tl reveal" style="--d:100ms"><span>2025–26</span><div><h3>Expansion</h3><p>Econnect, Expense-Tracker, To-Do-Master, recipe-book — full-stack experiments, JS mastery.</p></div></div>
-        <div class="tl reveal" style="--d:200ms"><span>2026</span><div><h3>AI & Scale</h3><p>ai-scanner, CrimeIntel-AI, Aviation NLP — Python + OCR + NLP, building intelligent tools.</p></div></div>
-        <div class="tl reveal" style="--d:300ms"><span>Now</span><div><h3>MyByte Supreme</h3><p>Portfolio as product — supreme UI, efficient engineering, open to collabs.</p></div></div>
+      <div class="section__head"><div><div class="section__eyebrow">03 — Stack</div><h2>Supreme stack, chosen for speed</h2></div><p class="muted">Minimal deps, maximal impact.</p></div>
+      <div class="skills-grid">
+        <div class="skill reveal"><div class="skill__head"><h3>Frontend</h3><span>Expert</span></div><div class="bar"><i style="width:92%"></i></div><div class="tags"><span>HTML5</span><span>CSS3</span><span>JS</span><span>TS</span><span>Tailwind</span><span>React</span></div></div>
+        <div class="skill reveal" style="--d:80ms"><div class="skill__head"><h3>Backend & Languages</h3><span>Advanced</span></div><div class="bar"><i style="width:86%"></i></div><div class="tags"><span>Python</span><span>C</span><span>C++</span><span>Node.js</span><span>REST</span></div></div>
+        <div class="skill reveal" style="--d:160ms"><div class="skill__head"><h3>AI / Data</h3><span>Building</span></div><div class="bar"><i style="width:78%"></i></div><div class="tags"><span>NLP</span><span>OCR</span><span>Edge</span><span>CrimeIntel</span><span>Aviation</span></div></div>
+        <div class="skill reveal" style="--d:240ms"><div class="skill__head"><h3>Tools & Ops</h3><span>Fluent</span></div><div class="bar"><i style="width:88%"></i></div><div class="tags"><span>Git</span><span>Pages</span><span>Actions</span><span>Vite</span><span>Figma</span></div></div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT SUPREME -->
-  <section id="contact" class="section contact">
-    <div class="container grid2">
-      <div class="reveal">
-        <div class="section__eyebrow">05 — Contact</div>
-        <h2>Let's build supreme<br>together.</h2>
-        <p class="muted">Have a vision? Need efficient, luxurious execution? DM — I reply fast.</p>
-        <div class="contact-list">
-          <a href="https://github.com/OPBSUTHAR" target="_blank">🐙 github.com/OPBSUTHAR <span>↗</span></a>
-          <a href="https://www.linkedin.com/in/omprakash-suthar-246240318/" target="_blank">🔗 linkedin/in/omprakash-suthar <span>↗</span></a>
-          <a href="https://x.com/omprakashrj155" target="_blank">𝕏 @omprakashrj155 <span>↗</span></a>
-          <a href="mailto:opbsuthar@github.com">✉️ Email <span>→</span></a>
+  <!-- ABOUT BENTO -->
+  <section id="about" class="section section--alt">
+    <div class="container">
+      <div class="section__eyebrow">04 — About</div>
+      <div class="bento">
+        <div class="bento__main reveal"><h2>Continuous learner.<br>Adaptable builder.</h2><p class="muted">Mindset focused on <b>continuous learning & adaptability</b>. I love web technologies and the smile when UX finally feels right.</p><ul class="ticks"><li>🌱 Learning HTML/CSS/JS, Python, C, C++</li><li>💞️ Open to team builds, partnerships, OSS</li><li>📫 X @omprakashrj155 • LinkedIn</li></ul><div class="chips"><span>📍 India</span><span>he/him</span><span>⚡ SMILE-driven</span></div></div>
+        <div class="bento__cards">
+          <div class="b-card reveal" style="--d:60ms"><i>◐</i><h3>Supreme by default</h3><p>Grid, spacing, typography obsessed.</p></div>
+          <div class="b-card reveal" style="--d:120ms"><i>⚡</i><h3>Lightning fast</h3><p>&lt;30KB, instant on Pages. No jank.</p></div>
+          <div class="b-card reveal" style="--d:180ms"><i>◉</i><h3>Live previews</h3><p>Every project opens live iframe — not just code.</p></div>
+          <div class="b-card reveal" style="--d:240ms"><i>🐍</i><h3>Python brain</h3><p>Build step fetches GitHub → always fresh.</p></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="journey" class="section">
+    <div class="container"><div class="section__eyebrow">05 — Journey</div><h2>The path — demi to supreme</h2>
+      <div class="timeline">
+        <div class="tl reveal"><span>2025</span><div><h3>Foundation</h3><p>login-template, Tic-Tac-Toe, MemoryCard — fundamentals.</p></div></div>
+        <div class="tl reveal" style="--d:100ms"><span>2025–26</span><div><h3>Expansion</h3><p>Econnect, Expense-Tracker, To-Do-Master — JS mastery.</p></div></div>
+        <div class="tl reveal" style="--d:200ms"><span>2026</span><div><h3>AI & Scale</h3><p>ai-scanner, CrimeIntel-AI, Aviation NLP — intelligent tools.</p></div></div>
+        <div class="tl reveal" style="--d:300ms"><span>Now</span><div><h3>MyByte Supreme Live</h3><p>Portfolio as product — interactive, live, supreme.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section section--alt contact">
+    <div class="container grid2">
+      <div class="reveal"><div class="section__eyebrow">06 — Contact</div><h2>Let's build supreme<br>together.</h2><p class="muted">Have a vision? Need efficient, luxurious execution? DM — I reply fast.</p>
+        <div class="contact-list">
+          <a href="https://github.com/OPBSUTHAR" target="_blank">🐙 github.com/OPBSUTHAR <span>↗</span></a>
+          <a href="https://www.linkedin.com/in/omprakash-suthar-246240318/" target="_blank">🔗 linkedin <span>↗</span></a>
+          <a href="https://x.com/omprakashrj155" target="_blank">𝕏 @omprakashrj155 <span>↗</span></a>
+          <a href="mailto:opbsuthar@github.com">✉️ Email <span>→</span></a>
+        </div></div>
       <form class="form glass-card reveal" style="--d:120ms" onsubmit="return handleContact(event)">
         <label>Name<input name="name" required placeholder="Omprakash" /></label>
         <label>Email<input name="email" type="email" required placeholder="you@supreme.co" /></label>
         <label>Message<textarea name="message" rows="5" required placeholder="Tell me about your supreme idea…"></textarea></label>
-        <button class="btn btn--primary btn--xl" type="submit">Send — let's ship 🚀</button>
+        <button class="btn btn--primary btn--xl magnetic" type="submit">Send — let's ship 🚀</button>
         <p id="formMsg" class="small muted"></p>
       </form>
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="container footer__inner">
-      <p>© 2026 <b>Omprakash Suthar</b> — MyByte Supreme. Crafted with vanilla obsession for GitHub Pages. <a href="https://github.com/OPBSUTHAR/MyByte">Source</a></p>
-      <p class="small muted">No trackers • No cookies • Just supreme HTML.</p>
+  <footer class="footer"><div class="container footer__inner"><p>© 2026 <b>Omprakash Suthar</b> — MyByte Supreme. <a href="https://github.com/OPBSUTHAR/MyByte">Source</a></p><p class="small muted">Interactive • Live • No trackers.</p></div></footer>
+
+  <!-- PROJECT MODAL WITH LIVE IFRAME -->
+  <dialog id="projectModal">
+    <div class="modal__head"><div><h3 id="mTitle"></h3><p id="mDesc" class="muted"></p></div><button id="mClose" class="icon-btn">✕</button></div>
+    <div class="modal__tabs"><button data-tab="live" class="active">◉ Live Preview</button><button data-tab="code">Code</button></div>
+    <div class="modal__body">
+      <div id="mLive" class="modal__pane active">
+        <div class="browser"><span></span><span></span><span></span><b id="mUrl"></b><a id="mOpen" target="_blank" class="btn btn--sm">Open ↗</a></div>
+        <div class="iframeWrap"><iframe id="mFrame" loading="lazy"></iframe><div id="mFallback" class="fallback hidden"><p>Live demo not yet deployed for this repo — showing GitHub OG preview.</p><img id="mImg" alt="preview" /></div></div>
+      </div>
+      <div id="mCode" class="modal__pane"><a id="mGithub" target="_blank" class="btn btn--primary">View on GitHub ↗</a><p class="muted small">Stars + language + description are live from GitHub API. Python cache at <code>data/projects.json</code>.</p></div>
     </div>
-  </footer>
+  </dialog>
 
   <script src="assets/js/github.js"></script>
   <script src="assets/js/main.js"></script>
