@@ -4,7 +4,7 @@
 
 ![Deploy](https://github.com/OPBSUTHAR/MyByte/actions/workflows/deploy.yml/badge.svg)
 ![GitHub Pages](https://img.shields.io/badge/hosting-GitHub%20Pages-222?logo=github)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-Proprietary-red)
 
 **Live demo after deploy:** `https://opbsuthar.github.io/MyByte/`
 
@@ -77,4 +77,13 @@ git push -u origin main
 - X: [@omprakashrj155](https://x.com/omprakashrj155)
 
 ---
-Built with ❤️ by Omprakash Suthar. PRs welcome.
+
+## 🔒 Access & Forking Policy
+
+- **Website (public):** https://opbsuthar.github.io/MyByte/ — open to all.
+- **Repository (private intent):** Source code is proprietary. Forking, cloning, mirroring, or redistributing is **not permitted** (see `LICENSE`). GitHub does not allow disabling forks on personal public repos — the policy is enforced via license + private visibility.
+- **To fully lock code (recommended):** GitHub → `MyByte` → **Settings → General → Danger Zone → Change visibility → Make private**. *Note:* On Free personal accounts, Pages from a private repo becomes private (404 for public). To keep Pages public while repo is private, you need GitHub Pro and `Settings → Pages → Visibility → Public`. Otherwise keep repo **public** and rely on license deterrent — GitHub will still show `Fork` button but it violates `LICENSE`.
+- **Resume edits:** Only you (owner) can edit `data/resume.json` and `assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf` locally and `git push`. The website  **does not** expose any edit UI — the previous `{} Edit JSON` button was removed. No visitor can change content from the web.
+
+---
+Built with ❤️ by Omprakash Suthar. All rights reserved.
