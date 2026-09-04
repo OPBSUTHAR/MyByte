@@ -21,6 +21,7 @@
 </head>
 <body>
   <div id="progress"></div>
+  <canvas id="techCanvas" aria-hidden="true"></canvas>
   <div class="bg-mesh" aria-hidden="true"><div class="orb orb--1"></div><div class="orb orb--2"></div><div class="orb orb--3"></div><div class="grid-fade"></div></div>
 
   <header class="nav">
@@ -37,13 +38,13 @@
     </div>
   </header>
 
-  <!-- HERO — Diverse & Ambitious -->
+  <!-- HERO — Cinematic + Tech Animated -->
   <section class="hero">
     <div class="container hero__grid">
       <div class="hero__copy reveal">
         <div class="pill"><span class="pulse"></span> Omprakash Suthar • MyByte — Byte-scale intelligence, Bharat-scale impact <span class="pill__arrow">→</span></div>
-        <h1>Intelligent<br><span class="grad">systems, frugal</span><br>& field-ready<span class="dot">.</span></h1>
-        <p class="typed-line"><span id="typed" class="typed"></span><span class="cursor">▌</span></p>
+        <h1 class="anim-title">Intelligent<br><span class="grad grad-anim">systems, frugal</span><br>& field-ready<span class="dot dot-blink">.</span></h1>
+        <p class="typed-line"><span class="typed-prefix">▸</span> <span id="typed" class="typed"></span><span class="cursor">▌</span></p>
         <p class="lead">I'm <strong>Omprakash Suthar</strong> — <b>full-stack + AI builder</b> obsessed with precision, speed & polish. I don't build demos. I build <b>systems that work offline, on the edge, for real people</b> — farms, cities, skies. <b>26 repos</b>, zero bloat, every project live.</p>
         <div class="hero__cta">
           <a href="#vision" class="btn btn--primary btn--xl magnetic">My vision →</a>
@@ -59,9 +60,18 @@
       </div>
 
       <div class="hero__visual reveal" style="--d:120ms">
-        <div class="glass-card code-card tilt">
-          <div class="code-card__bar"><span></span><span></span><span></span><b>mybyte.py — live</b><span class="bar__right">● Python • edge • shipped</span></div>
-<pre><code><span class="c"># ambition → system → ship</span>
+        <!-- Floating tech orbit badges -->
+        <div class="tech-orbit" aria-hidden="true">
+          <span class="orbit-badge b1">Python</span>
+          <span class="orbit-badge b2">AI</span>
+          <span class="orbit-badge b3">TS</span>
+          <span class="orbit-badge b4">C++</span>
+          <span class="orbit-badge b5">OCR</span>
+          <span class="orbit-badge b6">NLP</span>
+        </div>
+        <div class="glass-card code-card tilt" id="codeCard">
+          <div class="code-card__bar"><span></span><span></span><span></span><b id="codeTitle">mybyte.py — live ● compiling</b><span class="bar__right" id="codeStatus">● Python • edge • shipped</span></div>
+<pre id="animatedCode"><code><span class="c"># ambition → system → ship</span>
 <span class="k">class</span> <span class="n">MyByte</span>:
     mission = <span class="s">"AI that works where internet doesn't"</span>
     domains = [<span class="s">"Krishi"</span>, <span class="s">"Safety"</span>, <span class="s">"Space"</span>, <span class="s">"Education"</span>]
@@ -69,18 +79,29 @@
     <span class="k">def</span> <span class="n">ship</span>(self, idea):
         <span class="k">return</span> idea.live().polished().deployed()
 
-<span class="k">print</span>(<span class="n">MyByte</span>().ship(<span class="n">your_problem</span>))</code></pre>
-          <div class="code-card__foot"><span>⚡ Frugal</span><span>◉ Live previews</span><span>🌾 Bharat-ready</span></div>
+<span class="line-highlight"><span class="k">print</span>(<span class="n">MyByte</span>().ship(<span class="n">your_problem</span>)) <span class="run-arrow">→ shipped 🚀</span></span></code></pre>
+          <div class="code-card__foot"><span class="foot-pulse">⚡ Frugal</span><span>◉ Live previews</span><span>🌾 Bharat-ready</span><span class="foot-counter" id="codeLines">12 lines • 0.8s compile</span></div>
+          <div class="code-glow"></div>
         </div>
-        <div class="profile-float"><img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash" /><div><b>Omprakash Suthar</b><span>Full-Stack • AI • C/C++ • OPBSUTHAR</span></div><span class="badge">Open to collabs 🤝</span></div>
+        <div class="profile-float anim-float"><img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash" /><div><b>Omprakash Suthar</b><span>Full-Stack • AI • C/C++ • OPBSUTHAR</span></div><span class="badge badge-pulse">Open to collabs 🤝</span></div>
         <div class="mini-float-row">
-          <div class="mini-float"><b>AI Scanner</b><span>OCR • Edge • Live ↗</span></div>
-          <div class="mini-float"><b>Krishi-Gati-AI</b><span>Farm advisory ↗</span></div>
-          <div class="mini-float"><b>SpaceFlight</b><span>Monitor ↗</span></div>
+          <div class="mini-float anim-float" style="--d:200ms"><b>AI Scanner</b><span>OCR • Edge • Live ↗</span><i class="mini-dot"></i></div>
+          <div class="mini-float anim-float" style="--d:350ms"><b>Krishi-Gati-AI</b><span>Farm advisory ↗</span><i class="mini-dot"></i></div>
+          <div class="mini-float anim-float" style="--d:500ms"><b>SpaceFlight</b><span>Monitor ↗</span><i class="mini-dot"></i></div>
         </div>
       </div>
     </div>
     <div class="marquee" aria-hidden="true"><div class="marquee__track"><span>Frugal AI</span><span>•</span><span>Edge OCR/NLP</span><span>•</span><span>Python</span><span>•</span><span>JavaScript</span><span>•</span><span>Space Tech</span><span>•</span><span>Bharat-scale Impact</span><span>•</span><span>Frugal AI</span><span>•</span><span>Edge OCR/NLP</span><span>•</span><span>Python</span><span>•</span><span>JavaScript</span><span>•</span><span>Space Tech</span><span>•</span><span>Bharat-scale Impact</span></div></div>
+  </section>
+
+  <!-- Tech stack ticker — innovation signal -->
+  <section class="tech-strip" aria-hidden="true">
+    <div class="tech-strip__inner">
+      <span class="strip-label">Stack in motion</span>
+      <div class="strip-icons">
+        <span>🐍 Python</span><span>⚛️ React</span><span>📘 TypeScript</span><span>◉ OCR</span><span>🧠 NLP</span><span>⚡ Vite</span><span>🛰️ Space</span><span>🌾 AgriTech</span><span>🐍 Python</span><span>⚛️ React</span><span>📘 TypeScript</span><span>◉ OCR</span>
+      </div>
+    </div>
   </section>
 
   <!-- 00 VISION / NORTH STAR — factorial ambition -->
