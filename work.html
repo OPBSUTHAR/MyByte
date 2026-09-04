@@ -26,16 +26,16 @@
 
   <section class="section">
     <div class="container">
-      <div class="section__eyebrow">Work — No Scroll • Page Navigation</div>
-      <h1 style="font-family:Fraunces,serif; font-size:clamp(2rem,4vw,3rem); margin:0">All work — <span class="grad grad-anim">live</span> & searchable</h1>
-      <p class="muted">Cyber/Matrix build — projects open in modal iframe, no page scroll hijack. <a href="index.html">← Back Home</a></p>
+      <div class="section__eyebrow">Work</div>
+      <h1 style="font-family:Fraunces,serif; font-size:clamp(2rem,4vw,3rem); margin:0">Selected <span class="grad grad-anim">Work</span></h1>
+      <p class="muted"><a href="index.html">← Back Home</a></p>
     </div>
   </section>
 
   <!-- Featured Case Studies -->
   <section class="section" style="padding-top:0">
     <div class="container">
-      <div class="section__eyebrow">Featured — 3 Case Studies</div>
+      <div class="section__eyebrow">Featured</div>
       <div class="case-grid">
         <article class="case reveal"><div class="case__bar" style="background:linear-gradient(90deg,#00ff9d,#06b6d4)"></div><div class="case__body"><div class="case__eyebrow" style="color:#00ff9d">Case 01 • ai-scanner — Python</div><h3>AI Scanner — document intelligence on the edge</h3><p class="muted">Edge detection → Tesseract → classifier. Live at <code>opbsuthar.github.io/ai-scanner</code>.</p><div class="case__actions"><a class="btn btn--primary btn--sm" href="https://github.com/OPBSUTHAR/ai-scanner" target="_blank">Code ↗</a><a class="btn btn--sm" href="#" onclick="event.preventDefault();openProject('ai-scanner')">Live preview</a></div></div></article>
         <article class="case reveal" style="--d:80ms"><div class="case__bar" style="background:linear-gradient(90deg,#22c55e,#00ff9d)"></div><div class="case__body"><div class="case__eyebrow" style="color:#16a34a">Case 02 • Krishi-Gati-AI — JS</div><h3>Krishi-Gati-AI — advisory for low-connectivity farms</h3><p class="muted">Minimal data → farmer-testable UI. Offline-first.</p><div class="case__actions"><a class="btn btn--primary btn--sm" href="https://github.com/OPBSUTHAR/Krishi-Gati-AI" target="_blank">Code ↗</a><a class="btn btn--sm" href="#" onclick="event.preventDefault();openProject('Krishi-Gati-AI')">Live preview</a></div></div></article>
@@ -47,9 +47,9 @@
   <!-- Showcase -->
   <section id="showcase" class="section section--alt">
     <div class="container">
-      <div class="section__eyebrow">Showcase • Live & Interactive</div>
-      <div class="section__head"><h2>Tap any → live iframe. No screenshots.</h2><div class="showcase__nav"><button id="prevBtn" class="icon-btn">‹</button><button id="nextBtn" class="icon-btn">›</button><button id="autoBtn" class="btn btn--sm">⏸ Auto</button></div></div>
-      <p class="muted">Cyber tilt + neon glow. This interaction is the signature.</p>
+      <div class="section__eyebrow">Portfolio</div>
+      <div class="section__head"><h2>Selected Projects</h2><div class="showcase__nav"><button id="prevBtn" class="icon-btn">‹</button><button id="nextBtn" class="icon-btn">›</button><button id="autoBtn" class="btn btn--sm">⏸ Auto</button></div></div>
+      <p class="muted">Interactive previews.</p>
       <div class="showcase__wrap"><div id="showcaseTrack" class="showcase__track"></div></div>
       <div id="showcaseDots" class="dots"></div>
     </div>
@@ -58,10 +58,10 @@
   <!-- All Work -->
   <section id="work" class="section">
     <div class="container">
-      <div class="section__eyebrow">All Work • Factorial & Searchable</div>
-      <div class="section__head"><h2>All work — factor by domain & language</h2><div class="toolbar"><input id="search" placeholder="Search… e.g. AI, tracker, space, Python" /><div class="filter" id="langFilter"><button data-filter="all" class="active">All</button><button data-filter="Python">Python</button><button data-filter="JavaScript">JavaScript</button><button data-filter="TypeScript">TypeScript</button><button data-filter="HTML">HTML</button></div></div></div>
-      <div class="filter" id="domainFilter" style="margin-top:12px"><button data-domain="all" class="active">All Domains</button><button data-domain="krishi">🌾 Krishi</button><button data-domain="safety">🛡️ Safety</button><button data-domain="space">🛰️ Space</button><button data-domain="edu">🎓 Edu</button></div>
-      <p class="muted small" style="margin-top:10px">Each card opens modal iframe at <code>opbsuthar.github.io/&lt;repo&gt;</code>. No scroll hijack — pure navigation.</p>
+      <div class="section__eyebrow">Projects</div>
+      <div class="section__head"><h2>Projects</h2><div class="toolbar"><input id="search" placeholder="Search…" /><div class="filter" id="langFilter"><button data-filter="all" class="active">All</button><button data-filter="Python">Python</button><button data-filter="JavaScript">JavaScript</button><button data-filter="TypeScript">TypeScript</button><button data-filter="HTML">HTML</button></div></div></div>
+      <div class="filter" id="domainFilter" style="margin-top:12px"><button data-domain="all" class="active">All</button><button data-domain="krishi">🌾 Krishi</button><button data-domain="safety">🛡️ Safety</button><button data-domain="space">🛰️ Space</button><button data-domain="edu">🎓 Edu</button></div>
+      <p class="muted small" style="margin-top:10px">Browse by domain and technology.</p>
       <div id="projectsGrid" class="cards"></div>
       <p id="projectsStatus" class="muted small"></p>
     </div>
