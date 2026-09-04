@@ -3,26 +3,27 @@ const phrases = ["Frugal AI • Edge OCR — works offline","Krishi-Gati-AI → 
 let pi=0, ci=0, del=false;
 const typed = document.getElementById('typed');
 function tick(){
+  if(!typed) return;
   const w = phrases[pi];
   if(!del){ ci++; typed.textContent = w.slice(0,ci); if(ci===w.length){ del=true; setTimeout(tick,1600); return; } }
   else { ci--; typed.textContent = w.slice(0,ci); if(ci===0){ del=false; pi=(pi+1)%phrases.length; } }
   setTimeout(tick, del? 42: 96);
 }
-tick();
+if(typed) tick();
 
-// theme — default dark
+// theme — default dark (techie = dark best)
 const toggle = document.getElementById('themeToggle');
 function applyTheme(t){
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('theme', t);
-  toggle.textContent = t==='dark' ? '☀️' : '🌙';
+  if(toggle) toggle.textContent = t==='dark' ? '☀️' : '🌙';
 }
 const saved = localStorage.getItem('theme');
 applyTheme(saved || 'dark');
-toggle.addEventListener('click', ()=> applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+toggle?.addEventListener('click', ()=> applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
 
 // nav
-document.getElementById('menuBtn').addEventListener('click', ()=> document.getElementById('navLinks').classList.toggle('open'));
+document.getElementById('menuBtn')?.addEventListener('click', ()=> document.getElementById('navLinks').classList.toggle('open'));
 document.querySelectorAll('#navLinks a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('navLinks').classList.remove('open')));
 
 // reveal
@@ -32,10 +33,12 @@ document.querySelectorAll('.card').forEach((el,i)=>{ el.classList.add('reveal');
 
 // progress
 const prog = document.getElementById('progress');
-addEventListener('scroll', ()=>{
-  const h = document.documentElement.scrollHeight - innerHeight;
-  prog.style.width = (scrollY / (h||1) * 100) + '%';
-}, {passive:true});
+if(prog){
+  addEventListener('scroll', ()=>{
+    const h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.width = (scrollY / (h||1) * 100) + '%';
+  }, {passive:true});
+}
 
 // parallax orbs
 let ticking=false;
@@ -153,9 +156,11 @@ document.querySelectorAll('.skill,.goal').forEach(el=> barObserver.observe(el));
 
 // === ENHANCED REVEAL FOR NEW ELEMENTS ===
 const nav = document.querySelector('.nav');
-addEventListener('scroll', ()=>{
-  nav.style.boxShadow = scrollY>20 ? '0 8px 32px rgba(0,0,0,.2)' : 'none';
-}, {passive:true});
+if(nav){
+  addEventListener('scroll', ()=>{
+    nav.style.boxShadow = scrollY>20 ? '0 8px 32px rgba(0,0,0,.2)' : 'none';
+  }, {passive:true});
+}
 
 // parallax tech orbit on mouse
 const orbit = document.querySelector('.tech-orbit');
