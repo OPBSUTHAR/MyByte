@@ -424,7 +424,8 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 .resume-paper__header h2{margin:0; font-family:Fraunces,serif; font-size:1.6rem; line-height:1}
 .resume-paper__sub{font-family:JetBrains Mono,monospace; font-size:.74rem; color:#334155; margin-top:4px}
 .resume-paper__contacts{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; font-size:.76rem; color:#475569}
-.resume-paper__contacts span{border:1px solid #e2e8f0; background:#f8fafc; padding:4px 8px; border-radius:999px}
+.resume-paper__contacts span,.resume-paper__contacts a{border:1px solid #e2e8f0; background:#f8fafc; padding:4px 8px; border-radius:999px; color:#0f172a; text-decoration:none; font-weight:600}
+.resume-paper__contacts a:hover{background:#e2e8f0}
 .resume-paper__grid{display:grid; grid-template-columns:1.4fr .9fr; gap:18px; margin-top:6px}
 @media(max-width:700px){ .resume-paper__grid{grid-template-columns:1fr} .resume-paper__header{flex-direction:column} }
 .resume-paper__main h3{margin:14px 0 6px; font-family:Space Grotesk,Inter,sans-serif; font-size:.95rem; letter-spacing:-.01em; border-bottom:1px solid #e2e8f0; padding-bottom:4px}
