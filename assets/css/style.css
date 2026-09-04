@@ -329,6 +329,36 @@ body:hover .bg-mesh{filter:saturate(1.1)}
 /* marquee pause on hover */
 .marquee:hover .marquee__track{animation-play-state:paused}
 
+/* === FIX: prevent word + element overlap === */
+h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
+.hero__copy,.hero__visual{position:relative; z-index:1; min-width:0}
+.hero__grid{gap:32px} /* increase gap so visual never overlaps copy */
+.hero h1{line-height:.96; margin:.6rem 0 .5rem; text-wrap:balance}
+.lead{max-width:60ch; overflow-wrap:break-word}
+.code-card pre{white-space:pre-wrap; word-break:break-all; max-width:100%}
+.code-card__bar b{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0}
+.profile-float,.mini-float{overflow:hidden; min-width:0}
+.mini-float-row{gap:10px; flex-wrap:wrap}
+.tech-orbit{inset:-10px}
+@media(max-width:980px){
+  .tech-orbit{display:none} /* hide floating badges on mobile — was overlapping hero text */
+  .hero__grid{grid-template-columns:1fr; gap:22px}
+  .hero{padding:22px 0 6px}
+  .section{padding:44px 0} /* reduce density */
+}
+/* card / domain headers — allow wrap instead of overlap */
+.card__top,.domain__head{flex-wrap:wrap; gap:6px}
+.card__top span,.domain__head span{max-width:100%}
+.card h3,.domain h3,.case h3{overflow-wrap:break-word}
+.tags{gap:6px}
+.filter{gap:6px}
+.section__head{gap:14px}
+.bento__main h2{line-height:1.05; text-wrap:balance}
+/* ensure canvas never captures pointer or covers text */
+#techCanvas{pointer-events:none}
+/* prevent horizontal scroll from orbit badges */
+.hero,.tech-strip, .section{overflow-x:clip}
+
 /* light mesh tweak */
 [data-theme="light"] .orb{opacity:.28; mix-blend:multiply; filter:blur(60px)}
 [data-theme="light"] .grid-fade{opacity:.05}
