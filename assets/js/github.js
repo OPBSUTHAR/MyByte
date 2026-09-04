@@ -12,6 +12,16 @@ function isLiveCandidate(lang, name){
   return webLangs.includes(lang) || ['Econnect','login-template','Tic-Tac-Toe-Game','MemoryCardGame','Expense-Tracker','To-Do-Master','recipe-book','countdown-timer','Basic-Calculator','SpaceFlightMonitor','Krishi-Gati-AI','cannibals-missionaries'].includes(name);
 }
 
+// factorial domain map — diverse → reflects ambitions
+const DOMAIN_MAP = {
+  'Krishi-Gati-AI':'krishi','ledgerly':'krishi',
+  'ai-scanner':'safety','crimeintel-ai':'safety',
+  'Aviation_NLP_Project':'space','SpaceFlightMonitor':'space','SynchroGroundedNet':'space','AstraForge':'space','railway':'space',
+  'Econnect':'edu','student-tracker':'edu','student-teacher-appointment-booking':'edu','catering-reservation-and-order-system':'edu','gym-management-system':'edu','priority_scheduler':'edu','To-Do-Master':'edu','Expense-Tracker':'edu','recipe-book':'edu','Basic-Calculator':'edu','Tic-Tac-Toe-Game':'edu','MemoryCardGame':'edu','countdown-timer':'edu','cannibals-missionaries':'edu','electric-vehicle-recharge-bunk':'krishi'
+};
+function projectDomain(name){ return DOMAIN_MAP[name] || DOMAIN_MAP[name.toLowerCase()] || 'other'; }
+function domainLabel(d){ return ({krishi:'🌾 Krishi', safety:'🛡️ Safety', space:'🛰️ Space', edu:'🎓 Edu', other:'◐ Other'})[d] || d; }
+
 const curated = [
   {name:'ai-scanner', lang:'Python', desc:'AI-powered document scanner — edge, OCR, cloud', stars:0, url:`https://github.com/${USER}/ai-scanner`},
   {name:'crimeintel-ai', lang:'Python', desc:'CrimeIntel-AI — crime pattern & NLP analysis', stars:0, url:`https://github.com/${USER}/crimeintel-ai`},
@@ -27,10 +37,11 @@ function cardHTML(p){
   const thumb = ogUrl(p.name);
   const live = liveUrl(p.name);
   const liveBadge = isLiveCandidate(p.lang, p.name) ? `<span class="card__live">◉ Live</span>` : '';
-  return `<article class="card tilt" data-lang="${p.lang||''}" data-name="${p.name.toLowerCase()}" data-desc="${(p.desc||'').toLowerCase()}" onclick="openProject('${p.name}')">
+  const domain = p.domain || projectDomain(p.name);
+  return `<article class="card tilt" data-lang="${p.lang||''}" data-domain="${domain}" data-name="${p.name.toLowerCase()}" data-desc="${(p.desc||'').toLowerCase()}" onclick="openProject('${p.name}')">
     <div class="card__thumb"><img src="${thumb}" alt="${p.name} preview" loading="lazy" onerror="this.src='https://avatars.githubusercontent.com/u/178475619?v=4'"></div>
     ${liveBadge}
-    <div class="card__top"><span>${p.lang||'Other'}</span><span>★ ${p.stars??0}</span></div>
+    <div class="card__top"><span>${p.lang||'Other'}</span><span>${domainLabel(domain)}</span><span>★ ${p.stars??0}</span></div>
     <h3>${p.name}</h3>
     <p>${p.desc||'No description.'}</p>
     <div class="card__meta"><span>↗ ${live.replace('https://','')}</span></div>
@@ -50,6 +61,8 @@ function shotHTML(p){
 }
 
 function render(list){
+  // inject domain
+  list = list.map(p=> ({...p, domain: p.domain || projectDomain(p.name)}));
   allProjects=list;
   grid.innerHTML = list.map(cardHTML).join('');
   // showcase featured: top 6 live candidates or top stars
@@ -62,7 +75,8 @@ function render(list){
   // update counters
   const stars = list.reduce((s,p)=> s + (p.stars||0), 0);
   document.querySelectorAll('[data-count]').forEach(el=>{
-    const target = el.dataset.count==='23' ? Math.max(stars,23) : parseInt(el.dataset.count,10);
+    const raw = el.dataset.count;
+    const target = raw==='23' ? Math.max(stars,23) : (raw==='12' ? Math.max(list.filter(p=>isLiveCandidate(p.lang,p.name)).length, 12) : parseInt(raw,10));
     animateCount(el, target);
   });
 }
@@ -141,22 +155,28 @@ document.querySelectorAll('.modal__tabs button').forEach(b=> b.addEventListener(
 }));
 mFrame?.addEventListener('error', ()=> mFallback.classList.remove('hidden'));
 
-// search + filter
+// search + factorial filter (lang + domain)
 const searchEl=document.getElementById('search');
 function applyFilters(){
   const q=(searchEl?.value||'').toLowerCase().trim();
-  const active=document.querySelector('.filter button.active')?.dataset.filter.toLowerCase()||'all';
+  const activeLang=document.querySelector('#langFilter button.active')?.dataset.filter.toLowerCase()||'all';
+  const activeDomain=document.querySelector('#domainFilter button.active')?.dataset.domain.toLowerCase()||'all';
   document.querySelectorAll('.card').forEach(c=>{
     const lang=(c.dataset.lang||'').toLowerCase();
-    const text=(c.dataset.name+' '+c.dataset.desc+' '+lang);
-    const okLang = active==='all' || lang===active;
+    const domain=(c.dataset.domain||'').toLowerCase();
+    const text=(c.dataset.name+' '+c.dataset.desc+' '+lang+' '+domain);
+    const okLang = activeLang==='all' || lang===activeLang;
+    const okDomain = activeDomain==='all' || domain===activeDomain;
     const okSearch = !q || text.includes(q);
-    c.style.display = (okLang && okSearch) ? 'flex':'none';
+    c.style.display = (okLang && okDomain && okSearch) ? 'flex':'none';
   });
 }
 searchEl?.addEventListener('input', applyFilters);
-document.querySelectorAll('.filter button').forEach(b=> b.addEventListener('click', ()=>{
-  document.querySelectorAll('.filter button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); applyFilters();
+document.querySelectorAll('#langFilter button').forEach(b=> b.addEventListener('click', ()=>{
+  document.querySelectorAll('#langFilter button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); applyFilters();
+}));
+document.querySelectorAll('#domainFilter button').forEach(b=> b.addEventListener('click', ()=>{
+  document.querySelectorAll('#domainFilter button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); applyFilters();
 }));
 
 // load
