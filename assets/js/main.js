@@ -172,6 +172,11 @@ if(orbit){
   });
 }
 
+// resume modal — PDF copy interactive popup
+window.openResumeModal = ()=> document.getElementById('resumeModal')?.showModal();
+document.getElementById('rClose')?.addEventListener('click', ()=> document.getElementById('resumeModal')?.close());
+document.getElementById('resumeModal')?.addEventListener('click', e=>{ if(e.target.id==='resumeModal') e.target.close(); });
+
 // contact
 window.handleContact = (e)=>{
   e.preventDefault();

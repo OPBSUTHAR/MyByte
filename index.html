@@ -284,8 +284,8 @@
         </div>
         <div class="resume-actions">
           <a href="assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf" download class="btn btn--primary magnetic">⬇ Download PDF</a>
-          <a href="resume.html" class="btn btn--ghost">↗ View Interactive Resume</a>
-          <div class="resume-pdf-note">Interactive with college logos & effects • University format • Download only • Edits via <code>data/resume.json</code></div>
+          <button onclick="openResumeModal()" class="btn btn--ghost">↗ View Interactive Resume</button>
+          <div class="resume-pdf-note">Interactive popup — PDF copy with logos & effects • Download for original</div>
         </div>
       </div>
 
@@ -498,6 +498,54 @@
         <div class="iframeWrap"><iframe id="mFrame" loading="lazy"></iframe><div id="mFallback" class="fallback hidden"><p>Live demo not yet deployed — showing GitHub OG preview.</p><img id="mImg" alt="preview" /></div></div>
       </div>
       <div id="mCode" class="modal__pane"><a id="mGithub" target="_blank" class="btn btn--primary">View on GitHub ↗</a><p class="muted small">Stars + language + description are live from GitHub API. Cache at <code>data/projects.json</code>. Domain tags are local factorial mapping.</p></div>
+    </div>
+  </dialog>
+
+  <!-- RESUME MODAL — interactive PDF copy in popup -->
+  <dialog id="resumeModal">
+    <div class="resume-paper">
+      <div class="resume-paper__bar"><span></span><span></span><span></span><b>RESUME • OM PRAKASH SUTHAR — interactive copy</b><span class="resume-paper__actions"><a href="assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf" download class="btn btn--sm btn--primary">⬇ PDF</a><button id="rClose" class="icon-btn">✕</button></span></div>
+      <div class="resume-paper__body">
+        <div class="resume-paper__header">
+          <img src="https://christuniversity.in/images/logo.jpg" alt="CHRIST" class="resume-paper__logo" onerror="this.style.display='none'"/>
+          <div>
+            <h2>OM PRAKASH SUTHAR</h2>
+            <div class="resume-paper__sub">BCA | Batch 2024–27 | CHRIST (Deemed to be University), Bengaluru • <span class="grad">Interactive</span></div>
+            <div class="resume-paper__contacts"><span>✉️ prakash.suthar@bcah.christuniversity.in</span><span>📞 +91 76765 81319</span><span>🔗 linkedin</span><span>🐙 OPBSUTHAR</span><span>📍 Bengaluru</span></div>
+          </div>
+          <img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="OP" style="width:56px;height:56px;border-radius:50%;border:2px solid #e2e8f0"/>
+        </div>
+        <div class="resume-paper__grid">
+          <div class="resume-paper__main">
+            <h3>Professional Summary</h3>
+            <p>Result-driven Third-year BCA student with strong foundations in software engineering, backend architectures, and full-stack development. Experienced in building local infrastructure, agentic workflows, and desktop applications using C#, Java, Python, and MERN stack.</p>
+            <h3>Work Experience — Unified Mentor Pvt. Ltd. <span class="small muted">May–Jul 2025 • Web Developer Intern</span></h3>
+            <ul><li>Engineered 2 major web apps (MERN/SQL & Python) with secure state handling</li><li>Delivered 11+ mini frontend projects — DOM, Flexbox/Grid, fluid UIs</li><li>Optimized REST APIs & schemas to eliminate latency</li><li>Git/GitHub CI/CD, code reviews, concurrent codebases</li></ul>
+            <h3>Projects</h3>
+            <ul><li><b>CrimeIntel</b> — Python, AI/ML, MERN (Ongoing) — law enforcement analytics <a href="https://github.com/OPBSUTHAR/crimeintel-ai" target="_blank">Code ↗</a></li><li><b>FieldSync</b> — React, Node, MongoDB, Leaflet — GIS land boundaries</li><li><b>SpaceFlightMonitor</b> — .NET C#, WinForms, SQL — satellite telemetry</li><li><b>SynchroGrounded-Net</b> — React, Tailwind, Java Networking — infra dashboard</li></ul>
+            <h3>Education</h3>
+            <div class="resume-paper__edu"><img src="https://christuniversity.in/images/logo.jpg" alt="CHRIST"/><div><b>CHRIST (Deemed to be University), Bengaluru</b><br><span class="small muted">BCA — Computer Science • Jul 2024–May 2027 • CGPA X.X /10</span></div></div>
+            <div class="resume-paper__edu"><img src="https://via.placeholder.com/80?text=GPC" alt="GPC"/><div><b>Ganga PU College, Bengaluru</b><br><span class="small muted">PUC — Science • 2022–2024</span></div></div>
+          </div>
+          <div class="resume-paper__side">
+            <h3>Skills</h3>
+            <div class="skill-cat"><h4>Technical</h4><div class="tags small"><span>C</span><span>C++</span><span>C#</span><span>Java</span><span>Python</span><span>JS</span><span>TS</span><span>SQL</span></div></div>
+            <div class="skill-cat"><h4>Frontend</h4><div class="tags small"><span>React</span><span>Tailwind</span><span>HTML5</span><span>CSS3</span><span>UI/UX</span></div></div>
+            <div class="skill-cat"><h4>Backend</h4><div class="tags small"><span>Node.js</span><span>Express</span><span>MongoDB</span><span>MS SQL</span></div></div>
+            <div class="skill-cat"><h4>AI</h4><div class="tags small"><span>DeepSpeed</span><span>Hugging Face</span><span>LLM</span></div></div>
+            <h3 style="margin-top:14px">Certifications</h3>
+            <div class="small" style="line-height:1.6">
+              <div>✓ Skills for Creating Websites — Mindluster <span class="muted">Jul 2023</span></div>
+              <div>✓ Full Stack — Infosys SpringBoard <span class="muted">Dec 2024</span></div>
+              <div>✓ E-Business — NPTEL | IIT KGP <span class="muted">Jan–Apr 2026</span></div>
+              <div>✓ Unlocking AI — Microsoft | NCVET <span class="muted">May 2026</span></div>
+              <div>✓ DS in C++ — SCALER <span class="muted">Mar 2025</span></div>
+            </div>
+            <h3 style="margin-top:14px">Languages</h3><div class="small muted">English C1 • Hindi Fluent • Kannada Conversational</div>
+          </div>
+        </div>
+        <div class="small muted" style="text-align:center; padding:10px; border-top:1px solid #e2e8f0; margin-top:12px">Interactive copy — mirrors PDF layout with college logos & cyber glow • Download PDF for university submission</div>
+      </div>
     </div>
   </dialog>
 
