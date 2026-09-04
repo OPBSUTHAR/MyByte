@@ -70,15 +70,19 @@ git push origin main
 Then **start app in another terminal** so user can see it live with **clickable link** (MyByte is static → `py -m http.server 8000`):
 
 ```bash
-# Windows PowerShell — new window on port 8000 WITH clickable link (kill old if needed)
-# 1) Kill any old server on 8000/8001 silently
+# Windows PowerShell — new window on port 8000 WITH clickable link (CLOSE previous terminals first)
+# 1) Close previously opened MyByte terminals + kill old servers on 8000/8001 (no stacking)
+Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like "*MyByte live at*" } | ForEach-Object { try { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }
+Get-CimInstance Win32_Process -Filter "Name='python.exe'" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like "*http.server 8000*" -or $_.CommandLine -like "*http.server 8001*" } | ForEach-Object { try { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }
 Get-NetTCPConnection -LocalPort 8000 -ErrorAction SilentlyContinue | ForEach-Object { try { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue } catch {} }
-# 2) Launch NEW terminal that prints clickable URL first, then serves
+Get-NetTCPConnection -LocalPort 8001 -ErrorAction SilentlyContinue | ForEach-Object { try { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue } catch {} }
+Start-Sleep -Seconds 1
+# 2) Launch ONE new terminal that prints clickable URL first, then serves
 Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command","Write-Host '🚀 MyByte live at http://localhost:8000 — Ctrl+Click to open (or Cmd+Click on Mac)'; Write-Host '   Also: http://127.0.0.1:8000'; py -m http.server 8000" -WorkingDirectory "C:\vs code\MyByte"
 # 3) verify it started (prints 200 + clickable link in THIS terminal too)
 Start-Sleep -Seconds 1; Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/ | Select-Object StatusCode
 Write-Host "✅ Live at http://localhost:8000 — Ctrl+Click to open"
-# If busy, fallback to 8001 with same clickable pattern:
+# If busy, fallback to 8001 with same clickable pattern + same close logic:
 # Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command","Write-Host '🚀 MyByte live at http://localhost:8001 — Ctrl+Click'; py -m http.server 8001" -WorkingDirectory "C:\vs code\MyByte"
 ```
 
@@ -94,6 +98,7 @@ Rules for run:
 - Log the URL (`http://localhost:8000`) in final response AND print clickable link in both new terminal and current terminal.
 - Do NOT block agent on server — run detached (`Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command",...`).
 - The new terminal MUST show `http://localhost:8000` as first line so user can Ctrl+Click immediately.
+- ALWAYS close previously opened MyByte terminals + kill old servers on 8000/8001 before starting new — no stacking, only ONE live window. Use `Get-CimInstance Win32_Process` filter `*MyByte live at*`.
 
 ## 4. Style & Constraints
 
