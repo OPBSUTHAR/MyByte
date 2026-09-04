@@ -133,7 +133,7 @@ h1{font-family:Fraunces,serif; font-size:clamp(2.6rem,6vw,4.4rem); line-height:.
 @media(max-width:620px){ .cards{grid-template-columns:1fr} }
 .card{position:relative; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; display:flex; flex-direction:column; gap:10px; overflow:hidden; transition:.22s}
 .card::before{content:""; position:absolute; inset:0 0 auto 0; height:1px; background:var(--grad); opacity:.0; transition:.22s}
-.card:hover{transform:translateY(-2px); box-shadow:var(--glow); border-color:color-mix(in srgb, var(--primary) 18%, var(--line))}
+.card:hover{transform:translateY(-1px); box-shadow:var(--glow); border-color:color-mix(in srgb, var(--primary) 18%, var(--line))}
 .card:hover::before{opacity:1}
 .card__top{display:flex; justify-content:space-between; align-items:center; font-size:.75rem; color:var(--muted); font-weight:700; letter-spacing:.06em; text-transform:uppercase}
 .card__top span{padding:5px 9px; border-radius:999px; border:1px solid var(--line); background:var(--card2)}
@@ -178,10 +178,10 @@ h1{font-family:Fraunces,serif; font-size:clamp(2.6rem,6vw,4.4rem); line-height:.
 .showcase__track{display:flex; gap:16px; transition:transform .5s cubic-bezier(.22,1,.36,1)}
 .showcase__track .shot{flex:0 0 calc(33.333% - 10.66px); min-width:280px; max-width:360px; background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden; cursor:pointer; transition:.22s; position:relative; display:flex; flex-direction:column}
 @media(max-width:900px){ .showcase__track .shot{flex:0 0 86%} }
-.shot:hover{transform:translateY(-2px); box-shadow:var(--glow); border-color:color-mix(in srgb, var(--primary) 18%, var(--line))}
+.shot:hover{transform:translateY(-1px); box-shadow:var(--glow); border-color:color-mix(in srgb, var(--primary) 18%, var(--line))}
 .shot__thumb{aspect-ratio:16/9; overflow:hidden; background:var(--card2); position:relative; display:grid; place-items:center; border-bottom:1px solid var(--line)}
-.shot__thumb img{width:100%; height:100%; object-fit:cover; object-position:center center; transition:transform .6s; display:block}
-.shot:hover .shot__thumb img{transform:scale(1.04)}
+.shot__thumb img{width:100%; height:100%; object-fit:cover; object-position:center center; transition:transform .35s ease; display:block}
+.shot:hover .shot__thumb img{transform:scale(1.015)}
 .shot__thumb::after{content:"◉ Live Preview"; position:absolute; top:10px; left:10px; background:rgba(6,182,214,.9); color:#fff; padding:4px 8px; border-radius:999px; font-size:.7rem; font-weight:800; letter-spacing:.04em}
 .shot__body{padding:14px; flex:1; display:flex; flex-direction:column; gap:6px}
 .shot__body h3{margin:0 0 4px; font-size:1rem} .shot__body p{margin:0; color:var(--muted); font-size:.86rem; min-height:36px}
