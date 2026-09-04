@@ -95,7 +95,7 @@ document.getElementById('playBtn')?.addEventListener('click', ()=>{
       if(p.y<0||p.y>h) p.vy*=-1;
       // draw
       ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle = p.r>1.2 ? 'rgba(6,182,214,.9)' : 'rgba(124,58,237,.7)';
+      ctx.fillStyle = p.r>1.2 ? 'rgba(0,255,157,.9)' : 'rgba(6,182,214,.75)';
       ctx.fill();
       for(let j=i+1;j<particles.length;j++){
         const q=particles[j];
@@ -103,7 +103,7 @@ document.getElementById('playBtn')?.addEventListener('click', ()=>{
         const d=Math.hypot(dx,dy);
         if(d<140){
           ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
-          ctx.strokeStyle = `rgba(6,182,214,${(1-d/140)*0.14})`;
+          ctx.strokeStyle = `rgba(0,255,157,${(1-d/140)*0.16})`;
           ctx.lineWidth=1; ctx.stroke();
         }
       }
