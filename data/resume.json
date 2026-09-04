@@ -1,0 +1,102 @@
+{
+  "name": "OM PRAKASH SUTHAR",
+  "headline": "BCA | Batch 2024–27 | CHRIST (Deemed to be University), Bengaluru",
+  "location": "Bengaluru, Karnataka • Remote-ready",
+  "contacts": {
+    "email": "prakash.suthar@bcah.christuniversity.in",
+    "phone": "+91 76765 81319",
+    "linkedin": "https://www.linkedin.com/in/omprakash-suthar-246240318/",
+    "github": "https://github.com/OPBSUTHAR",
+    "x": "https://x.com/omprakashrj155",
+    "christ_email": "prakash.suthar@bcah.christuniversity.in"
+  },
+  "summary": "Result-driven Third-year BCA student with strong foundations in software engineering, backend architectures, and full-stack development. Experienced in building local infrastructure, agentic development workflows, and desktop applications using C#, Java, Python, and the MERN stack. Demonstrated capability in translating complex logic into practical tools, looking to leverage advanced engineering skills in a challenging Software Development role.",
+  "experience": [
+    {
+      "role": "Web Developer Intern",
+      "org": "Unified Mentor Pvt. Ltd.",
+      "location": "Gurugram, Haryana",
+      "period": "May 2025 — Jul 2025",
+      "type": "Summer Intern",
+      "logo": "https://cdn.prod.website-files.com/66d4215d6eeedfdd6e47fcf4/68139131d7c8682d82d4335_Unified%20Mentor%20Logo.png",
+      "bullets": [
+        "Full-Stack Development (MERN / SQL & Python): Engineered 2 major web applications with robust backend logic, linking frontends to relational/non-relational DBs to manage persistent user data and secure state handling.",
+        "High-Volume Frontend Delivery (HTML5, CSS3, JavaScript): Rapidly designed, coded, and deployed 11+ mini frontend projects, mastering advanced DOM, Flexbox/Grid, and interactive fluid UIs.",
+        "Database & API Integration: Formulated optimized query schemas and REST API endpoints to process client-side operations efficiently, eliminating data latency.",
+        "Version Control & CI/CD: Orchestrated all assets using Git and GitHub, maintaining clean version trees, code reviews, and concurrent codebases."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "CrimeIntel",
+      "subtitle": "Intelligence Analytics Platform",
+      "stack": "Python, AI/ML, MERN Stack",
+      "status": "Ongoing",
+      "desc": "Advanced intelligence application integrating investigative data models, secure predictive threat analysis, and dynamic analytics dashboards for law enforcement workflows.",
+      "link": "https://github.com/OPBSUTHAR/crimeintel-ai",
+      "domain": "Safety"
+    },
+    {
+      "name": "FieldSync",
+      "subtitle": "Land Information System",
+      "stack": "React, Node.js, MongoDB, Leaflet API",
+      "desc": "Agricultural GIS application mapping real-time coordinates and user-marked land boundaries via live Map APIs with custom Express backend schemas.",
+      "link": "https://github.com/OPBSUTHAR/Krishi-Gati-AI",
+      "domain": "Krishi"
+    },
+    {
+      "name": "SpaceFlightMonitor",
+      "subtitle": "Flight Telemetry System",
+      "stack": ".NET C#, Windows Forms, MS SQL Server",
+      "desc": "Native desktop tracking engine simulating real-time satellite telemetry and space debris metrics using multi-threaded asynchronous DB updates.",
+      "link": "https://github.com/OPBSUTHAR/SpaceFlightMonitor",
+      "domain": "Space"
+    },
+    {
+      "name": "SynchroGrounded-Net",
+      "subtitle": "Infrastructure Dashboard",
+      "stack": "React, Tailwind CSS, Java Networking",
+      "desc": "Distributed control center for semantic-constraint orchestration across critical infrastructures with real-time data sync and structured frontend design.",
+      "link": "https://github.com/OPBSUTHAR/SynchroGroundedNet",
+      "domain": "Infrastructure"
+    }
+  ],
+  "skills": {
+    "Technical": ["C", "C++", "C#", "Java", "Python", "JavaScript", "TypeScript", "SQL"],
+    "Frontend": ["React.js", "Tailwind CSS", "HTML5", "CSS3", "Windows Forms", "UI/UX Design"],
+    "Backend & Databases": ["Node.js", "Express.js", "REST API Design", "Java Networking (Sockets/RMI)", "MS SQL Server", "MongoDB Atlas"],
+    "Tools & Platforms": ["VS Code", "Git", "GitHub", "Docker", "Figma", "Vercel"],
+    "AI & Advanced": ["DeepSpeed", "Hugging Face", "Neural Networks from Scratch", "LLM/SLM Fine-tuning", "Agentic Workflows"],
+    "Domains": ["Agriculture & Land (GIS, Geolocation)", "Space (Telemetry, Orbital Sim)", "Transportation (Fleet Tracking)", "Infrastructure (Distributed Systems)", "Power (Automation)"],
+    "Soft Skills": ["Data Storytelling", "Problem Solving", "Cross-functional Collaboration", "Adaptability", "Accountability"],
+    "Languages": ["English — Proficient (C1)", "Hindi — Fluent", "Kannada — Conversational"]
+  },
+  "certifications": [
+    { "name": "Skills for Creating Websites", "org": "Mindluster", "date": "Jul 2023", "logo": "https://mindluster.com/resources/main_logo.png" },
+    { "name": "VS Code", "org": "Mindluster", "date": "Jun 2023", "logo": "https://mindluster.com/resources/main_logo.png" },
+    { "name": "Learning Full Stack Development", "org": "Infosys | SpringBoard", "date": "Dec 2024", "logo": "https://infyspringboard.onwingspan.com/web/assets/images/infosys_head_logo.png" },
+    { "name": "HTML5 with JavaScript & CSS3", "org": "Infosys | SpringBoard", "date": "Sept 2024", "logo": "https://infyspringboard.onwingspan.com/web/assets/images/infosys_head_logo.png" },
+    { "name": "E-Business", "org": "NPTEL | IIT Kharagpur | Skill India", "date": "Jan – Apr 2026", "logo": "https://nptel.ac.in/assets/nptel_logo.png" },
+    { "name": "Unlocking AI for Everyone (Beginner)", "org": "NCVET | Microsoft | Skill India", "date": "May 2026", "logo": "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
+    { "name": "Data Structures in C++ Course", "org": "SCALER", "date": "Mar 2025", "logo": "https://assets.scaler.com/assets/scaler-logo-new_2__c0fb19da2e1373f4545b1000911add7d1bbd2d0c376512f7a2675a08213042e6c2b3c12ea695b19868dbdadd89572fc88f0793efb93e2f32ca754927dcb3e0f6f0f.png" },
+    { "name": "Legacy Responsive Web Design V8", "org": "freeCodeCamp.org", "date": "2024", "logo": "https://design-style-guide.freecodecamp.org/downloads/freeCodeCamp-logo.png" }
+  ],
+  "education": [
+    {
+      "degree": "BCA — Computer Science",
+      "org": "CHRIST (Deemed to be University), Bengaluru",
+      "period": "Jul 2024 — May 2027 (Expected)",
+      "detail": "BCA Batch 2024–27 | CGPA: X.X / 10.0",
+      "logo": "https://christuniversity.in/images/logo.jpg"
+    },
+    {
+      "degree": "PUC — Science",
+      "org": "Ganga PU College, Bengaluru",
+      "period": "2022 — 2024",
+      "detail": "Pre-University — Karnataka State Board",
+      "logo": "https://via.placeholder.com/120x120?text=GPC"
+    }
+  ],
+  "pdf": "assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf"
+}

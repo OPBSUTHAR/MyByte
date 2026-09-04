@@ -359,6 +359,43 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 /* prevent horizontal scroll from orbit badges */
 .hero,.tech-strip, .section{overflow-x:clip}
 
+/* === RESUME — interactive university format === */
+.resume-header{display:grid; grid-template-columns:1fr auto; gap:16px; background:var(--card); border:1px solid var(--line); border-radius:20px; padding:20px; box-shadow:var(--shadow); position:relative; overflow:hidden}
+.resume-header::before{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--grad)}
+.resume-avatar{width:72px; height:72px; border-radius:16px; border:2px solid var(--line); object-fit:cover}
+.resume-name{font-family:Fraunces,serif; font-size:clamp(1.8rem,4vw,2.6rem); line-height:.95; letter-spacing:-.03em; margin:0}
+.resume-headline{font-family:JetBrains Mono,monospace; font-size:.78rem; color:var(--primary); font-weight:700; margin-top:6px}
+.resume-contacts{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+.resume-contacts a{font-size:.82rem; border:1px solid var(--line); background:var(--card2); padding:6px 10px; border-radius:999px; font-weight:600; color:var(--text)}
+.resume-actions{display:grid; gap:10px; align-content:start; min-width:190px}
+.resume-actions .btn{width:100%; justify-content:center}
+.resume-pdf-note{font-size:.72rem; color:var(--muted); text-align:center}
+.resume-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:18px; margin-top:18px}
+@media(max-width:900px){ .resume-header{grid-template-columns:1fr} .resume-grid{grid-template-columns:1fr} .resume-actions{grid-template-columns:1fr 1fr} }
+.resume-block{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px; box-shadow:var(--shadow)}
+.resume-block h3{font-family:Space Grotesk,Inter,sans-serif; font-size:1.08rem; margin:0 0 12px; display:flex; align-items:center; gap:8px}
+.resume-block h3 i{width:28px; height:28px; display:grid; place-items:center; background:var(--card2); border:1px solid var(--line); border-radius:8px; font-size:.9rem}
+.resume-item{padding:12px 0; border-bottom:1px solid color-mix(in srgb, var(--line) 70%, transparent)}
+.resume-item:last-child{border-bottom:0}
+.resume-item__head{display:flex; gap:12px; align-items:start}
+.resume-logo{width:44px; height:44px; border-radius:10px; border:1px solid var(--line); background:#fff; object-fit:contain; padding:4px; flex-shrink:0}
+.resume-item h4{margin:0; font-size:.98rem; line-height:1.2}
+.resume-item .muted{font-size:.84rem}
+.resume-bullets{margin:8px 0 0 56px; padding:0 0 0 14px; color:var(--muted); font-size:.88rem}
+.resume-bullets li{margin:6px 0}
+.resume-skills{display:grid; gap:14px}
+.skill-cat h4{margin:0 0 6px; font-size:.86rem; letter-spacing:.06em; text-transform:uppercase; color:var(--primary); font-family:JetBrains Mono,monospace; font-weight:800}
+.resume-cert{display:flex; gap:10px; align-items:center; padding:10px 0; border-bottom:1px solid color-mix(in srgb, var(--line) 60%, transparent)}
+.resume-cert:last-child{border-bottom:0}
+.resume-cert img{width:36px; height:36px; border-radius:8px; border:1px solid var(--line); background:#fff; object-fit:contain; padding:3px}
+.resume-cert b{font-size:.88rem; line-height:1.1}
+.resume-cert span{font-size:.76rem; color:var(--muted)}
+.resume-edu{display:flex; gap:12px; padding:12px 0; border-bottom:1px solid color-mix(in srgb, var(--line) 60%, transparent)}
+.resume-edu:last-child{border-bottom:0}
+.resume-edu img{width:48px; height:48px; border-radius:10px; background:#fff; border:1px solid var(--line); object-fit:contain; padding:4px}
+.resume-edu h4{margin:0; font-size:.92rem}
+.resume-note{margin-top:12px; padding:10px 12px; border:1px dashed var(--line); border-radius:10px; background:color-mix(in srgb, var(--card2) 60%, transparent); font-size:.78rem; color:var(--muted)}
+
 /* light mesh tweak */
 [data-theme="light"] .orb{opacity:.28; mix-blend:multiply; filter:blur(60px)}
 [data-theme="light"] .grid-fade{opacity:.05}
