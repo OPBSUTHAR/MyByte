@@ -23,28 +23,39 @@ function projectDomain(name){ return DOMAIN_MAP[name] || DOMAIN_MAP[name.toLower
 function domainLabel(d){ return ({krishi:'🌾 Krishi', safety:'🛡️ Safety', space:'🛰️ Space', edu:'🎓 Edu', other:'◐ Other'})[d] || d; }
 
 const curated = [
-  {name:'ai-scanner', lang:'Python', desc:'AI-powered document scanner — edge, OCR, cloud', stars:0, url:`https://github.com/${USER}/ai-scanner`},
-  {name:'crimeintel-ai', lang:'Python', desc:'CrimeIntel-AI — crime pattern & NLP analysis', stars:0, url:`https://github.com/${USER}/crimeintel-ai`},
-  {name:'AstraForge', lang:'TypeScript', desc:'AstraForge — TypeScript tooling', stars:0, url:`https://github.com/${USER}/AstraForge`},
-  {name:'Expense-Tracker', lang:'JavaScript', desc:'Expense tracker with charts & storage', stars:0, url:`https://github.com/${USER}/Expense-Tracker`},
-  {name:'Econnect', lang:'HTML', desc:'E-connect web platform', stars:0, url:`https://github.com/${USER}/Econnect`},
-  {name:'SpaceFlightMonitor', lang:'JavaScript', desc:'Space flight monitoring dashboard', stars:0, url:`https://github.com/${USER}/SpaceFlightMonitor`},
+  {name:'ai-scanner', lang:'Python', desc:'AI-powered document scanner — edge, OCR, cloud', stars:0, forks:0, url:`https://github.com/${USER}/ai-scanner`},
+  {name:'crimeintel-ai', lang:'Python', desc:'CrimeIntel-AI — crime pattern & NLP analysis', stars:0, forks:0, url:`https://github.com/${USER}/crimeintel-ai`},
+  {name:'AstraForge', lang:'TypeScript', desc:'AstraForge — TypeScript tooling', stars:0, forks:0, url:`https://github.com/${USER}/AstraForge`},
+  {name:'Expense-Tracker', lang:'JavaScript', desc:'Expense tracker with charts & storage', stars:0, forks:0, url:`https://github.com/${USER}/Expense-Tracker`},
+  {name:'Econnect', lang:'HTML', desc:'E-connect web platform', stars:0, forks:0, url:`https://github.com/${USER}/Econnect`},
+  {name:'SpaceFlightMonitor', lang:'JavaScript', desc:'Space flight monitoring dashboard', stars:0, forks:0, url:`https://github.com/${USER}/SpaceFlightMonitor`},
 ];
 
 let allProjects=[];
 
+function timeAgo(iso){
+  if(!iso) return '';
+  const mins = Math.round((Date.now() - new Date(iso))/60000);
+  if(mins<60) return `${mins}m ago`;
+  const hrs=Math.round(mins/60); if(hrs<24) return `${hrs}h ago`;
+  const days=Math.round(hrs/24); if(days<30) return `${days}d ago`;
+  return new Date(iso).toLocaleDateString();
+}
 function cardHTML(p){
   const thumb = ogUrl(p.name);
   const live = liveUrl(p.name);
   const liveBadge = isLiveCandidate(p.lang, p.name) ? `<span class="card__live">◉ Live</span>` : '';
   const domain = p.domain || projectDomain(p.name);
+  const stars = p.stars ?? p.stargazers_count ?? 0;
+  const forks = p.forks ?? p.forks_count ?? 0;
+  const updated = p.updated ? `• ${timeAgo(p.updated)}` : '';
   return `<article class="card tilt" data-lang="${p.lang||''}" data-domain="${domain}" data-name="${p.name.toLowerCase()}" data-desc="${(p.desc||'').toLowerCase()}" onclick="openProject('${p.name}')">
     <div class="card__thumb"><img src="${thumb}" alt="${p.name} preview" loading="lazy" onerror="this.src='https://avatars.githubusercontent.com/u/178475619?v=4'"></div>
     ${liveBadge}
-    <div class="card__top"><span>${p.lang||'Other'}</span><span>${domainLabel(domain)}</span><span>★ ${p.stars??0}</span></div>
+    <div class="card__top"><span>${p.lang||'Other'}</span><span>${domainLabel(domain)}</span><span>★ ${stars}</span><span>⑂ ${forks}</span></div>
     <h3>${p.name}</h3>
     <p>${p.desc||'No description.'}</p>
-    <div class="card__meta"><span>↗ ${live.replace('https://','')}</span></div>
+    <div class="card__meta"><span>↗ ${live.replace('https://','')}</span><span style="margin-left:auto">${updated}</span></div>
     <div class="card__actions">
       <a class="primary" href="#" onclick="event.stopPropagation(); openProject('${p.name}')">Live Preview</a>
       <a href="${p.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Code</a>
@@ -54,9 +65,11 @@ function cardHTML(p){
 
 function shotHTML(p){
   const thumb=ogUrl(p.name);
+  const stars = p.stars ?? p.stargazers_count ?? 0;
+  const forks = p.forks ?? p.forks_count ?? 0;
   return `<div class="shot tilt" onclick="openProject('${p.name}')">
     <div class="shot__thumb"><img src="${thumb}" alt="${p.name}" loading="lazy" onerror="this.src='https://avatars.githubusercontent.com/u/178475619?v=4'"></div>
-    <div class="shot__body"><h3>${p.name}</h3><p>${p.desc||''}</p><div class="shot__meta"><span>${p.lang}</span><span>★ ${p.stars}</span><span>→ Live</span></div></div>
+    <div class="shot__body"><h3>${p.name}</h3><p>${p.desc||''}</p><div class="shot__meta"><span>${p.lang}</span><span>★ ${stars}</span><span>⑂ ${forks}</span><span>→ Live</span></div></div>
   </div>`;
 }
 
@@ -186,17 +199,19 @@ async function load(){
     if(r.ok){
       const data=await r.json();
       if(Array.isArray(data) && data.length){
-        const mapped=data.map(x=>({name:x.name, lang:x.language||'Other', desc:x.description||'', stars:x.stargazers_count, url:x.html_url, updated:x.pushed_at}))
+        const mapped=data.map(x=>({name:x.name, lang:x.language||'Other', desc:x.description||'', stars:x.stargazers_count, forks:x.forks_count, url:x.html_url, updated:x.pushed_at, forks_count:x.forks_count, stargazers_count:x.stargazers_count}))
           .sort((a,b)=> (b.stars-a.stars) || (new Date(b.updated)-new Date(a.updated)));
         render(mapped);
-        statusEl.textContent=`Live from GitHub • ${mapped.length} repos • click Live Preview → iframe`;
+        statusEl.textContent=`Live from GitHub • ${mapped.length} repos • ★ ${mapped.reduce((s,p)=>s+(p.stars||0),0)} • updated just now — realtime`;
+        // keep fresh: poll every 5 min for realtime
+        setTimeout(load, 5*60*1000);
         return;
       }
     }
     throw new Error('API fail');
   }catch(e){
     try{
-      const r2=await fetch('data/projects.json'); if(r2.ok){ const j=await r2.json(); if(j.length){ render(j); statusEl.textContent='From local cache — run tools/fetch_github.py to refresh. Interactive previews enabled.'; return; } }
+      const r2=await fetch('data/projects.json'); if(r2.ok){ const j=await r2.json(); if(j.length){ render(j); statusEl.textContent='From cache — realtime unavailable (rate limit). Run tools/fetch_github.py. Enable token for live forks/stars.'; return; } }
     }catch(_){}
     render(curated); statusEl.textContent='Showing curated • interactive previews enabled';
   }
