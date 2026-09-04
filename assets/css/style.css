@@ -131,7 +131,7 @@ h1{font-family:Fraunces,serif; font-size:clamp(2.6rem,6vw,4.4rem); line-height:.
 .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px}
 @media(max-width:980px){ .cards{grid-template-columns:repeat(2,1fr)} }
 @media(max-width:620px){ .cards{grid-template-columns:1fr} }
-.card{position:relative; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; display:flex; flex-direction:column; gap:10px; overflow:hidden; transition:.22s}
+.card{position:relative; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:0 16px 16px; display:flex; flex-direction:column; gap:10px; overflow:hidden; transition:.22s}
 .card::before{content:""; position:absolute; inset:0 0 auto 0; height:1px; background:var(--grad); opacity:.0; transition:.22s}
 .card:hover{transform:translateY(-1px); box-shadow:var(--glow); border-color:color-mix(in srgb, var(--primary) 18%, var(--line))}
 .card:hover::before{opacity:1}
@@ -194,8 +194,8 @@ h1{font-family:Fraunces,serif; font-size:clamp(2.6rem,6vw,4.4rem); line-height:.
 .toolbar{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
 .toolbar input{padding:10px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--text); min-width:240px; font:inherit}
 .toolbar input:focus{outline:2px solid var(--primary); border-color:transparent}
-/* card thumb + live */
-.card__thumb{aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:var(--card2); border:1px solid var(--line); margin:-2px 0 6px; display:grid; place-items:center}
+/* card thumb + live — flush to top border, consistent spacing */
+.card__thumb{aspect-ratio:16/9; border-radius:18px 18px 0 0; overflow:hidden; background:var(--card2); border:none; border-bottom:1px solid var(--line); margin:0 -16px 12px -16px; display:grid; place-items:center}
 .card__thumb img{width:100%; height:100%; object-fit:cover; object-position:center center; display:block}
 .card__live{position:absolute; top:12px; right:12px; background:#22c55e; color:#fff; padding:3px 7px; border-radius:999px; font-size:.68rem; font-weight:800; letter-spacing:.04em; box-shadow:0 4px 12px rgba(34,197,94,.35)}
 /* tilt — subtle, not scattered */
