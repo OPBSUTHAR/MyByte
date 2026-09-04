@@ -8,13 +8,14 @@ Static HTML/CSS/JS portfolio + Python build step (`tools/fetch_github.py` → `d
 
 ### Golden Rule
 
-**You do not ask the user to test or push. You DO it automatically.**
+**You do not ask the user to test, run, or push. You DO it automatically.**
 
 Every task that changes code/docs/assets MUST end with:
 1. **Test/verify** locally
 2. **If all checks pass → commit + push** to `origin/main` automatically. No manual prompt.
+3. **After push → start app in another terminal** automatically so user can see it live. No repetition needed.
 
-If tests fail, fix and re-test until green before pushing.
+If tests fail, fix and re-test until green before pushing/running.
 
 ---
 
@@ -51,11 +52,11 @@ If any check fails:
 - Do NOT proceed to push.
 - Re-run all checks.
 
-Optional deeper: `py -m http.server 8000` manual peek, Lighthouse check, `git diff --stat`.
+Optional deeper: Lighthouse check, `git diff --stat`.
 
-## 3. Auto-Push Protocol — Only When Green
+## 3. Auto-Push + Auto-Run Protocol — Only When Green
 
-When all verifies pass, do **immediately** without asking:
+When all verifies pass, do **immediately** without asking — first push, then run:
 
 ```bash
 git status
@@ -66,11 +67,27 @@ git commit -m "feat: <concise what changed> — verified & live"
 git push origin main
 ```
 
-Rules:
+Then **start app in another terminal** so user can see it live (MyByte is static → `py -m http.server 8000`):
+
+```bash
+# Windows PowerShell — new window on port 8000 (kill old if needed)
+Start-Process -FilePath "py" -ArgumentList "-m","http.server","8000" -WorkingDirectory "C:\vs code\MyByte"
+# verify it started
+Start-Sleep -Seconds 1; Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/ | Select-Object StatusCode
+# → 200 means live at http://localhost:8000
+```
+
+Rules for push:
 - Stage only intended files (never secrets/`.env`, `__pycache__/`, `.venv/`).
 - Commit message: concise, imperative, includes `verified`.
 - Do NOT force-push, do NOT amend failed commits — create new commit.
 - If `git push` fails (auth/network), report and retry once.
+
+Rules for run:
+- ALWAYS start app after push, even if user didn't ask.
+- If port 8000 busy, try 8001: `py -m http.server 8001`
+- Log the URL (`http://localhost:8000`) in final response.
+- Do NOT block agent on server — run detached (`Start-Process` / `bash &`).
 
 ## 4. Style & Constraints
 
@@ -88,4 +105,4 @@ Rules:
 
 ---
 
-**Agent: after reading this, you MUST test + push automatically on every successful task. The user should never have to say "test and push" again.**
+**Agent: after reading this, you MUST test + push + run automatically on every successful task. The user should never have to say "test, run and push" again.**
