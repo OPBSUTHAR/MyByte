@@ -22,13 +22,14 @@
 <body>
   <div id="progress"></div>
   <canvas id="techCanvas" aria-hidden="true"></canvas>
+  <div class="scanlines" aria-hidden="true"></div>
   <div class="bg-mesh" aria-hidden="true"><div class="orb orb--1"></div><div class="orb orb--2"></div><div class="orb orb--3"></div><div class="grid-fade"></div></div>
 
   <header class="nav">
     <div class="container nav__inner">
-      <a class="logo" href="#"><span class="logo__mark">MB</span><span>MyByte</span><span style="font-weight:500;color:var(--muted);font-size:.82rem;margin-left:4px">by Omprakash</span></a>
+      <a class="logo" href="index.html"><span class="logo__mark">MB</span><span>MyByte</span><span style="font-weight:500;color:var(--muted);font-size:.82rem;margin-left:4px">by Omprakash</span></a>
       <nav class="nav__links" id="navLinks">
-        <a href="#vision">Vision</a><a href="#domains">Domains</a><a href="#work">Work</a><a href="#resume">Resume</a><a href="#goals">Goals</a><a href="#stack">Stack</a><a href="#about">About</a><a href="#contact">Contact</a>
+        <a href="index.html" class="active">Home</a><a href="work.html">Work</a><a href="resume.html">Resume</a><a href="about.html">About</a><a href="contact.html">Contact</a>
         <a class="btn btn--sm btn--glow" href="https://github.com/OPBSUTHAR" target="_blank" rel="noopener">GitHub ↗</a>
       </nav>
       <div class="nav__actions">
@@ -47,9 +48,9 @@
         <p class="typed-line"><span class="typed-prefix">▸</span> <span id="typed" class="typed"></span><span class="cursor">▌</span></p>
         <p class="lead">I'm <strong>Omprakash Suthar</strong> — <b>full-stack + AI builder</b> obsessed with precision, speed & polish. I don't build demos. I build <b>systems that work offline, on the edge, for real people</b> — farms, cities, skies. <b>26 repos</b>, zero bloat, every project live.</p>
         <div class="hero__cta">
-          <a href="#vision" class="btn btn--primary btn--xl magnetic">My vision →</a>
-          <a href="#work" class="btn btn--ghost btn--xl">Explore work</a>
-          <button id="playBtn" class="btn btn--ghost btn--xl">▶ Live preview</button>
+          <a href="about.html" class="btn btn--primary btn--xl magnetic">My vision →</a>
+          <a href="work.html" class="btn btn--ghost btn--xl">Explore work</a>
+          <a href="work.html" class="btn btn--ghost btn--xl">▶ Live preview</a>
         </div>
         <div class="hero__meta">
           <div class="avatars"><img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash"><span>Available for impact-driven teams • Remote • India • he/him • Reply &lt; 24h</span></div>
@@ -117,7 +118,7 @@
             <span style="border:1px solid var(--line);background:var(--card2);padding:7px 12px;border-radius:999px;font-weight:700;font-size:.82rem">🌾 Real users, real constraints</span>
             <span style="border:1px solid var(--line);background:var(--card2);padding:7px 12px;border-radius:999px;font-weight:700;font-size:.82rem">🚀 Ship live or it didn't happen</span>
           </div>
-          <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap"><a href="#domains" class="btn btn--primary magnetic">My 4 domains →</a><a href="#goals" class="btn btn--ghost">2026–30 roadmap</a></div>
+          <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap"><a href="about.html" class="btn btn--primary magnetic">My 4 domains →</a><a href="about.html" class="btn btn--ghost">2026–30 roadmap</a></div>
         </div>
         <div class="reveal" style="--d:90ms;display:grid;gap:14px">
           <div style="background:linear-gradient(135deg,#06b6d4 0%,#7c3aed 55%,#f59e0b 100%);color:#fff;border-radius:20px;padding:20px;position:relative;overflow:hidden">
@@ -132,8 +133,8 @@
             <div><b style="font-size:1.35rem">26</b><br><span class="muted small">Repos shipped</span></div>
             <div><b style="font-size:1.35rem">India → Global</b><br><span class="muted small">Remote, 12h overlap</span></div>
           </div>
-          <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center">
-            <span class="muted small" style="font-weight:700">NEXT: Seeking 2026 internships & collabs in AI / Space / AgTech</span><a href="#contact" class="btn btn--sm btn--primary">Hire me</a>
+            <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center">
+            <span class="muted small" style="font-weight:700">NEXT: Seeking 2026 internships & collabs in AI / Space / AgTech</span><a href="contact.html" class="btn btn--sm btn--primary">Hire me</a>
           </div>
         </div>
       </div>
@@ -151,28 +152,28 @@
           <div class="domain__head"><h3>Krishi & Rural Intelligence</h3><span>Python • JS • Edge</span></div>
           <p>Advisory that works on 2G. <b>Krishi-Gati-AI</b> — low-data farm guidance, offline-first UI. Goal: help a smallholder decide today, not next season.</p>
           <div class="tags"><span>Krishi-Gati-AI</span><span>ledgerly</span><span>Agri NLP</span></div>
-          <a href="#work" class="domain__link">View Krishi work →</a>
+          <a href="work.html" class="domain__link">View Krishi work →</a>
         </article>
         <article class="domain reveal" style="--d:80ms">
           <div class="domain__icon" style="background:linear-gradient(135deg,#7c3aed,#6366f1)">🛡️</div>
           <div class="domain__head"><h3>Safety & Justice</h3><span>Python • NLP • Ethics</span></div>
           <p>Pattern > prediction. <b>CrimeIntel-AI</b> + <b>AI Scanner</b> — document OCR, crime pattern NLP with explainability, not black-box bias.</p>
           <div class="tags"><span>crimeintel-ai</span><span>ai-scanner</span><span>OCR</span></div>
-          <a href="#work" class="domain__link">View Safety work →</a>
+          <a href="work.html" class="domain__link">View Safety work →</a>
         </article>
         <article class="domain reveal" style="--d:160ms">
           <div class="domain__icon" style="background:linear-gradient(135deg,#06b6d4,#0ea5e9)">🛰️</div>
           <div class="domain__head"><h3>Aviation & Space</h3><span>JS • TypeScript • DataViz</span></div>
           <p>Precision under latency. <b>SpaceFlightMonitor, Aviation_NLP_Project, AstraForge, SynchroGroundedNet</b> — track, ground, and interpret missions.</p>
           <div class="tags"><span>SpaceFlightMonitor</span><span>Aviation_NLP</span><span>SynchroGroundedNet</span></div>
-          <a href="#work" class="domain__link">View Space work →</a>
+          <a href="work.html" class="domain__link">View Space work →</a>
         </article>
         <article class="domain reveal" style="--d:240ms">
           <div class="domain__icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🎓</div>
           <div class="domain__head"><h3>Education & Systems</h3><span>HTML/CSS • JS • C/C++</span></div>
           <p>Tools that teach. <b>student-tracker, Econnect, priority_scheduler</b> — scheduling, access, and learning loops. Frugal, accessible by default.</p>
           <div class="tags"><span>Econnect</span><span>student-tracker</span><span>To-Do-Master</span></div>
-          <a href="#work" class="domain__link">View Edu work →</a>
+          <a href="work.html" class="domain__link">View Edu work →</a>
         </article>
       </div>
     </div>
@@ -424,9 +425,9 @@
         <div class="skill reveal" style="--d:160ms"><div class="skill__head"><h3>03 — Systems & C/C++</h3><span>Advanced</span></div><p class="muted small">Schedulers, safety logic, efficient backends. Where polish meets performance.</p><div class="bar"><i style="width:86%"></i></div><div class="tags"><span>C</span><span>C++</span><span>Python</span><span>Node.js</span><span>REST</span><span>priority_scheduler</span></div></div>
         <div class="skill reveal" style="--d:240ms"><div class="skill__head"><h3>04 — Ship & Scale</h3><span>Fluent</span></div><p class="muted small">Git, Actions, Pages, Figma → idea to URL in hours. `tools/fetch_github.py` keeps portfolio fresh.</p><div class="bar"><i style="width:88%"></i></div><div class="tags"><span>Git</span><span>Pages</span><span>Actions</span><span>Figma</span><span>SEO</span><span>Perf</span></div></div>
       </div>
-      <div class="hire reveal" style="margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+        <div class="hire reveal" style="margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
         <div><b>What I can do for you in 2 weeks:</b> <span class="muted">Landing + live demo + analytics, or OCR prototype, or dashboard refactor — all shipped to GitHub Pages.</span></div>
-        <a href="#contact" class="btn btn--primary">Start a project →</a>
+        <a href="contact.html" class="btn btn--primary">Start a project →</a>
       </div>
     </div>
   </section>
