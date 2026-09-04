@@ -1,5 +1,5 @@
-// MyByte — motion & interactions
-const phrases = ["Python","Web • Live Previews","JavaScript / TypeScript","AI & Automation","C / C++ • Systems","Clean UI/UX"];
+// MyByte — motion & interactions — factorial diverse ambitions
+const phrases = ["Frugal AI • Edge OCR — works offline","Krishi-Gati-AI → farms @ 2G","CrimeIntel-AI → safety with explainability","SpaceFlightMonitor → precision dashboards","Aviation NLP • SynchroGroundedNet","Python • JS/TS • C/C++ • 26 repos live"];
 let pi=0, ci=0, del=false;
 const typed = document.getElementById('typed');
 function tick(){

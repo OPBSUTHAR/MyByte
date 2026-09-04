@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "permission": {
+    "bash": {
+      "git *": "allow",
+      "py *": "allow",
+      "py": "allow",
+      "python *": "allow",
+      "node *": "allow",
+      "npm *": "allow",
+      "pip *": "allow"
+    }
+  }
+}
