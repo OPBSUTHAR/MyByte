@@ -67,14 +67,19 @@ git commit -m "feat: <concise what changed> — verified & live"
 git push origin main
 ```
 
-Then **start app in another terminal** so user can see it live (MyByte is static → `py -m http.server 8000`):
+Then **start app in another terminal** so user can see it live with **clickable link** (MyByte is static → `py -m http.server 8000`):
 
 ```bash
-# Windows PowerShell — new window on port 8000 (kill old if needed)
-Start-Process -FilePath "py" -ArgumentList "-m","http.server","8000" -WorkingDirectory "C:\vs code\MyByte"
-# verify it started
+# Windows PowerShell — new window on port 8000 WITH clickable link (kill old if needed)
+# 1) Kill any old server on 8000/8001 silently
+Get-NetTCPConnection -LocalPort 8000 -ErrorAction SilentlyContinue | ForEach-Object { try { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue } catch {} }
+# 2) Launch NEW terminal that prints clickable URL first, then serves
+Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command","Write-Host '🚀 MyByte live at http://localhost:8000 — Ctrl+Click to open (or Cmd+Click on Mac)'; Write-Host '   Also: http://127.0.0.1:8000'; py -m http.server 8000" -WorkingDirectory "C:\vs code\MyByte"
+# 3) verify it started (prints 200 + clickable link in THIS terminal too)
 Start-Sleep -Seconds 1; Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/ | Select-Object StatusCode
-# → 200 means live at http://localhost:8000
+Write-Host "✅ Live at http://localhost:8000 — Ctrl+Click to open"
+# If busy, fallback to 8001 with same clickable pattern:
+# Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command","Write-Host '🚀 MyByte live at http://localhost:8001 — Ctrl+Click'; py -m http.server 8001" -WorkingDirectory "C:\vs code\MyByte"
 ```
 
 Rules for push:
@@ -85,9 +90,10 @@ Rules for push:
 
 Rules for run:
 - ALWAYS start app after push, even if user didn't ask.
-- If port 8000 busy, try 8001: `py -m http.server 8001`
-- Log the URL (`http://localhost:8000`) in final response.
-- Do NOT block agent on server — run detached (`Start-Process` / `bash &`).
+- If port 8000 busy, try 8001: `py -m http.server 8001` (with same clickable link on 8001)
+- Log the URL (`http://localhost:8000`) in final response AND print clickable link in both new terminal and current terminal.
+- Do NOT block agent on server — run detached (`Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command",...`).
+- The new terminal MUST show `http://localhost:8000` as first line so user can Ctrl+Click immediately.
 
 ## 4. Style & Constraints
 
