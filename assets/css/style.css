@@ -409,6 +409,8 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 .resume-edu h4{margin:0; font-size:.92rem}
 .resume-note{margin-top:12px; padding:10px 12px; border:1px dashed var(--line); border-radius:10px; background:color-mix(in srgb, var(--card2) 60%, transparent); font-size:.78rem; color:var(--muted)}
 
+/* gate badge is in JS — no extra CSS needed */
+
 /* light mesh tweak */
 [data-theme="light"] .orb{opacity:.28; mix-blend:multiply; filter:blur(60px)}
 [data-theme="light"] .grid-fade{opacity:.05}
