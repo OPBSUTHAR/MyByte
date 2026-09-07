@@ -11,6 +11,10 @@ function tick(){
 }
 if(typed) tick();
 
+// Optimized: defer heavy work to idle, passive listeners
+if('requestIdleCallback' in window){
+  requestIdleCallback(()=>{ document.documentElement.classList.add('js-ready'); });
+}
 // theme — default dark (techie = dark best)
 const toggle = document.getElementById('themeToggle');
 function applyTheme(t){
