@@ -9,26 +9,26 @@ function ogUrl(name){ return `https://opengraph.githubassets.com/1/${USER}/${nam
 function liveUrl(name){ return `https://opbsuthar.github.io/${name}/`; }
 function isLiveCandidate(lang, name){
   const webLangs=['HTML','CSS','JavaScript','TypeScript'];
-  return webLangs.includes(lang) || ['Econnect','login-template','Tic-Tac-Toe-Game','MemoryCardGame','Expense-Tracker','To-Do-Master','recipe-book','countdown-timer','Basic-Calculator','SpaceFlightMonitor','Krishi-Gati-AI','cannibals-missionaries'].includes(name);
+  return webLangs.includes(lang) || ['Econnect','login-template','Tic-Tac-Toe-Game','MemoryCardGame','Expense-Tracker','To-Do-Master','recipe-book','countdown-timer','Basic-Calculator','SpaceFlightMonitor','Krishi-Gati-AI','cannibals-missionaries','BharatVista-Nexus','Agnirva-AI-Internship'].includes(name);
 }
 
 // factorial domain map — diverse → reflects ambitions
 const DOMAIN_MAP = {
   'Krishi-Gati-AI':'krishi','ledgerly':'krishi',
   'ai-scanner':'safety','crimeintel-ai':'safety',
-  'Aviation_NLP_Project':'space','SpaceFlightMonitor':'space','SynchroGroundedNet':'space','AstraForge':'space','railway':'space',
+  'Aviation_NLP_Project':'space','SpaceFlightMonitor':'space','SynchroGroundedNet':'space','AstraForge':'space','railway':'space','BharatVista-Nexus':'space','Agnirva-AI-Internship':'space',
   'Econnect':'edu','student-tracker':'edu','student-teacher-appointment-booking':'edu','catering-reservation-and-order-system':'edu','gym-management-system':'edu','priority_scheduler':'edu','To-Do-Master':'edu','Expense-Tracker':'edu','recipe-book':'edu','Basic-Calculator':'edu','Tic-Tac-Toe-Game':'edu','MemoryCardGame':'edu','countdown-timer':'edu','cannibals-missionaries':'edu','electric-vehicle-recharge-bunk':'krishi'
 };
 function projectDomain(name){ return DOMAIN_MAP[name] || DOMAIN_MAP[name.toLowerCase()] || 'other'; }
 function domainLabel(d){ return ({krishi:'🌾 Krishi', safety:'🛡️ Safety', space:'🛰️ Space', edu:'🎓 Edu', other:'◐ Other'})[d] || d; }
 
 const curated = [
+  {name:'BharatVista-Nexus', lang:'C', desc:'BharatVista Nexus — Pure C + SQLite open-data nexus (api.data.gov.in + Celestrak TLE) + Leaflet real-time satellite', stars:0, forks:0, url:`https://github.com/${USER}/BharatVista-Nexus`},
+  {name:'Agnirva-AI-Internship', lang:'Python', desc:'Agnirva AI Internship NEAT 5.0 — AI for Indian Satellites • Framewirk • BRD • 6-hat', stars:0, forks:0, url:`https://github.com/${USER}/Agnirva-AI-Internship`},
   {name:'ai-scanner', lang:'Python', desc:'AI-powered document scanner — edge, OCR, cloud', stars:0, forks:0, url:`https://github.com/${USER}/ai-scanner`},
   {name:'crimeintel-ai', lang:'Python', desc:'CrimeIntel-AI — crime pattern & NLP analysis', stars:0, forks:0, url:`https://github.com/${USER}/crimeintel-ai`},
-  {name:'AstraForge', lang:'TypeScript', desc:'AstraForge — TypeScript tooling', stars:0, forks:0, url:`https://github.com/${USER}/AstraForge`},
-  {name:'Expense-Tracker', lang:'JavaScript', desc:'Expense tracker with charts & storage', stars:0, forks:0, url:`https://github.com/${USER}/Expense-Tracker`},
-  {name:'Econnect', lang:'HTML', desc:'E-connect web platform', stars:0, forks:0, url:`https://github.com/${USER}/Econnect`},
   {name:'SpaceFlightMonitor', lang:'JavaScript', desc:'Space flight monitoring dashboard', stars:0, forks:0, url:`https://github.com/${USER}/SpaceFlightMonitor`},
+  {name:'AstraForge', lang:'TypeScript', desc:'AstraForge — TypeScript tooling', stars:0, forks:0, url:`https://github.com/${USER}/AstraForge`},
 ];
 
 let allProjects=[];

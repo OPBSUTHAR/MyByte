@@ -189,15 +189,6 @@
     "updated": "2026-08-18T10:52:50Z"
   },
   {
-    "name": "ai-scanner",
-    "lang": "Python",
-    "desc": "\"AI-powered document scanner with edge detection, OCR, classification, and cloud sync\"",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/ai-scanner",
-    "updated": "2026-08-23T19:07:04Z"
-  },
-  {
     "name": "AstraForge",
     "lang": "TypeScript",
     "desc": "",
@@ -240,6 +231,33 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/MyByte",
-    "updated": "2026-09-04T10:44:30Z"
+    "updated": "2026-09-04T12:52:16Z"
+  },
+  {
+    "name": "ai-scanner",
+    "lang": "Python",
+    "desc": "\"AI-powered document scanner with edge detection, OCR, classification, and cloud sync\"",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/ai-scanner",
+    "updated": "2026-09-05T08:53:27Z"
+  },
+  {
+    "name": "Agnirva-AI-Internship",
+    "lang": "Python",
+    "desc": "Agnirva AI Internship NEAT 5.0 — AI for Indian Satellites | Framewirk micro-movements | 6-hat artifacts | Christ University",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/Agnirva-AI-Internship",
+    "updated": "2026-09-05T10:11:38Z"
+  },
+  {
+    "name": "BharatVista-Nexus",
+    "lang": "C",
+    "desc": "BharatVista Nexus - enterprise-grade open-data nexus for India and world (Pure C + SQLite + Leaflet/OSM). Codename project_C_osint. Uses only api.data.gov.in with API key, cached.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/BharatVista-Nexus",
+    "updated": "2026-09-06T11:30:03Z"
   }
 ]

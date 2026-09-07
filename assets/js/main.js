@@ -1,5 +1,5 @@
 // MyByte — motion & interactions — creative developer showcase
-const phrases = ["Frugal AI • Edge OCR — works offline","Krishi-Gati-AI → farms @ 2G","CrimeIntel-AI → safety with explainability","SpaceFlightMonitor → precision dashboards","Aviation NLP • SynchroGroundedNet","Python • JS/TS • C/C++ • 26 repos live — shipped 🚀"];
+const phrases = ["BharatVista Nexus — Pure C + SQLite • live @ data.gov.in","Agnirva NEAT 5.0 — AI for Indian Satellites • ISRO track","Frugal AI • Edge OCR — works offline","Krishi-Gati-AI → farms @ 2G","CrimeIntel-AI → safety with explainability","SpaceFlightMonitor → precision dashboards","C • Python • JS/TS • 29 repos live — shipped 🚀"];
 let pi=0, ci=0, del=false;
 const typed = document.getElementById('typed');
 function tick(){
