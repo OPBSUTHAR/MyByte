@@ -210,10 +210,15 @@ window.handleContact = (e)=>{
 // === OVERVIEW — 5 HIGHLIGHTS, CONTINUOUS LOOP ===
 (() => {
   const track=document.getElementById("comicTrack");
-  if(!track || track.dataset.loop==="1") return;
+  if(!track) return;
+  // make visible — overview cards use reveal but must be shown even before observer
+  track.querySelectorAll(".overview-card").forEach(el=> el.classList.add("in"));
+  if(track.dataset.loop==="1") return;
   // duplicate for seamless -50% loop (future items auto-duplicate)
   if(!track.dataset.loop){
     track.innerHTML += track.innerHTML;
+    // ensure duplicated cards also visible
+    track.querySelectorAll(".overview-card").forEach(el=> el.classList.add("in"));
     track.dataset.loop="1";
   }
   const dots=[...document.querySelectorAll("#comicDots button")];
