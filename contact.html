@@ -33,7 +33,7 @@
      <a href="https://github.com/OPBSUTHAR" target="_blank"> github.com/OPBSUTHAR <span>↗</span></a>
      <a href="https://www.linkedin.com/in/omprakash-suthar-246240318/" target="_blank">LinkedIn — Omprakash Suthar <span>↗</span></a>
      <a href="https://x.com/omprakashrj155" target="_blank">X @omprakashrj155 <span>↗</span></a>
-     <a href="mailto:opbsuthar@github.com"> opbsuthar@github.com <span>→</span></a>
+     <a href="mailto:prakash.suthar@bcah.christuniversity.in"> prakash.suthar@bcah.christuniversity.in <span>→</span></a>
     </div>
    </div>
    <form class="form glass-card reveal" style="--d:120ms" onsubmit="return handleContact(event)">
@@ -55,7 +55,7 @@
    e.preventDefault();
    const fd=new FormData(e.target);
    const name=fd.get('name'), email=fd.get('email'), msg=fd.get('message');
-   location.href=`mailto:opbsuthar@github.com?subject=${encodeURIComponent('MyByte — '+name)}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${msg}`)}`;
+   location.href=`mailto:prakash.suthar@bcah.christuniversity.in?subject=${encodeURIComponent('MyByte — '+name)}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${msg}`)}`;
    document.getElementById('formMsg').textContent='Opening mail client…';
    return false;
   };
