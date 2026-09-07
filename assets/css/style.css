@@ -547,6 +547,8 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 .overview-card:hover::before{opacity:1}
 .overview-card:hover{transform:translateY(-2px); box-shadow:var(--glow); border-color:color-mix(in srgb, var(--primary) 18%, var(--line))}
 .overview-card.active{border-color:color-mix(in srgb, var(--primary) 28%, var(--line)); box-shadow:var(--glow); transform:translateY(-2px)}
+.overview-card.reveal{opacity:1; transform:none; filter:none}
+.overview-card.reveal:not(.in){opacity:1; transform:none}
 .overview-card__eyebrow{font-family:JetBrains Mono,monospace; font-size:.66rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--primary)}
 .overview-card h3{margin:8px 0 6px; font-size:1.08rem; line-height:1.15; letter-spacing:-.02em}
 .overview-card p{margin:0; font-size:.88rem; line-height:1.5; color:var(--muted)}
