@@ -437,22 +437,21 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 .resume-paper__edu img{width:36px; height:36px; border-radius:6px; border:1px solid #e2e8f0; background:#fff; object-fit:contain; padding:3px}
 .resume-paper__edu b{font-size:.82rem}
 
-/* === ∞ 8 ELEMENTS — 3D TEXTURED, INTERACTIVE === */
-.infinity{position:relative; overflow:hidden}
+/* === ∞ — FREE STYLE, PROFESSIONAL (no box border) === */
+.infinity{position:relative; overflow:visible}
 .infinity__wrap{position:relative; background:var(--card); border:1px solid var(--line); border-radius:20px; padding:28px 22px; box-shadow:var(--shadow); overflow:hidden}
-.infinity__wrap::before{content:""; position:absolute; inset:0; background:radial-gradient(600px circle at 50% 15%, color-mix(in srgb, var(--line) 18%, transparent), transparent 65%); pointer-events:none; opacity:.6}
-.infinity__hero{display:grid; grid-template-columns:1.08fr .92fr; gap:28px; align-items:center; position:relative; z-index:1}
+.infinity__wrap::before{content:""; position:absolute; inset:0; background:radial-gradient(520px circle at 50% 0%, color-mix(in srgb, var(--line) 14%, transparent), transparent 70%); pointer-events:none; opacity:.5}
+.infinity__hero{display:grid; grid-template-columns:1.08fr .92fr; gap:32px; align-items:center; position:relative; z-index:1}
 @media(max-width:900px){ .infinity__hero{grid-template-columns:1fr} }
-.infinity__symbol{position:relative; display:grid; place-items:center; min-height:320px; background: radial-gradient(500px 220px at 50% 30%, color-mix(in srgb, var(--card2) 70%, transparent), transparent 75%), color-mix(in srgb, var(--card2) 38%, transparent); border:1px solid var(--line); border-radius:16px; padding:10px; overflow:hidden}
-#infinityCanvas{width:100%; height:320px; display:block}
-.infinity__svg{width:min(380px, 92%); height:auto; opacity:.92}
-.infinity__path{fill:none; stroke:#64748b; stroke-width:1.6; stroke-linecap:round; opacity:.55}
-.infinity__path--accent{fill:none; stroke:var(--primary); stroke-width:1.8; stroke-dasharray: 6 8; opacity:.45}
-.infinity__node{fill:var(--card); stroke:var(--line); stroke-width:1.2}
-.infinity__node--hl{fill:var(--text); stroke:var(--text)}
-.infinity__label{font-family:JetBrains Mono,monospace; font-size:6.5px; fill:var(--muted); font-weight:700; letter-spacing:.06em; text-anchor:middle}
-.infinity__center{fill:var(--card); stroke:var(--line); stroke-width:1.2}
-.infinity__centerText{font-family:Fraunces,serif; font-size:14px; fill:var(--text); font-weight:800; text-anchor:middle; dominant-baseline:middle}
+.infinity__symbol{position:relative; display:grid; place-items:center; min-height:220px; background:transparent; border:0; padding:8px 0; overflow:visible}
+.infinity__symbol--free{border:0; background:transparent; box-shadow:none}
+.free-infinity{width:min(420px, 100%); filter: drop-shadow(0 10px 18px rgba(0,0,0,.08))}
+.free-infinity__svg{width:100%; height:auto; overflow:visible}
+.free-infinity__svg path{transform-origin:center}
+.free-dots circle{fill:var(--card); stroke:var(--line); stroke-width:1.3; transition: fill .2s, stroke .2s, r .2s}
+.free-dots circle:hover{fill:var(--primary); stroke:var(--primary); r:4}
+.free-infinity__labels{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:10px; font-family:JetBrains Mono,monospace; font-size:.62rem; font-weight:700; letter-spacing:.06em; color:var(--muted)}
+.free-infinity__labels span{padding:4px 8px; border-radius:999px; border:1px solid var(--line); background:color-mix(in srgb, var(--card2) 65%, transparent)}
 .infinity__labels{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
 .infinity__labels span{padding:6px 11px; border-radius:999px; border:1px solid var(--line); background:var(--card2); font-size:.78rem; font-weight:600; letter-spacing:.01em; color:var(--muted)}
 .infinity__labels span.hl{background:var(--text); color:var(--bg); border-color:var(--text); font-weight:700}
@@ -557,6 +556,36 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 
 /* gate badge is in JS — no extra CSS needed */
 
+/* === FREE 3D TEXTURE — WHOLE SITE, PROFESSIONAL (CSS only, no balloon) === */
+html{perspective:1200px}
+body{transform-style:preserve-3d}
+.card, .domain, .overview-card, .skill, .goal, .b-card, .case{
+  transform-style:preserve-3d;
+  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .22s;
+}
+.card:hover, .domain:hover, .overview-card:hover{
+  transform: translateY(-4px) translateZ(8px) rotateX(1deg);
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.06),
+    0 12px 28px rgba(0,0,0,.12),
+    0 24px 48px rgba(0,0,0,.08);
+}
+.hero__visual, .bento__main{transform-style:preserve-3d}
+.glass-card{
+  backdrop-filter: blur(14px) saturate(1.15);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.06),
+    0 8px 24px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+/* subtle depth layers — free texture */
+.section{position:relative}
+.section::before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.04;
+  background:
+    radial-gradient(800px 400px at 20% 10%, rgba(6,182,214,.12), transparent 60%),
+    radial-gradient(700px 380px at 85% 90%, rgba(124,58,237,.08), transparent 62%);
+}
 /* light mesh tweak */
 [data-theme="light"] .orb{opacity:.28; mix-blend:multiply; filter:blur(60px)}
 [data-theme="light"] .grid-fade{opacity:.05}
