@@ -724,6 +724,10 @@ p b, p strong, li b, .lead b{
     linear-gradient(#fdfbf3, #fdfbf3) padding-box,
     var(--grad) border-box !important;
 }
+/* Fallback — ensure nothing stays invisible if AOS/reveal fails */
+.reveal, [data-aos]{opacity:1}
+.reveal:not(.in){opacity:0; transform:translateY(8px)}
+@media (prefers-reduced-motion: reduce){ .reveal:not(.in){opacity:1; transform:none} }
 /* light mesh tweak */
 [data-theme="light"] .orb{opacity:.28; mix-blend:multiply; filter:blur(60px)}
 [data-theme="light"] .grid-fade{opacity:.05}
