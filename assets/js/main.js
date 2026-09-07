@@ -239,3 +239,43 @@ window.handleContact = (e)=>{
   });
 })();
 
+// === CURSOR — EVERYWHERE INTERACTIVE & ATTRACTIVE ===
+(() => {
+  if (matchMedia("(pointer:coarse)").matches || innerWidth<=900) return;
+  const dot=document.getElementById("cursor-dot"), ring=document.getElementById("cursor-ring"), cursor=document.getElementById("cursor"), spot=document.getElementById("spotlight");
+  if(!dot || !ring) return;
+  let mx=innerWidth/2, my=innerHeight/2, rx=mx, ry=my;
+  addEventListener("mousemove", e=>{
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+"px"; dot.style.top=my+"px";
+    if(spot){ spot.style.setProperty("--mx", mx+"px"); spot.style.setProperty("--my", my+"px"); }
+  }, {passive:true});
+  (function loop(){
+    rx += (mx - rx)*0.18; ry += (my - ry)*0.18;
+    ring.style.left=rx+"px"; ring.style.top=ry+"px";
+    requestAnimationFrame(loop);
+  })();
+  const hoverSel="a, button, .btn, .card, .domain, .overview-card, .skill, .goal, .b-card, .case, input, textarea, select";
+  document.querySelectorAll(hoverSel).forEach(el=>{
+    el.addEventListener("mouseenter", ()=> cursor?.classList.add("hover"));
+    el.addEventListener("mouseleave", ()=> cursor?.classList.remove("hover"));
+  });
+  // also text hover
+  document.addEventListener("mouseover", e=>{
+    const t=e.target;
+    if(t.matches && (t.matches("h1,h2,h3,p,span,li") || t.closest("h1,h2,h3,p"))) cursor?.classList.add("hover");
+  });
+  document.addEventListener("mouseout", e=>{
+    const t=e.target;
+    if(t.matches && t.matches("h1,h2,h3,p,span,li")) cursor?.classList.remove("hover");
+  });
+  // ripple on click everywhere
+  document.addEventListener("click", e=>{
+    const r=document.createElement("span"); r.className="ripple";
+    const rect={x:e.clientX, y:e.clientY};
+    r.style.left=rect.x+"px"; r.style.top=rect.y+"px";
+    r.style.width=r.style.height="14px"; r.style.position="fixed"; r.style.marginLeft="-7px"; r.style.marginTop="-7px";
+    document.body.appendChild(r); setTimeout(()=> r.remove(), 600);
+  });
+})();
+
