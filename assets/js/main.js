@@ -11,6 +11,20 @@ function tick(){
 }
 if(typed) tick();
 
+// Seamless marquee — duplicate for continuous loop, future-proof
+(() => {
+  function makeSeamless(id){
+    const el=document.getElementById(id);
+    if(!el || el.dataset.seamless==="1") return;
+    const html=el.innerHTML;
+    // duplicate exactly once for -50% seamless (no gap)
+    el.innerHTML = html + html;
+    el.dataset.seamless="1";
+  }
+  // defer to idle for perf
+  const run=()=>{ makeSeamless('marqueeTrack'); makeSeamless('stripTrack'); };
+  if('requestIdleCallback' in window) requestIdleCallback(run); else setTimeout(run, 200);
+})();
 // Optimized: defer heavy work to idle, passive listeners
 if('requestIdleCallback' in window){
   requestIdleCallback(()=>{ document.documentElement.classList.add('js-ready'); });

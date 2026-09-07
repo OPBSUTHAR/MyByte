@@ -169,10 +169,10 @@ h1{font-family:Fraunces,serif; font-size:clamp(2.6rem,6vw,4.4rem); line-height:.
 .reveal{opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease; transition-delay:var(--d,0ms)}
 .reveal.in{opacity:1; transform:none}
 @media (prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none} .orb{animation:none} }
-/* marquee */
+/* marquee — seamless, no gap */
 .marquee{margin-top:22px; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:color-mix(in srgb, var(--card) 70%, transparent); max-width:1160px; margin-left:auto; margin-right:auto}
-.marquee__track{display:flex; gap:18px; padding:10px 16px; animation:marquee 22s linear infinite; white-space:nowrap; font-family:JetBrains Mono,monospace; font-weight:700; font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); opacity:.9}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-30%)}}
+.marquee__track{display:flex; gap:18px; padding:10px 16px; animation:marquee 24s linear infinite; white-space:nowrap; font-family:JetBrains Mono,monospace; font-weight:700; font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); opacity:.9; width:max-content; will-change:transform}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 /* showcase — tight, not scattered */
 .showcase__wrap{overflow:hidden; margin-top:18px; border:1px solid transparent}
 .showcase__track{display:flex; gap:16px; transition:transform .5s cubic-bezier(.22,1,.36,1)}
@@ -299,12 +299,12 @@ dialog#projectModal::backdrop{background:rgba(7,10,20,.68); backdrop-filter:blur
 .badge-pulse{animation:badgePop 2.4s ease-in-out infinite}
 @keyframes badgePop{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
 
-/* tech strip */
+/* tech strip — seamless */
 .tech-strip{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:color-mix(in srgb, var(--card) 70%, transparent); overflow:hidden; padding:10px 0}
-.tech-strip__inner{max-width:1160px; margin:0 auto; padding:0 22px; display:flex; gap:18px; align-items:center}
-.strip-label{font-family:JetBrains Mono,monospace; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--primary); font-weight:800; white-space:nowrap}
-.strip-icons{display:flex; gap:22px; animation:stripScroll 18s linear infinite; white-space:nowrap}
-.strip-icons span{font-family:JetBrains Mono,monospace; font-weight:700; font-size:.78rem; color:var(--muted); border:1px solid var(--line); background:var(--card2); padding:5px 10px; border-radius:999px}
+.tech-strip__inner{max-width:1160px; margin:0 auto; padding:0 22px; display:flex; gap:18px; align-items:center; overflow:hidden}
+.strip-label{font-family:JetBrains Mono,monospace; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--primary); font-weight:800; white-space:nowrap; flex-shrink:0}
+.strip-icons{display:flex; gap:22px; animation:stripScroll 20s linear infinite; white-space:nowrap; width:max-content; will-change:transform}
+.strip-icons span{font-family:JetBrains Mono,monospace; font-weight:700; font-size:.78rem; color:var(--muted); border:1px solid var(--line); background:var(--card2); padding:5px 10px; border-radius:999px; flex-shrink:0}
 @keyframes stripScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* spotlight on cards */
