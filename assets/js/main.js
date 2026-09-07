@@ -239,54 +239,5 @@ window.handleContact = (e)=>{
   });
 })();
 
-// === CURSOR — EVERYWHERE INTERACTIVE, SEAMLESS, NO LAG ===
-(() => {
-  const isTouch = matchMedia("(pointer:coarse)").matches || innerWidth<=900;
-  if (isTouch) return;
-  const dot=document.getElementById("cursor-dot"), ring=document.getElementById("cursor-ring"), cursor=document.getElementById("cursor"), spot=document.getElementById("spotlight");
-  if(!dot || !ring || !cursor) return;
-  let mx=innerWidth/2, my=innerHeight/2;
-  let visible=false;
-  function setPos(x,y){
-    mx=x; my=y;
-    // dot instant — seamless, no lag
-    dot.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
-    ring.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
-    if(spot){ spot.style.setProperty("--mx", x+"px"); spot.style.setProperty("--my", y+"px"); }
-    // also update --mx/--my on root for section glow everywhere
-    document.documentElement.style.setProperty("--mx", x+"px");
-    document.documentElement.style.setProperty("--my", y+"px");
-    if(!visible){ cursor.classList.remove("hidden"); visible=true; }
-  }
-  addEventListener("mousemove", e=> setPos(e.clientX, e.clientY), {passive:true});
-  addEventListener("scroll", ()=> { /* keep visible when scrolled — dot stays at last viewport pos */ cursor.classList.remove("hidden"); }, {passive:true});
-  addEventListener("mouseenter", e=> { setPos(e.clientX, e.clientY); cursor.classList.remove("hidden"); });
-  addEventListener("mouseleave", ()=> { cursor.classList.add("hidden"); });
-  addEventListener("mouseout", e=> { if(!e.relatedTarget) cursor.classList.add("hidden"); });
-  // hide real cursor already via CSS html,body,*{cursor:none}
-  // visual feedback everywhere — any hover
-  const hoverSel="a, button, .btn, input, textarea, select";
-  document.addEventListener("mouseover", e=>{
-    const t=e.target;
-    if(t.closest(hoverSel) || t.matches("h1,h2,h3,p,span,li,a") || t.closest("h1,h2,h3,p,span,li")) cursor.classList.add("hover");
-  });
-  document.addEventListener("mouseout", e=>{
-    // remove hover when leaving any element — but keep if still over another hover element
-    const to=e.relatedTarget;
-    if(!to || (!to.closest || (!to.closest(hoverSel) && !to.matches("h1,h2,h3,p,span,li,a")))) {
-      // check if current hover target still under cursor
-      const el=document.elementFromPoint(mx,my);
-      if(!el || (!el.closest(hoverSel) && !el.matches("h1,h2,h3,p,span,li,a") && !el.closest("h1,h2,h3,p,span,li"))) cursor.classList.remove("hover");
-    }
-  });
-  // ripple on click everywhere
-  document.addEventListener("click", e=>{
-    const r=document.createElement("span"); r.className="ripple";
-    r.style.left=e.clientX+"px"; r.style.top=e.clientY+"px";
-    r.style.width=r.style.height="14px"; r.style.position="fixed"; r.style.marginLeft="-7px"; r.style.marginTop="-7px"; r.style.zIndex="9999"; r.style.pointerEvents="none";
-    document.body.appendChild(r); setTimeout(()=> r.remove(), 600);
-  });
-  // initial
-  setPos(mx,my);
-})();
+
 
