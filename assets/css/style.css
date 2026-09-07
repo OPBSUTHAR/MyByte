@@ -612,6 +612,99 @@ body{
   background-image: url("https://www.transparenttextures.com/patterns/linen.png");
   background-blend-mode: overlay;
 }
+/* === GRADIENT BORDERS — EVERYWHERE (major update) === */
+html{position:relative}
+html::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:9998;
+  border:3px solid transparent;
+  border-image: var(--grad) 1;
+  opacity:.18;
+}
+body{
+  border:2px solid transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    var(--grad) border-box;
+  background-clip: padding-box, border-box;
+}
+.section{
+  border:1px solid transparent;
+  border-image: var(--grad) 1;
+  border-left:0; border-right:0; border-bottom:0;
+}
+.section--alt{
+  border-image: var(--grad) 1;
+}
+.card, .domain, .overview-card, .skill, .goal, .b-card, .case,
+.resume-header, .resume-block, .contact-list a, .form,
+.bento__main, .infinity__wrap, .storyboard__viewport{
+  border:1.5px solid transparent !important;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    var(--grad) border-box !important;
+  background-clip: padding-box, border-box;
+}
+.btn{
+  border:1.5px solid transparent !important;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    var(--grad) border-box !important;
+}
+.btn--primary{
+  background:
+    linear-gradient(var(--grad2), var(--grad2)) padding-box,
+    var(--grad) border-box !important;
+  color:#fff !important; border-color:transparent !important;
+}
+.filter button, .tags span, .chips span, .infinity__badge, .overview-card__eyebrow{
+  border:1px solid transparent !important;
+  background:
+    linear-gradient(var(--card2), var(--card2)) padding-box,
+    var(--grad) border-box !important;
+}
+.filter button.active{
+  background:
+    linear-gradient(var(--text), var(--text)) padding-box,
+    var(--grad) border-box !important;
+  color:var(--bg) !important;
+}
+.form input, .form textarea, .form select, .toolbar input{
+  border:1.5px solid transparent !important;
+  background:
+    linear-gradient(color-mix(in srgb, var(--bg) 86%, var(--card)), color-mix(in srgb, var(--bg) 86%, var(--card))) padding-box,
+    var(--grad) border-box !important;
+}
+.form input:focus, .form textarea:focus{
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 16%, transparent), 0 0 0 1px var(--grad) !important;
+}
+/* gradient text — every heading + link + content emphasis */
+.section h2, .section h3, .bento__main h2, .overview-card h3, .story-frame h3{
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text;
+  color:transparent !important;
+  filter: drop-shadow(0 1px 6px color-mix(in srgb, var(--primary) 14%, transparent));
+}
+a, .domain__link, .overview-card__link{
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text;
+  color:transparent !important;
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  border-image: var(--grad) 1;
+  padding-bottom:1px;
+}
+a:hover, .domain__link:hover{filter:brightness(1.08)}
+p b, p strong, li b, .lead b{ 
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text;
+  color:transparent !important;
+}
+.paper-anim{
+  border:1.5px solid transparent !important;
+  background:
+    linear-gradient(#fdfbf3, #fdfbf3) padding-box,
+    var(--grad) border-box !important;
+}
 /* light mesh tweak */
 [data-theme="light"] .orb{opacity:.28; mix-blend:multiply; filter:blur(60px)}
 [data-theme="light"] .grid-fade{opacity:.05}
