@@ -557,6 +557,13 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 
 /* gate badge is in JS — no extra CSS needed */
 
+/* === OPTIMIZED CSS — LAYERS, MODERN PROPS === */
+@layer base, components, utilities;
+@layer base{
+  :where(h1,h2,h3){text-wrap:balance}
+  :where(img){max-width:100%; height:auto}
+  :where(a,button){text-underline-offset:3px}
+}
 /* === FREE TEXTURES — WHOLE SITE, TRADITIONAL-MODERN === */
 html{perspective:1000px}
 body{
