@@ -526,8 +526,12 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 .storyboard__track{
   display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:6px 2px 12px;
   -webkit-overflow-scrolling:touch;
+  width:max-content; will-change:transform;
 }
 .storyboard__track::-webkit-scrollbar{display:none}
+#comicTrack{animation: overviewMarquee 26s linear infinite}
+#comicTrack:hover{animation-play-state:paused}
+@keyframes overviewMarquee{from{transform:translateX(0)} to{transform:translateX(-50%)}}
 .overview-card{
   flex:0 0 300px; scroll-snap-align:start;
   position:relative;
