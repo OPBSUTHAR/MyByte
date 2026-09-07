@@ -207,35 +207,34 @@ window.handleContact = (e)=>{
   return false;
 };
 
-// === COMIC STORYBOARD — dynamic, interactive, auto-play on visit ===
+// === OVERVIEW — 5 HIGHLIGHTS, CONTINUOUS LOOP ===
 (() => {
   const track=document.getElementById("comicTrack");
+  if(!track || track.dataset.loop==="1") return;
+  // duplicate for seamless -50% loop (future items auto-duplicate)
+  if(!track.dataset.loop){
+    track.innerHTML += track.innerHTML;
+    track.dataset.loop="1";
+  }
   const dots=[...document.querySelectorAll("#comicDots button")];
   const prev=document.getElementById("comicPrev"), next=document.getElementById("comicNext"), playBtn=document.getElementById("comicPlay");
-  if(!track || !dots.length) return;
-  const frames=[...track.querySelectorAll(".overview-card")];
-  let idx=0, auto=true, timer=null, pausedHover=false;
-  function update(){
-    frames.forEach((f,i)=> f.classList.toggle("active", i===idx));
-    dots.forEach((d,i)=> d.classList.toggle("active", i===idx));
-    const w=frames[0].offsetWidth + 14;
-    track.scrollTo({left: idx*w, behavior: "smooth"});
+  // dots/prev/next now control animation-play-state, not stepwise
+  let paused=false;
+  function setPaused(v){
+    paused=v;
+    track.style.animationPlayState = v ? "paused" : "running";
+    if(playBtn) playBtn.textContent = v ? "▶ Play" : "⏸ Pause";
   }
-  function go(n){ idx=(n+frames.length)%frames.length; update(); }
-  function restart(){ if(auto && !pausedHover){ clearInterval(timer); timer=setInterval(()=> go(idx+1), 2600);} }
-  dots.forEach((d,i)=> d.addEventListener("click", ()=>{ go(i); restart(); }));
-  prev?.addEventListener("click", ()=>{ go(idx-1); restart(); });
-  next?.addEventListener("click", ()=>{ go(idx+1); restart(); });
-  playBtn?.addEventListener("click", ()=>{
-    auto=!auto;
-    playBtn.textContent = auto ? "⏸ Pause" : "▶ Play";
-    if(auto) restart(); else clearInterval(timer);
-  });
-  track.addEventListener("mouseenter", ()=>{ pausedHover=true; clearInterval(timer); });
-  track.addEventListener("mouseleave", ()=>{ pausedHover=false; if(auto) restart(); });
-  // reveal stagger on visit
-  setTimeout(()=>{ frames.forEach((f,i)=> setTimeout(()=> f.classList.add("in"), 180+i*120)); }, 400);
-  restart();
+  // hover pauses (CSS also does), buttons pause
+  track.addEventListener("mouseenter", ()=> setPaused(true));
+  track.addEventListener("mouseleave", ()=> setPaused(false));
+  prev?.addEventListener("click", ()=> setPaused(!paused));
+  next?.addEventListener("click", ()=> setPaused(!paused));
+  playBtn?.addEventListener("click", ()=> setPaused(!paused));
+  dots.forEach((d,i)=> d.addEventListener("click", ()=>{
+    // on dot click, briefly pause then resume
+    setPaused(true); setTimeout(()=> setPaused(false), 1200);
+  }));
 })();
 
 // === INFINITY — free style, subtle hover ===
