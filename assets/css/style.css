@@ -677,102 +677,47 @@ body{
 .form input:focus, .form textarea:focus{
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 16%, transparent), 0 0 0 1px var(--grad) !important;
 }
-/* gradient text — visible in BOTH themes (light = dark solid, dark = gradient) */
-.section h2, .section h3, .bento__main h2, .overview-card h3, .story-frame h3{
-  background: var(--grad);
-  -webkit-background-clip: text; background-clip: text;
-  color:transparent !important;
-  filter: drop-shadow(0 1px 6px color-mix(in srgb, var(--primary) 14%, transparent));
-}
-a, .domain__link, .overview-card__link{
-  background: var(--grad);
-  -webkit-background-clip: text; background-clip: text;
-  color:transparent !important;
-  text-decoration:none;
-  border-bottom:1px solid transparent;
-  border-image: var(--grad) 1;
-  padding-bottom:1px;
-}
-a:hover, .domain__link:hover{filter:brightness(1.08)}
-p b, p strong, li b, .lead b{ 
-  background: var(--grad);
-  -webkit-background-clip: text; background-clip: text;
-  color:transparent !important;
-}
-/* LIGHT THEME — fix invisibility: no whited text, keep dark readable */
-[data-theme="light"] .section h2,
-[data-theme="light"] .section h3,
-[data-theme="light"] .bento__main h2,
-[data-theme="light"] .overview-card h3{
+/* TEXT — ALWAYS VISIBLE, HIGH CONTRAST (gradient ONLY on borders, not text) */
+.section h2, .section h3, .bento__main h2, .overview-card h3{
   background:none !important;
   -webkit-background-clip: border-box !important; background-clip: border-box !important;
-  color:#0f172a !important;
-  -webkit-text-fill-color:#0f172a !important;
+  -webkit-text-fill-color: currentColor !important;
+  color: var(--text) !important;
   filter:none !important;
 }
-[data-theme="light"] a,
-[data-theme="light"] .domain__link,
-[data-theme="light"] .overview-card__link{
+a, .domain__link, .overview-card__link{
   background:none !important;
   -webkit-background-clip: border-box !important; background-clip: border-box !important;
-  color:#0284c7 !important;
-  -webkit-text-fill-color:#0284c7 !important;
-  border-bottom:1px solid #0284c7 !important;
+  -webkit-text-fill-color: currentColor !important;
+  color: var(--primary) !important;
+  text-decoration:none;
+  border-bottom:1px solid color-mix(in srgb, var(--primary) 30%, transparent) !important;
   border-image:none !important;
+  padding-bottom:1px;
 }
-[data-theme="light"] p b,
-[data-theme="light"] p strong,
-[data-theme="light"] li b,
-[data-theme="light"] .lead b{
+a:hover, .domain__link:hover{color:var(--primary) !important; border-bottom-color:var(--primary) !important; filter:none !important}
+p b, p strong, li b, .lead b{ 
   background:none !important;
   -webkit-background-clip: border-box !important; background-clip: border-box !important;
-  color:#0f172a !important;
-  -webkit-text-fill-color:#0f172a !important;
-}
-[data-theme="light"] .paper-anim b,
-[data-theme="light"] .paper-anim strong{
-  color:#0f172a !important;
-  -webkit-text-fill-color:#0f172a !important;
+  -webkit-text-fill-color: currentColor !important;
+  color: var(--text) !important;
+  font-weight:800;
 }
 /* PAPER — always dark text on light paper, both themes */
 .paper-anim, .paper-anim h2, .paper-anim h3{
-  background:none !important;
-  -webkit-background-clip: border-box !important; background-clip: border-box !important;
   color:#0f172a !important;
   -webkit-text-fill-color:#0f172a !important;
 }
 .paper-anim p, .paper-anim li, .paper-anim span{color:#1e293b !important}
-.paper-anim b, .paper-anim strong{
-  background:none !important;
-  -webkit-background-clip: border-box !important;
-  color:#0f172a !important;
-  -webkit-text-fill-color:#0f172a !important;
-}
-/* DARK THEME — ensure visibility (gradient kept but with fallback) */
-[data-theme="dark"] .section h2,
-[data-theme="dark"] .section h3{
-  background: var(--grad);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color:transparent !important;
-  filter: drop-shadow(0 1px 10px rgba(6,182,214,.22));
-}
-[data-theme="dark"] a,
-[data-theme="dark"] .domain__link,
-[data-theme="dark"] .overview-card__link{
-  background: var(--grad);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color:transparent !important;
-}
-/* if still low contrast, ensure muted and body stay light */
+.paper-anim b, .paper-anim strong{color:#0f172a !important}
+/* THEME — ensure body readable */
 [data-theme="dark"] body{color:#eef2ff}
 [data-theme="dark"] .muted{color:#cbd5e1}
 [data-theme="dark"] p, [data-theme="dark"] li{color:#e2e8f0}
-/* Ensure body text never whited in light */
+[data-theme="dark"] a{color:#22d3ee !important}
 [data-theme="light"] body{color:#0f172a}
 [data-theme="light"] .muted{color:#475569}
-[data-theme="light"] p, [data-theme="light"] li, [data-theme="light"] span{color:inherit}
+[data-theme="light"] a{color:#0284c7 !important}
 .paper-anim{
   border:1.5px solid transparent !important;
   background:
