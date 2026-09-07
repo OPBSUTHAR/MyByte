@@ -14,7 +14,9 @@
  <meta property="og:image" content="https://avatars.githubusercontent.com/u/178475619?v=4" />
  <link rel="preconnect" href="https://fonts.googleapis.com">
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&family=Crimson+Pro:wght@400;600&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Free open-source libs — traditional-modern, real textures -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2306b6d4'/><text x='50%' y='57%' dominant-baseline='middle' text-anchor='middle' font-size='52' fill='white' font-family='monospace' font-weight='700'>MB</text></svg>">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Omprakash Suthar","alternateName":"OPBSUTHAR","url":"https://opbsuthar.github.io/MyByte/","sameAs":["https://github.com/OPBSUTHAR","https://www.linkedin.com/in/omprakash-suthar-246240318/","https://x.com/omprakashrj155"],"jobTitle":"Full-Stack + AI Builder — 3rd Year BCA @ CHRIST (Yeshwantpur) — ∞ 8 Elements","affiliation":{"@type":"CollegeOrUniversity","name":"CHRIST (Deemed to be University), Yeshwantpur Campus, Bengaluru"},"knowsAbout":["Land Systems","Infrastructure","Power Systems","AI/ML/Deep Learning/NLP","Agriculture Tech","Space Systems","Transportation","Ocean Tech","Python","C","SQLite","Satellite Systems"]}</script>
@@ -547,6 +549,25 @@
 
   <script src="assets/js/github.js"></script>
   <script src="assets/js/main.js"></script>
+  <!-- Free OSP libs -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
+  <script>
+    // AOS — traditional-modern scroll (free)
+    if(window.AOS) AOS.init({duration:700, once:true, easing:'ease-out-cubic', offset:80});
+    // Vanilla-Tilt — real 3D feel on cards (free, no balloon)
+    if(window.VanillaTilt) VanillaTilt.init(document.querySelectorAll(".tilt, .card, .domain, .overview-card"), {max:6, speed:900, glare:true, "max-glare":0.14, perspective:1200});
+    // Rough-Notation — hand-drawn traditional underline/highlight
+    addEventListener('load', ()=>{
+      if(!window.roughNotation) return;
+      const {annotate} = window.RoughNotation || window.roughNotation;
+      const a1=document.querySelector('.anim-title .grad');
+      const a2=document.querySelector('#vision h2 .grad');
+      if(a1) annotate(a1, {type:'underline', color:'#06b6d4', strokeWidth:2, padding:4, animate:true}).show();
+      if(a2) setTimeout(()=> annotate(a2, {type:'highlight', color:'rgba(6,182,214,0.18)', animate:true}).show(), 900);
+    });
+  </script>
   <script src="assets/js/gate.js"></script>
 </body>
 </html>
