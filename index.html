@@ -15,8 +15,9 @@
  <link rel="preconnect" href="https://fonts.googleapis.com">
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="assets/css/style.css" />
- <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2306b6d4'/><text x='50%' y='57%' dominant-baseline='middle' text-anchor='middle' font-size='52' fill='white' font-family='monospace' font-weight='700'>MB</text></svg>">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2306b6d4'/><text x='50%' y='57%' dominant-baseline='middle' text-anchor='middle' font-size='52' fill='white' font-family='monospace' font-weight='700'>MB</text></svg>">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Omprakash Suthar","alternateName":"OPBSUTHAR","url":"https://opbsuthar.github.io/MyByte/","sameAs":["https://github.com/OPBSUTHAR","https://www.linkedin.com/in/omprakash-suthar-246240318/","https://x.com/omprakashrj155"],"jobTitle":"Full-Stack + AI Builder — 3rd Year BCA @ CHRIST (Yeshwantpur) — ∞ 8 Elements","affiliation":{"@type":"CollegeOrUniversity","name":"CHRIST (Deemed to be University), Yeshwantpur Campus, Bengaluru"},"knowsAbout":["Land Systems","Infrastructure","Power Systems","AI/ML/Deep Learning/NLP","Agriculture Tech","Space Systems","Transportation","Ocean Tech","Python","C","SQLite","Satellite Systems"]}</script>
 </head>
 <body>
@@ -174,27 +175,11 @@
        <p class="muted small" style="margin-top:10px">Research → Prototype → Ship → Iterate — across all eight domains</p>
        <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap"><a href="#domains" class="btn btn--primary magnetic">Explore 8 domains →</a><a href="about.html" class="btn btn--ghost">Why ∞ ?</a></div>
       </div>
-      <div class="infinity__symbol" aria-hidden="true">
-       <svg class="infinity__svg" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Professional infinite loop — 8 elements">
-        <!-- subtle track -->
-        <path d="M 80 110 C 80 50, 175 30, 200 110 C 225 190, 320 170, 320 110 C 320 50, 225 30, 200 110 C 175 190, 80 170, 80 110 Z" class="infinity__path"/>
-        <!-- accent dashed -->
-        <path d="M 80 110 C 80 50, 175 30, 200 110 C 225 190, 320 170, 320 110" class="infinity__path--accent"/>
-        <!-- traveling accent dot -->
-        <path d="M 80 110 C 80 50, 175 30, 200 110 C 225 190, 320 170, 320 110 C 320 50, 225 30, 200 110 C 175 190, 80 170, 80 110 Z" class="infinity__dot-travel"/>
-        <!-- 8 nodes — minimal + interactive -->
-        <circle cx="72" cy="96" r="3.8" class="infinity__node--hl"/><text x="72" y="82" class="infinity__label">LAND</text>
-        <circle cx="138" cy="48" r="3.2" class="infinity__node"/><text x="138" y="36" class="infinity__label">INFRA</text>
-        <circle cx="268" cy="48" r="3.2" class="infinity__node"/><text x="268" y="36" class="infinity__label">POWER</text>
-        <circle cx="328" cy="96" r="3.8" class="infinity__node--hl"/><text x="328" y="82" class="infinity__label">AI</text>
-        <circle cx="328" cy="128" r="3.2" class="infinity__node"/><text x="328" y="144" class="infinity__label">AGRI</text>
-        <circle cx="268" cy="172" r="3.2" class="infinity__node"/><text x="268" y="188" class="infinity__label">SPACE</text>
-        <circle cx="138" cy="172" r="3.2" class="infinity__node"/><text x="138" y="188" class="infinity__label">MOVE</text>
-        <circle cx="72" cy="128" r="3.2" class="infinity__node"/><text x="72" y="144" class="infinity__label">OCEAN</text>
-        <!-- center ∞ -->
-        <circle cx="200" cy="110" r="18" class="infinity__center"/><text x="200" y="114" class="infinity__centerText">∞</text>
-       </svg>
-      </div>
+       <div class="infinity__symbol" id="infinity3dWrap" aria-label="3D interactive ∞ — drag to rotate, hover nodes">
+        <canvas id="infinityCanvas" style="width:100%; height:320px; display:block; border-radius:16px"></canvas>
+        <div style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); font-family:JetBrains Mono,monospace; font-size:.62rem; letter-spacing:.08em; background:rgba(15,20,43,.72); color:#e2e8f0; padding:4px 8px; border-radius:999px; border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(8px); pointer-events:none">Drag ↕ Rotate • Hover nodes • Click to explore</div>
+        <div id="infinityTooltip" style="position:absolute; display:none; background:#0f172a; color:#fff; padding:6px 10px; border-radius:8px; font-size:.78rem; font-weight:700; border:1px solid #334155; pointer-events:none; transform:translate(-50%, -120%); white-space:nowrap; box-shadow:0 8px 18px rgba(0,0,0,.2)"></div>
+       </div>
      </div>
     </div>
    </div>
@@ -550,8 +535,9 @@
   </div>
  </dialog>
 
- <script src="assets/js/github.js"></script>
- <script src="assets/js/main.js"></script>
- <script src="assets/js/gate.js"></script>
+  <script src="assets/js/github.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/infinity3d.js"></script>
+  <script src="assets/js/gate.js"></script>
 </body>
 </html>
