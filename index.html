@@ -105,18 +105,21 @@
   </div>
  </section>
 
-  <!-- STORYBOARD — PAPER FRAMES ON VISIT (auto-play) -->
+  <!-- STORYBOARD — COMIC ANIMATION ON VISIT -->
   <section id="storyboard" class="section storyboard">
    <div class="container">
-    <div class="section__eyebrow">Storyboard — Your visit in 5 frames • Paper</div>
-    <div class="section__head"><h2>Home as a storyboard — crushed paper, sequential</h2><p class="storyboard__intro">On visit, frames reveal in sequence — like a film strip on textured paper. Tap to pause.</p></div>
-    <div class="storyboard__track">
-     <article class="story-frame reveal"><div class="paper-crumple" aria-hidden="true"></div><div class="story-frame__num">FRAME 01 <i>01</i></div><h3>Cover — ∞ 8 Elements</h3><p>Land → Ocean. One loop, eight nodes. Hero shows regular @ CHRIST Yeshwantpur + 29 repos.</p></article>
-     <article class="story-frame reveal" style="--d:80ms"><div class="paper-crumple"></div><div class="story-frame__num">FRAME 02 <i>02</i></div><h3>Why I Build</h3><p>Vision on crushed paper — frugal, field-ready, offline-first. Farmer, controller, student.</p></article>
-     <article class="story-frame reveal" style="--d:160ms"><div class="paper-crumple"></div><div class="story-frame__num">FRAME 03 <i>03</i></div><h3>8 Domains</h3><p>Professional ∞ grid — Land, Infra, Power, AI, Agri, Space, Transport, Ocean — each with live work.</p></article>
-     <article class="story-frame reveal" style="--d:240ms"><div class="paper-crumple"></div><div class="story-frame__num">FRAME 04 <i>04</i></div><h3>Selected Work</h3><p>BharatVista Nexus (Pure C), Agnirva NEAT 5.0 — plus showcase & portfolio, live previews.</p></article>
-     <article class="story-frame reveal" style="--d:320ms"><div class="paper-crumple"></div><div class="story-frame__num">FRAME 05 <i>05</i></div><h3>Next → Contact</h3><p>Goals 2026–30, stack, journey — then build together. Reply &lt;24h: omprakashsuthar.os974660@gmail.com</p></article>
+    <div class="section__eyebrow">Storyboard — Comic • On Visit Auto-Play</div>
+    <div class="section__head"><h2>Home as a comic — 5 frames, dynamic</h2><p class="storyboard__intro">Auto-plays on visit — like turning comic pages. Crushed paper + halftone + bursts. Click arrows or dots, hover to pause.</p></div>
+    <div class="storyboard__viewport">
+     <div class="storyboard__track" id="comicTrack">
+      <article class="comic-frame reveal active"><div class="paper-crumple" aria-hidden="true"></div><div class="comic-frame__burst">POW</div><div class="comic-frame__num">FRAME 01 <i>01</i></div><h3>Cover — ∞ 8</h3><p>Land → Ocean. One loop, eight nodes. Regular @ CHRIST Yeshwantpur — 29 repos.</p><div class="comic-bubble">Byte-scale → Bharat-scale!</div></article>
+      <article class="comic-frame reveal" style="--d:90ms"><div class="paper-crumple"></div><div class="comic-frame__burst" style="background:#22d3ee">BAM</div><div class="comic-frame__num">FRAME 02 <i>02</i></div><h3>Why I Build</h3><p>Frugal, field-ready — works offline, low compute, for real people.</p><div class="comic-bubble">Farmer • Controller • Student</div></article>
+      <article class="comic-frame reveal" style="--d:180ms"><div class="paper-crumple"></div><div class="comic-frame__burst" style="background:#a78bfa">ZAP</div><div class="comic-frame__num">FRAME 03 <i>03</i></div><h3>8 Domains</h3><p>Land, Infra, Power, AI, Agri, Space, Transport, Ocean — pro ∞ grid.</p><div class="comic-bubble">All connected ∞</div></article>
+      <article class="comic-frame reveal" style="--d:270ms"><div class="paper-crumple"></div><div class="comic-frame__burst" style="background:#f59e0b">WHOOSH</div><div class="comic-frame__num">FRAME 04 <i>04</i></div><h3>Selected Work</h3><p>BharatVista (Pure C) + Agnirva NEAT 5.0 — live previews.</p><div class="comic-bubble">Ship live or it didn'''t happen</div></article>
+      <article class="comic-frame reveal" style="--d:360ms"><div class="paper-crumple"></div><div class="comic-frame__burst" style="background:#22c55e">LET'''S GO</div><div class="comic-frame__num">FRAME 05 <i>05</i></div><h3>Next → Contact</h3><p>Goals 2030 + stack + journey — then build together.</p><div class="comic-bubble">omprakashsuthar.os974660@gmail.com</div></article>
+     </div>
     </div>
+    <div class="storyboard__nav"><div style="display:flex; gap:8px"><button id="comicPrev">‹ Prev</button><button id="comicNext">Next ›</button><button id="comicPlay" style="background:#111827; color:#fff">⏸ Pause</button></div><div class="storyboard__dots" id="comicDots"><button class="active"></button><button></button><button></button><button></button><button></button></div></div>
    </div>
   </section>
 
@@ -177,7 +180,9 @@
         <path d="M 80 110 C 80 50, 175 30, 200 110 C 225 190, 320 170, 320 110 C 320 50, 225 30, 200 110 C 175 190, 80 170, 80 110 Z" class="infinity__path"/>
         <!-- accent dashed -->
         <path d="M 80 110 C 80 50, 175 30, 200 110 C 225 190, 320 170, 320 110" class="infinity__path--accent"/>
-        <!-- 8 nodes — minimal -->
+        <!-- traveling accent dot -->
+        <path d="M 80 110 C 80 50, 175 30, 200 110 C 225 190, 320 170, 320 110 C 320 50, 225 30, 200 110 C 175 190, 80 170, 80 110 Z" class="infinity__dot-travel"/>
+        <!-- 8 nodes — minimal + interactive -->
         <circle cx="72" cy="96" r="3.8" class="infinity__node--hl"/><text x="72" y="82" class="infinity__label">LAND</text>
         <circle cx="138" cy="48" r="3.2" class="infinity__node"/><text x="138" y="36" class="infinity__label">INFRA</text>
         <circle cx="268" cy="48" r="3.2" class="infinity__node"/><text x="268" y="36" class="infinity__label">POWER</text>
