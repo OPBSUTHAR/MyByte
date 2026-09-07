@@ -220,22 +220,21 @@ window.handleContact = (e)=>{
   restart();
 })();
 
-// === INFINITY — interactive nodes highlight domains ===
+// === INFINITY — free style, subtle hover ===
 (() => {
-  const svg=document.querySelector(".infinity__svg");
-  const nodes=[...document.querySelectorAll(".infinity__node, .infinity__node--hl")];
+  const wrap=document.querySelector(".free-infinity");
+  const dots=[...document.querySelectorAll(".free-dots circle")];
   const cards=[...document.querySelectorAll(".domain--infinity")];
-  if(!svg || !nodes.length) return;
-  const labels=["LAND","INFRA","POWER","AI","AGRI","SPACE","MOVE","OCEAN"];
-  nodes.forEach((n,i)=>{
+  if(!wrap || !dots.length) return;
+  dots.forEach((n,i)=>{
     n.style.cursor="pointer";
     n.addEventListener("mouseenter", ()=>{
-      nodes.forEach(x=> x.classList.remove("infinity__node--active"));
-      n.classList.add("infinity__node--active");
+      dots.forEach(x=> x.style.fill="");
+      n.style.fill="var(--primary)";
       cards.forEach(c=> c.style.outline="");
-      if(cards[i]){ cards[i].style.outline="2px solid var(--primary)"; cards[i].scrollIntoView({behavior:"smooth", block:"nearest"}); }
+      if(cards[i]){ cards[i].style.outline="1px solid var(--primary)"; }
     });
-    n.addEventListener("mouseleave", ()=>{ n.classList.remove("infinity__node--active"); cards.forEach(c=> c.style.outline=""); });
+    n.addEventListener("mouseleave", ()=>{ n.style.fill=""; cards.forEach(c=> c.style.outline=""); });
     n.addEventListener("click", ()=>{ if(cards[i]) cards[i].scrollIntoView({behavior:"smooth", block:"center"}); });
   });
 })();
