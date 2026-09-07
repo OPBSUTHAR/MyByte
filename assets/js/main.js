@@ -188,3 +188,55 @@ window.handleContact = (e)=>{
   document.getElementById('formMsg').textContent='Opening mail client… fallback: omprakashsuthar.os974660@gmail.com';
   return false;
 };
+
+// === COMIC STORYBOARD — dynamic, interactive, auto-play on visit ===
+(() => {
+  const track=document.getElementById("comicTrack");
+  const dots=[...document.querySelectorAll("#comicDots button")];
+  const prev=document.getElementById("comicPrev"), next=document.getElementById("comicNext"), playBtn=document.getElementById("comicPlay");
+  if(!track || !dots.length) return;
+  const frames=[...track.children];
+  let idx=0, auto=true, timer=null, pausedHover=false;
+  function update(){
+    frames.forEach((f,i)=> f.classList.toggle("active", i===idx));
+    dots.forEach((d,i)=> d.classList.toggle("active", i===idx));
+    const w=frames[0].offsetWidth + 14;
+    track.scrollTo({left: idx*w, behavior: "smooth"});
+  }
+  function go(n){ idx=(n+frames.length)%frames.length; update(); }
+  function restart(){ if(auto && !pausedHover){ clearInterval(timer); timer=setInterval(()=> go(idx+1), 2600);} }
+  dots.forEach((d,i)=> d.addEventListener("click", ()=>{ go(i); restart(); }));
+  prev?.addEventListener("click", ()=>{ go(idx-1); restart(); });
+  next?.addEventListener("click", ()=>{ go(idx+1); restart(); });
+  playBtn?.addEventListener("click", ()=>{
+    auto=!auto;
+    playBtn.textContent = auto ? "⏸ Pause" : "▶ Play";
+    if(auto) restart(); else clearInterval(timer);
+  });
+  track.addEventListener("mouseenter", ()=>{ pausedHover=true; clearInterval(timer); });
+  track.addEventListener("mouseleave", ()=>{ pausedHover=false; if(auto) restart(); });
+  // reveal stagger on visit
+  setTimeout(()=>{ frames.forEach((f,i)=> setTimeout(()=> f.classList.add("in"), 180+i*120)); }, 400);
+  restart();
+})();
+
+// === INFINITY — interactive nodes highlight domains ===
+(() => {
+  const svg=document.querySelector(".infinity__svg");
+  const nodes=[...document.querySelectorAll(".infinity__node, .infinity__node--hl")];
+  const cards=[...document.querySelectorAll(".domain--infinity")];
+  if(!svg || !nodes.length) return;
+  const labels=["LAND","INFRA","POWER","AI","AGRI","SPACE","MOVE","OCEAN"];
+  nodes.forEach((n,i)=>{
+    n.style.cursor="pointer";
+    n.addEventListener("mouseenter", ()=>{
+      nodes.forEach(x=> x.classList.remove("infinity__node--active"));
+      n.classList.add("infinity__node--active");
+      cards.forEach(c=> c.style.outline="");
+      if(cards[i]){ cards[i].style.outline="2px solid var(--primary)"; cards[i].scrollIntoView({behavior:"smooth", block:"nearest"}); }
+    });
+    n.addEventListener("mouseleave", ()=>{ n.classList.remove("infinity__node--active"); cards.forEach(c=> c.style.outline=""); });
+    n.addEventListener("click", ()=>{ if(cards[i]) cards[i].scrollIntoView({behavior:"smooth", block:"center"}); });
+  });
+})();
+
