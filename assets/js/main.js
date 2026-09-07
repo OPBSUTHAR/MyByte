@@ -195,7 +195,7 @@ window.handleContact = (e)=>{
   const dots=[...document.querySelectorAll("#comicDots button")];
   const prev=document.getElementById("comicPrev"), next=document.getElementById("comicNext"), playBtn=document.getElementById("comicPlay");
   if(!track || !dots.length) return;
-  const frames=[...track.children];
+  const frames=[...track.querySelectorAll(".overview-card")];
   let idx=0, auto=true, timer=null, pausedHover=false;
   function update(){
     frames.forEach((f,i)=> f.classList.toggle("active", i===idx));

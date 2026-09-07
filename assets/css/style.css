@@ -519,62 +519,40 @@ h1,h2,h3,p,span,a,code{overflow-wrap:break-word; word-break:break-word}
 .infinity__symbol:hover .infinity__node{stroke:var(--primary)}
 .infinity__node--active{fill:var(--primary) !important; stroke:var(--primary) !important; r:4.6}
 
-/* === STORYBOARD — COMIC ANIMATION, DYNAMIC & INTERACTIVE === */
-.storyboard{position:relative; overflow:hidden}
-.storyboard__viewport{overflow:hidden; margin-top:18px; border-radius:16px; padding:4px}
+/* === OVERVIEW — PROFESSIONAL STRIP, DYNAMIC === */
+.storyboard{position:relative}
+.storyboard__viewport{overflow:hidden; margin-top:18px; padding:4px 2px}
 .storyboard__track{
-  display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:8px 2px 14px;
+  display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:6px 2px 12px;
   -webkit-overflow-scrolling:touch;
 }
 .storyboard__track::-webkit-scrollbar{display:none}
-.comic-frame{
+.overview-card{
   flex:0 0 300px; scroll-snap-align:start;
   position:relative;
-  background:
-    radial-gradient(circle at 1px 1px, rgba(0,0,0,.08) 1px, transparent 1.2px),
-    linear-gradient(180deg, #fffef8 0%, #fdf6e0 100%);
-  background-size: 10px 10px, auto;
-  border:3px solid #111827;
-  border-radius:12px;
-  padding:16px 14px 14px;
-  box-shadow: 4px 4px 0 #111827, 0 8px 18px rgba(0,0,0,.12);
-  transform: rotate(var(--rot)) scale(.98);
-  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .25s, filter .25s;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 16px;
+  box-shadow:var(--shadow);
+  transition: transform .28s cubic-bezier(.22,1,.36,1), box-shadow .22s, border-color .22s;
   overflow:hidden;
 }
-.comic-frame:nth-child(1){--rot:-1.1deg}
-.comic-frame:nth-child(2){--rot:0.8deg}
-.comic-frame:nth-child(3){--rot:-0.6deg}
-.comic-frame:nth-child(4){--rot:0.9deg}
-.comic-frame:nth-child(5){--rot:-0.7deg}
-.comic-frame.active{transform: rotate(0deg) scale(1.02); box-shadow: 6px 6px 0 #111827, 0 12px 28px rgba(0,0,0,.16); z-index:2; filter:saturate(1.08)}
-.comic-frame::before{
-  content:""; position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-1.5deg);
-  width:64px; height:18px; background:#fde68a; border:2px solid #111827; box-shadow:0 2px 0 rgba(0,0,0,.12); opacity:.95;
-}
-.comic-frame__burst{
-  position:absolute; top:10px; right:10px; width:42px; height:42px;
-  background:#facc15; border:2px solid #111827; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-  display:grid; place-items:center; font-family:Fraunces,serif; font-weight:900; font-size:.72rem; color:#111827;
-  animation: burstPop 2.8s ease-in-out infinite; transform-origin:center;
-}
-@keyframes burstPop{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(2deg) scale(1.08)}}
-.comic-frame__num{font-family:JetBrains Mono,monospace; font-size:.68rem; font-weight:800; letter-spacing:.12em; color:#111827; display:flex; gap:8px; align-items:center}
-.comic-frame__num i{width:26px; height:26px; display:grid; place-items:center; background:#111827; color:#fff; border-radius:50%; font-style:normal; font-size:.7rem; border:2px solid #111827}
-.comic-frame h3{margin:10px 0 6px; font-family:Space Grotesk, sans-serif; font-size:1.06rem; font-weight:800; line-height:1.1; color:#111827; text-transform:uppercase; letter-spacing:-.02em}
-.comic-frame p{margin:0; font-size:.84rem; line-height:1.45; color:#334155; font-weight:500}
-.comic-bubble{
-  margin-top:10px; background:#fff; border:2px solid #111827; border-radius:12px; padding:8px 10px; font-size:.78rem; font-weight:700; color:#111827; position:relative; box-shadow:2px 2px 0 #111827;
-}
-.comic-bubble::after{content:""; position:absolute; bottom:-8px; left:18px; width:12px; height:12px; background:#fff; border-right:2px solid #111827; border-bottom:2px solid #111827; transform:rotate(45deg)}
-.comic-frame .paper-crumple{opacity:.10}
+.overview-card::before{content:""; position:absolute; inset:0 0 auto 0; height:1px; background:var(--grad); opacity:0; transition:.22s}
+.overview-card:hover::before{opacity:1}
+.overview-card:hover{transform:translateY(-2px); box-shadow:var(--glow); border-color:color-mix(in srgb, var(--primary) 18%, var(--line))}
+.overview-card.active{border-color:color-mix(in srgb, var(--primary) 28%, var(--line)); box-shadow:var(--glow); transform:translateY(-2px)}
+.overview-card__eyebrow{font-family:JetBrains Mono,monospace; font-size:.66rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--primary)}
+.overview-card h3{margin:8px 0 6px; font-size:1.08rem; line-height:1.15; letter-spacing:-.02em}
+.overview-card p{margin:0; font-size:.88rem; line-height:1.5; color:var(--muted)}
+.overview-card__link{margin-top:10px; display:inline-flex; font-size:.85rem; font-weight:700; gap:6px}
 .storyboard__nav{display:flex; gap:10px; align-items:center; justify-content:space-between; margin-top:12px; flex-wrap:wrap}
-.storyboard__nav button{border:2px solid #111827; background:#fff; color:#111827; padding:8px 14px; border-radius:10px; font-weight:800; cursor:pointer; box-shadow:2px 2px 0 #111827; transition:.15s}
-.storyboard__nav button:active{transform:translate(1px,1px); box-shadow:1px 1px 0 #111827}
-.storyboard__dots{display:flex; gap:8px}
-.storyboard__dots button{width:28px; height:8px; border-radius:999px; border:2px solid #111827; background:#fff; padding:0; box-shadow:1px 1px 0 #111827}
-.storyboard__dots button.active{background:#06b6d4; width:32px}
-@media(max-width:640px){ .comic-frame{flex:0 0 86%} }
+.storyboard__nav button{border:1px solid var(--line); background:var(--card); color:var(--text); padding:8px 13px; border-radius:10px; font-weight:700; cursor:pointer; transition:.15s}
+.storyboard__nav button:hover{border-color:color-mix(in srgb, var(--primary) 22%, var(--line)); box-shadow:var(--shadow)}
+.storyboard__dots{display:flex; gap:8px; align-items:center}
+.storyboard__dots button{width:22px; height:6px; border-radius:999px; border:0; background:var(--line); padding:0; cursor:pointer; transition:.2s}
+.storyboard__dots button.active{background:var(--primary); width:26px; box-shadow:0 0 0 4px color-mix(in srgb, var(--primary) 16%, transparent)}
+@media(max-width:640px){ .overview-card{flex:0 0 86%} }
 
 /* gate badge is in JS — no extra CSS needed */
 
