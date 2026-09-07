@@ -677,7 +677,7 @@ body{
 .form input:focus, .form textarea:focus{
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 16%, transparent), 0 0 0 1px var(--grad) !important;
 }
-/* gradient text — every heading + link + content emphasis */
+/* gradient text — visible in BOTH themes (light = dark solid, dark = gradient) */
 .section h2, .section h3, .bento__main h2, .overview-card h3, .story-frame h3{
   background: var(--grad);
   -webkit-background-clip: text; background-clip: text;
@@ -699,6 +699,45 @@ p b, p strong, li b, .lead b{
   -webkit-background-clip: text; background-clip: text;
   color:transparent !important;
 }
+/* LIGHT THEME — fix invisibility: no whited text, keep dark readable */
+[data-theme="light"] .section h2,
+[data-theme="light"] .section h3,
+[data-theme="light"] .bento__main h2,
+[data-theme="light"] .overview-card h3{
+  background:none !important;
+  -webkit-background-clip: border-box !important; background-clip: border-box !important;
+  color:#0f172a !important;
+  -webkit-text-fill-color:#0f172a !important;
+  filter:none !important;
+}
+[data-theme="light"] a,
+[data-theme="light"] .domain__link,
+[data-theme="light"] .overview-card__link{
+  background:none !important;
+  -webkit-background-clip: border-box !important; background-clip: border-box !important;
+  color:#0284c7 !important;
+  -webkit-text-fill-color:#0284c7 !important;
+  border-bottom:1px solid #0284c7 !important;
+  border-image:none !important;
+}
+[data-theme="light"] p b,
+[data-theme="light"] p strong,
+[data-theme="light"] li b,
+[data-theme="light"] .lead b{
+  background:none !important;
+  -webkit-background-clip: border-box !important; background-clip: border-box !important;
+  color:#0f172a !important;
+  -webkit-text-fill-color:#0f172a !important;
+}
+[data-theme="light"] .paper-anim b,
+[data-theme="light"] .paper-anim strong{
+  color:#0f172a !important;
+  -webkit-text-fill-color:#0f172a !important;
+}
+/* Ensure body text never whited in light */
+[data-theme="light"] body{color:#0f172a}
+[data-theme="light"] .muted{color:#475569}
+[data-theme="light"] p, [data-theme="light"] li, [data-theme="light"] span{color:inherit}
 .paper-anim{
   border:1.5px solid transparent !important;
   background:
