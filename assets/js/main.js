@@ -184,7 +184,7 @@ window.handleContact = (e)=>{
   const name=fd.get('name'), email=fd.get('email'), msg=fd.get('message');
   const subject=encodeURIComponent(`MyByte — contact from ${name}`);
   const body=encodeURIComponent(`From: ${name} <${email}>\n\n${msg}\n\n— via MyByte`);
-  location.href=`mailto:prakash.suthar@bcah.christuniversity.in?subject=${subject}&body=${body}`;
-  document.getElementById('formMsg').textContent='Opening mail client… fallback: prakash.suthar@bcah.christuniversity.in';
+  location.href=`mailto:omprakashsuthar.os974660@gmail.com?subject=${subject}&body=${body}`;
+  document.getElementById('formMsg').textContent='Opening mail client… fallback: omprakashsuthar.os974660@gmail.com';
   return false;
 };
