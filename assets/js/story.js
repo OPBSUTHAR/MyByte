@@ -321,9 +321,13 @@ import * as THREE from 'three';
     flipMesh.visible = true;
     flipMesh.rotation.y = 0;
     flipMesh.position.set(0,0,0.02);
-    // hide HTML during curl to avoid double
-    book.style.visibility='hidden';
+    // keep book visible — canvas overlays on top, book stays showing behind curl
+    canvas.style.zIndex='6';
     canvas.style.pointerEvents='auto';
+    // prepare HTML behind flip: set next pages underneath so they show through after curl
+    doSwapHTML();
+    // temporarily hide the side being flipped so we see only curl, not duplicate page underneath
+    if(direction==='next') rightEl.style.visibility='hidden'; else leftEl.style.visibility='hidden';
     const obj={p:0};
     let swapped=false;
     window.gsap.to(obj,{
@@ -331,29 +335,25 @@ import * as THREE from 'three';
       onUpdate:()=>{
         bendFlip(obj.p);
         flipMesh.rotation.y = (direction==='next' ? -obj.p : obj.p) * Math.PI;
-        flipMesh.position.z = 0.02 + Math.sin(obj.p*Math.PI)*0.04;
-        // mid swap texture
+        flipMesh.position.z = 0.02 + Math.sin(obj.p*Math.PI)*0.05;
         if(obj.p>0.5 && !swapped){
           swapped=true;
           flipMesh.material.map = backTex;
           flipMesh.material.needsUpdate=true;
         }
-        // subtle book scale
         book.style.transform = `scale(${1 - Math.sin(obj.p*Math.PI)*0.008})`;
       },
       onComplete:()=>{
         flipMesh.visible=false;
-        book.style.visibility='';
         book.style.transform='';
+        canvas.style.zIndex='1';
         canvas.style.pointerEvents='none';
+        leftEl.style.visibility=''; rightEl.style.visibility='';
         disposeTex(frontTex); disposeTex(backTex); frontTex=null; backTex=null;
-        doSwapHTML();
         turning=false;
         onResizeThree();
       }
     });
-    // swap HTML mid-flight so back is ready behind flip (for non-three fallback perception)
-    setTimeout(()=>{ if(direction==='next') doSwapHTML(); }, 420);
     // For next, we already swapped HTML mid — but keep hidden until flip completes via visibility, so user sees three.js
   }
 
