@@ -13,10 +13,10 @@ body.story-page .nav{flex-shrink:0}
 .story-hero .story-meta{margin-top:6px; display:flex; gap:6px; justify-content:center; flex-wrap:wrap; font-family:JetBrains Mono,monospace; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
 .story-hero .story-meta span{border:1px solid var(--line); background:var(--card2); padding:4px 8px; border-radius:999px}
 
-/* Book stage */
-.book-stage{flex:1; min-height:0; max-width:1160px; width:100%; margin:0 auto; padding:6px 22px 8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; position:relative}
-.book-wrap{position:relative; width:min(980px, 100%); height:min(540px, 56vh); height:min(540px, 56dvh); display:grid; place-items:center}
-#bookCanvas{position:absolute; inset:10px; width:calc(100% - 20px); height:calc(100% - 20px); display:block; border-radius:10px; pointer-events:none; z-index:1}
+/* Book stage — no overlap with hero */
+.book-stage{flex:1; min-height:0; max-width:1160px; width:100%; margin:0 auto; padding:14px 22px 8px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:10px; position:relative; overflow:visible}
+.book-wrap{position:relative; width:min(980px, 100%); height:min(520px, 52vh); height:min(520px, 52dvh); display:grid; place-items:center; margin-top:4px}
+#bookCanvas{position:absolute; inset:12px; width:calc(100% - 24px); height:calc(100% - 24px); display:block; border-radius:8px; pointer-events:none; z-index:1}
 .book{
   position:relative; z-index:2; width:100%; height:100%;
   display:grid; grid-template-columns:1fr 1fr; gap:0;
@@ -78,6 +78,9 @@ body.story-page .nav{flex-shrink:0}
     linear-gradient(135deg, #3a2012 0%, #2b1810 45%, #1e0f08 100%);
   border-radius:6px;
 }
+.book.is-closed::before, .book.is-closed .book__spine{display:none}
+.book.is-closed + .book-controls, .book.is-closed ~ .book-dots, .book.is-closed ~ .book-toc{display:flex}
+.book.is-closed .host-note-extra{display:none}
 .book.is-closed .page{display:none !important}
 .book-cover{
   position:relative; z-index:2; width:min(520px, 88%); padding:22px 18px;
