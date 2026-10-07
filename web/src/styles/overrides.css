@@ -1,0 +1,81 @@
+/* MyByte React build — tokens + cinematic layer.
+   The full editorial stylesheet is imported from styles/site.css (shared with
+   the static site). This file only adds what the React shell needs. */
+:root {
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* keeps the vignette/scanline layers behind content but above the canvas */
+.scanlines { z-index: 1; }
+#root { position: relative; z-index: 2; }
+
+/* smooth scrolling is driven by Lenis on the React build */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* reusable cinematic 3D stage (Three.js / PixiJS / Spline mount here) */
+.fx-stage {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: radial-gradient(120% 120% at 20% 0%, color-mix(in srgb, var(--primary) 14%, transparent), transparent 60%), var(--card);
+  min-height: 320px;
+}
+.fx-stage canvas { display: block; width: 100%; height: 100%; }
+.fx-stage__label {
+  position: absolute; left: 12px; bottom: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted);
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line);
+}
+.fx-stage__hint {
+  position: absolute; right: 12px; top: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: .64rem; letter-spacing: .08em;
+  color: var(--muted); opacity: .85;
+}
+
+/* the 4-up animation lab grid */
+.lab-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 18px; }
+@media (max-width: 900px) { .lab-grid { grid-template-columns: 1fr; } }
+.lab-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+  padding: 18px; display: flex; flex-direction: column; gap: 10px; overflow: hidden;
+}
+.lab-card h3 { margin: 0; font-size: 1.05rem; letter-spacing: -.02em; }
+.lab-card__tag {
+  align-self: flex-start; font-family: 'JetBrains Mono', monospace; font-size: .64rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 34%, var(--line));
+  background: color-mix(in srgb, var(--primary) 10%, var(--card)); padding: 4px 8px; border-radius: 999px;
+}
+.lab-card p { margin: 0; color: var(--muted); font-size: .88rem; }
+
+/* popmotion / mo.js interaction playground */
+.fx-play { position: relative; height: 170px; border-radius: 14px; border: 1px dashed var(--line); background: color-mix(in srgb, var(--card2) 60%, transparent); display: grid; place-items: center; cursor: pointer; user-select: none; }
+.fx-play__orb { width: 46px; height: 46px; border-radius: 50%; background: var(--grad2); box-shadow: 0 8px 24px rgba(6, 182, 214, .4); }
+.fx-play__hint { position: absolute; bottom: 8px; font-family: 'JetBrains Mono', monospace; font-size: .64rem; color: var(--muted); letter-spacing: .08em; }
+
+/* motion shared-layout tiles */
+.fx-layout { position: relative; height: 150px; }
+.fx-layout__tile { position: absolute; width: 44px; height: 44px; border-radius: 12px; }
+.fx-layout__tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.fx-layout__tabs button { border: 1px solid var(--line); background: var(--card2); color: var(--text); border-radius: 10px; padding: 6px 12px; font-weight: 700; cursor: pointer; }
+.fx-layout__tabs button.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+/* anime.js svg draw */
+.fx-anime svg { width: 100%; height: auto; overflow: visible; }
+/* GSAP reveal wrapper (React build) — never uses the static `.reveal` trap */
+.fx-reveal { will-change: transform, opacity; }
+/* GSAP drives the bar fill frame-by-frame; drop the CSS transition to avoid fight */
+.bar i { transition: none; }
+
+/* lottie host */
+.fx-lottie { width: 100%; max-width: 240px; margin: 0 auto; }
+
+/* theatre scrubber strip */
+.fx-theatre__stage { position: relative; height: 150px; border-radius: 14px; border: 1px solid var(--line); background: color-mix(in srgb, var(--card2) 55%, transparent); overflow: hidden; }
+.fx-theatre__box { position: absolute; top: 50%; left: 12px; width: 46px; height: 46px; margin-top: -23px; border-radius: 14px; background: var(--grad); }
+.fx-theatre input[type='range'] { width: 100%; }

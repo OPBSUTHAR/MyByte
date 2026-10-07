@@ -15,3 +15,11 @@ venv/
 
 # Logs
 *.log
+
+# Vite / React build (web/)
+web/node_modules/
+web/dist/
+web/.vite/
+web/.vercel/
+.vercel/
+node_modules/
