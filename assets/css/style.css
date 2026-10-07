@@ -737,3 +737,19 @@ p b, p strong, li b, .lead b{
 /* light mesh tweak */
 [data-theme="light"] .orb{opacity:.28; mix-blend:multiply; filter:blur(60px)}
 [data-theme="light"] .grid-fade{opacity:.05}
+
+/* ============================================================
+   GSAP — scroll animations layer (progressive enhancement)
+   When JS + GSAP load, `html.gsap-ready` marks the page and main.js
+   removes the legacy `.reveal` class from animated nodes so the old
+   CSS transition can never fight GSAP. If GSAP never loads, the
+   `.reveal` fallback above keeps everything visible. GSAP clears its
+   inline transform/opacity on completion so CSS :hover lifts still work.
+   ============================================================ */
+html.gsap-ready .reveal{transition:none !important}
+/* hero entrance — pre-hidden so there is no flash before GSAP sets up */
+html.gsap-ready .hero__copy > *, html.gsap-ready .hero .typed-line{visibility:hidden}
+@media (prefers-reduced-motion: reduce){
+  html.gsap-ready .hero__copy > *, html.gsap-ready .hero .typed-line{visibility:visible}
+}
+.gsap-fx{will-change:transform, opacity}

@@ -47,7 +47,10 @@ document.querySelectorAll('#navLinks a').forEach(a=> a.addEventListener('click',
 // reveal
 const obs = new IntersectionObserver(es=> es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }),{threshold:.14});
 document.querySelectorAll('.reveal').forEach(el=> obs.observe(el));
-document.querySelectorAll('.card').forEach((el,i)=>{ el.classList.add('reveal'); el.style.setProperty('--d', `${(i%3)*80}ms`); obs.observe(el); });
+if(!window.gsap){
+  // legacy stagger for GitHub-injected cards — GSAP handles these when present
+  document.querySelectorAll('.card').forEach((el,i)=>{ el.classList.add('reveal'); el.style.setProperty('--d', `${(i%3)*80}ms`); obs.observe(el); });
+}
 
 // progress
 const prog = document.getElementById('progress');
@@ -58,16 +61,18 @@ if(prog){
   }, {passive:true});
 }
 
-// parallax orbs
+// parallax orbs — GSAP ScrollTrigger takes over when available (see bottom)
 let ticking=false;
-addEventListener('scroll', ()=>{
-  if(ticking) return; ticking=true;
-  requestAnimationFrame(()=>{
-    const y = scrollY * 0.12;
-    document.querySelectorAll('.orb').forEach((o,i)=> o.style.transform = `translateY(${y*(0.6+i*0.2)}px)`);
-    ticking=false;
-  });
-}, {passive:true});
+if(!window.gsap){
+  addEventListener('scroll', ()=>{
+    if(ticking) return; ticking=true;
+    requestAnimationFrame(()=>{
+      const y = scrollY * 0.12;
+      document.querySelectorAll('.orb').forEach((o,i)=> o.style.transform = `translateY(${y*(0.6+i*0.2)}px)`);
+      ticking=false;
+    });
+  }, {passive:true});
+}
 
 // magnetic buttons
 document.querySelectorAll('.magnetic').forEach(btn=>{
@@ -259,6 +264,126 @@ window.handleContact = (e)=>{
     n.addEventListener("mouseleave", ()=>{ n.style.fill=""; cards.forEach(c=> c.style.outline=""); });
     n.addEventListener("click", ()=>{ if(cards[i]) cards[i].scrollIntoView({behavior:"smooth", block:"center"}); });
   });
+})();
+
+// ============================================================
+// === GSAP — scroll animations (core + ScrollTrigger) =========
+// Progressive enhancement: if GSAP is missing, nothing runs and
+// the legacy IntersectionObserver + CSS reveal keeps working.
+// ============================================================
+(() => {
+  if(!window.gsap || !window.ScrollTrigger) return;
+  const {gsap, ScrollTrigger} = window;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // hand opacity/transform control to GSAP (disables legacy .reveal transition)
+  document.documentElement.classList.add('gsap-ready');
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(reduce){ gsap.set('.hero__copy > *', {clearProps:'all'}); ScrollTrigger.refresh(); return; }
+
+  const EASE = 'power3.out';
+
+  // After an entrance finishes, release GSAP's inline transform/opacity and
+  // drop the legacy `.reveal` class so CSS :hover lifts behave normally again.
+  function clean(targets){
+    const nodes = gsap.utils.toArray(targets);
+    gsap.set(nodes, {clearProps:'transform,opacity,visibility,filter'});
+    nodes.forEach(n => n.classList.remove('reveal'));
+  }
+
+  // --- shared batch reveal (staggered, fires once) ---
+  function batch(nodes, from, to){
+    nodes = nodes.filter(Boolean);
+    if(!nodes.length) return;
+    ScrollTrigger.batch(nodes, {
+      interval: 0.12,
+      batchMax: 4,
+      start: 'top 88%',
+      once: true,
+      onEnter: b => gsap.from(b, Object.assign({
+        duration:0.65, ease:EASE, stagger:0.08, overwrite:true,
+        onComplete: () => clean(b)
+      }, from, to))
+    });
+  }
+
+  // --- 1. HERO intro timeline (badge → title → lead → code card) ---
+  const copy = document.querySelector('.hero__copy');
+  const heroKids = copy ? Array.from(copy.children) : [];
+  const visual = document.querySelector('.hero__visual');
+  const floats = gsap.utils.toArray('.profile-float, .mini-float');
+  if(heroKids.length || visual){
+    gsap.set(heroKids.concat(visual ? [visual] : []), {autoAlpha:1});
+    const tl = gsap.timeline({defaults:{ease:EASE}});
+    if(heroKids.length) tl.from(heroKids, {y:30, autoAlpha:0, duration:0.7, stagger:0.09});
+    if(visual) tl.from(visual, {y:40, autoAlpha:0, duration:0.85}, '-=0.55');
+    if(floats.length) tl.from(floats, {y:18, autoAlpha:0, duration:0.6, stagger:0.08}, '-=0.4');
+    tl.eventCallback('onComplete', () => {
+      clean(heroKids.concat(visual ? [visual] : [], floats));
+    });
+  }
+
+  // --- 2. Section heads / eyebrows (slide from the left) ---
+  ScrollTrigger.batch(gsap.utils.toArray('.section__eyebrow, .section__head'), {
+    interval: 0.12, batchMax: 4, start: 'top 88%', once: true,
+    onEnter: b => gsap.from(b, {x:-28, autoAlpha:0, duration:0.7, ease:EASE, stagger:0.08,
+      overwrite:true, onComplete: () => clean(b)})
+  });
+
+  // --- 3. Generic reveal elements (exclude those handled by dedicated batches) ---
+  const genericReveals = gsap.utils.toArray('.reveal').filter(el =>
+    !el.matches('.domain, .goal, .skill, .overview-card, .card, .b-card, .case'));
+  batch(genericReveals, {y:24});
+
+  // --- 4. ∞ domain cards — staggered rise ---
+  batch(gsap.utils.toArray('.domain'), {y:34, duration:0.7});
+
+  // --- 5. Case studies / static bento cards ---
+  batch(gsap.utils.toArray('.case, .b-card'), {y:30, scale:0.98, duration:0.7});
+
+  // --- 6. Timeline entries slide in from the left ---
+  gsap.utils.toArray('.tl').forEach(el => {
+    gsap.from(el, {x:-28, autoAlpha:0, duration:0.7, ease:EASE,
+      onComplete: () => clean(el),
+      scrollTrigger:{trigger:el, start:'top 86%', once:true}});
+  });
+
+  // --- 7. Goals + skills — card rise, and the progress bars fill ---
+  gsap.utils.toArray('.goal, .skill').forEach(el => {
+    gsap.from(el, {y:30, autoAlpha:0, duration:0.7, ease:EASE,
+      onComplete: () => clean(el),
+      scrollTrigger:{trigger:el, start:'top 86%', once:true}});
+    const bar = el.querySelector('.bar i');
+    if(bar){
+      gsap.fromTo(bar, {scaleX:0}, {scaleX:1, duration:1.2, ease:'power3.out',
+        scrollTrigger:{trigger:el, start:'top 82%', once:true}});
+    }
+  });
+
+  // --- 8. Dynamic project cards (injected after GitHub fetch) ---
+  function animateCards(root=document){
+    const nodes = gsap.utils.toArray('.card:not(.fx-done), .shot:not(.fx-done)', root);
+    nodes.forEach(el => {
+      el.classList.add('fx-done');
+      gsap.from(el, {y:28, autoAlpha:0, duration:0.6, ease:EASE,
+        onComplete: () => clean(el),
+        scrollTrigger:{trigger:el, start:'top 90%', once:true}});
+    });
+    if(nodes.length) ScrollTrigger.refresh();
+  }
+  animateCards();
+  addEventListener('mybyte:rendered', () => animateCards());
+
+  // --- 9. Subtle parallax depth on floating hero orbs layer ---
+  gsap.utils.toArray('.orb').forEach((orb, i) => {
+    gsap.to(orb, {yPercent: 12 + i*7, ease:'none',
+      scrollTrigger:{trigger:'body', start:'top top', end:'bottom bottom', scrub:true}});
+  });
+
+  // re-measure after images/fonts settle
+  addEventListener('load', () => ScrollTrigger.refresh());
 })();
 
 

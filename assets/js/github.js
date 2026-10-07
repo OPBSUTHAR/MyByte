@@ -85,6 +85,8 @@ function render(list){
   buildDots(fallbackFeatured.length);
   attachTilt();
   updateCarousel();
+  // let GSAP (main.js) animate the freshly injected cards
+  dispatchEvent(new CustomEvent('mybyte:rendered'));
   // update counters
   const stars = list.reduce((s,p)=> s + (p.stars||0), 0);
   document.querySelectorAll('[data-count]').forEach(el=>{
