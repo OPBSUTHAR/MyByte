@@ -321,6 +321,7 @@ window.handleContact = (e)=>{
     if(visual) tl.from(visual, {y:40, autoAlpha:0, duration:0.85}, '-=0.55');
     if(floats.length) tl.from(floats, {y:18, autoAlpha:0, duration:0.6, stagger:0.08}, '-=0.4');
     tl.eventCallback('onComplete', () => {
+      document.documentElement.classList.add('gsap-hero-done');
       clean(heroKids.concat(visual ? [visual] : [], floats));
     });
   }

@@ -749,6 +749,8 @@ p b, p strong, li b, .lead b{
 html.gsap-ready .reveal{transition:none !important}
 /* hero entrance — pre-hidden so there is no flash before GSAP sets up */
 html.gsap-ready .hero__copy > *, html.gsap-ready .hero .typed-line{visibility:hidden}
+/* ...and revealed again once GSAP's hero timeline finishes (higher specificity) */
+html.gsap-ready.gsap-hero-done .hero__copy > *, html.gsap-ready.gsap-hero-done .hero .typed-line{visibility:visible}
 @media (prefers-reduced-motion: reduce){
   html.gsap-ready .hero__copy > *, html.gsap-ready .hero .typed-line{visibility:visible}
 }
