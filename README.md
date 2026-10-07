@@ -11,7 +11,7 @@
 ## ✨ Features
 - ⚡ **Zero-build static** — HTML5 / CSS3 / modern vanilla JS (no heavy framework). Loads < 100ms, Lighthouse 95+ .
 - 🎨 **Premium UI** — dark/light theme, glassmorphism, animations, fully responsive (mobile-first)
-- 🔗 **GitHub-aware** — auto-fetches your 26 repos via GitHub API + Python generator (`tools/fetch_github.py`)
+- 🔗 **GitHub-aware** — auto-fetches your 42 repos via GitHub API + Python generator (`tools/fetch_github.py`)
 - 🔍 **SEO & perf** — semantic HTML, Open Graph, JSON-LD, sitemap ready, lazy images
 - 🚀 **GitHub Pages ready** — one-click deploy via `gh-pages` branch or Actions workflow
 

@@ -32,7 +32,7 @@ import * as THREE from 'three';
       right: {
         eyebrow: "Chapter II — Continued",
         title: "Agnirva NEAT 5.0 — AI for Indian Satellites",
-        body: `<p><b>Role:</b> Intern @ Agnirva (CHRIST) — BRD v0.2, Framewirk, 6-hat.</p><p><b>Process:</b> Week 1 ✓ → Business Analyst → prototype in <code>src/</code>.</p><div class="illu"><img src="https://picsum.photos/seed/parchment4/640/360" loading="lazy" alt="satellite"><figcaption>Plate IV — Earth observation</figcaption></div><p><a href="https://github.com/OPBSUTHAR/Agnirva-AI-Internship" target="_blank">Docs ↗</a></p>`,
+        body: `<p><b>Role:</b> Intern @ Agnirva (CHRIST) — BRD v0.2, Framewirk, 6-hat.</p><p><b>Process:</b> Week 1 ✓ → Business Analyst → prototype in <code>src/</code>.</p><div class="illu"><img src="https://picsum.photos/seed/parchment4/640/360" loading="lazy" alt="satellite"><figcaption>Plate IV — Earth observation</figcaption></div><p><a href="https://github.com/OPBSUTHAR/Satora" target="_blank">Docs ↗</a></p>`,
         chips: ["NEAT 5.0", "BRD"],
         num: "II — right"
       }

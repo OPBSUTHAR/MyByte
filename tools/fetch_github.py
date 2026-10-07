@@ -48,7 +48,7 @@ for x in filtered:
         "fork": x.get("fork", False),
     })
 # sort: stars desc then recently pushed
-mapped.sort(key=lambda a: (-a["stars"], a["updated"] or ""), reverse=False)
+mapped.sort(key=lambda a: (a["stars"], a["updated"] or ""), reverse=True)
 
 # keep top 30 for portfolio — keep forks + updated for realtime display
 out_data = [{k:v for k,v in m.items() if k!="fork"} for m in mapped[:30]]

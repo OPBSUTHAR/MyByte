@@ -9,193 +9,184 @@
     "updated": "2026-06-05T12:39:58Z"
   },
   {
-    "name": "railway",
+    "name": "MyByte",
+    "lang": "HTML",
+    "desc": "MyByte — Portfolio by Omprakash Suthar. Efficient GitHub Pages-ready portfolio (HTML/CSS/JS + Python tooling).",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/MyByte",
+    "updated": "2026-10-03T04:54:16Z"
+  },
+  {
+    "name": "Agri360",
+    "lang": "JavaScript",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/Agri360",
+    "updated": "2026-09-18T11:20:26Z"
+  },
+  {
+    "name": "LoRa_IoT_AgriSim",
     "lang": "Other",
-    "desc": "",
+    "desc": "LoRa IoT AgriSim - LoRa-based IoT Agricultural Simulation (sanitized, credentials hidden)",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/railway",
-    "updated": "2025-04-22T11:47:10Z"
+    "url": "https://github.com/OPBSUTHAR/LoRa_IoT_AgriSim",
+    "updated": "2026-09-15T18:57:41Z"
   },
   {
-    "name": "login-template",
-    "lang": "HTML",
-    "desc": "my first experience in git",
+    "name": "file-lock-app",
+    "lang": "Python",
+    "desc": "LockerFactory - Secure PDF Workspace & File Locker (CustomTkinter + pypdf + AES-GCM) - Convert images/txt/pdf to password-protected PDFs",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/login-template",
-    "updated": "2025-04-22T13:45:04Z"
+    "url": "https://github.com/OPBSUTHAR/file-lock-app",
+    "updated": "2026-09-15T18:40:06Z"
   },
   {
-    "name": "Econnect",
-    "lang": "HTML",
-    "desc": "",
+    "name": "SUTHARA_AI",
+    "lang": "Python",
+    "desc": "SUTHARA AI - Omni-Interactive System with Streamlit, Ollama, Vision & Voice",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/Econnect",
-    "updated": "2025-04-29T18:42:07Z"
+    "url": "https://github.com/OPBSUTHAR/SUTHARA_AI",
+    "updated": "2026-09-15T18:31:41Z"
   },
   {
-    "name": "student-teacher-appointment-booking",
-    "lang": "JavaScript",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/student-teacher-appointment-booking",
-    "updated": "2025-05-24T12:34:27Z"
-  },
-  {
-    "name": "electric-vehicle-recharge-bunk",
-    "lang": "Other",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/electric-vehicle-recharge-bunk",
-    "updated": "2025-05-25T04:32:07Z"
-  },
-  {
-    "name": "countdown-timer",
+    "name": "BioSite",
     "lang": "CSS",
-    "desc": "",
+    "desc": "BioSite - Personal portfolio / biosite",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/countdown-timer",
-    "updated": "2025-05-31T08:12:42Z"
+    "url": "https://github.com/OPBSUTHAR/BioSite",
+    "updated": "2026-09-15T18:27:08Z"
   },
   {
-    "name": "catering-reservation-and-order-system",
-    "lang": "HTML",
-    "desc": "",
+    "name": "BharatVista-Nexus",
+    "lang": "C",
+    "desc": "BharatVista Nexus - enterprise-grade open-data nexus for India and world (Pure C + SQLite + Leaflet/OSM). Codename project_C_osint. Uses only api.data.gov.in with API key, cached.",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/catering-reservation-and-order-system",
-    "updated": "2025-05-31T09:50:52Z"
+    "url": "https://github.com/OPBSUTHAR/BharatVista-Nexus",
+    "updated": "2026-09-15T18:20:11Z"
   },
   {
-    "name": "To-Do-Master",
-    "lang": "JavaScript",
-    "desc": "",
+    "name": "project-E",
+    "lang": "Python",
+    "desc": "Project E - Python apps including Neon Dungeon, Calculator, Expense Tracker, Snake Game",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/To-Do-Master",
-    "updated": "2025-06-01T02:55:07Z"
+    "url": "https://github.com/OPBSUTHAR/project-E",
+    "updated": "2026-09-15T18:07:06Z"
   },
   {
-    "name": "Tic-Tac-Toe-Game",
-    "lang": "CSS",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/Tic-Tac-Toe-Game",
-    "updated": "2025-06-01T04:43:15Z"
-  },
-  {
-    "name": "recipe-book",
-    "lang": "JavaScript",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/recipe-book",
-    "updated": "2025-06-01T05:39:18Z"
-  },
-  {
-    "name": "gym-management-system",
-    "lang": "HTML",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/gym-management-system",
-    "updated": "2025-06-12T13:08:51Z"
-  },
-  {
-    "name": "Basic-Calculator",
-    "lang": "JavaScript",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/Basic-Calculator",
-    "updated": "2025-06-13T03:41:40Z"
-  },
-  {
-    "name": "MemoryCardGame",
-    "lang": "HTML",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/MemoryCardGame",
-    "updated": "2025-06-27T04:16:13Z"
-  },
-  {
-    "name": "student-tracker",
+    "name": "Aviation_NLP_Project",
     "lang": "Python",
     "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/student-tracker",
-    "updated": "2025-07-28T04:33:57Z"
+    "url": "https://github.com/OPBSUTHAR/Aviation_NLP_Project",
+    "updated": "2026-09-15T18:02:36Z"
   },
   {
-    "name": "priority_scheduler",
+    "name": "delhivery-pipeline",
+    "lang": "Python",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/delhivery-pipeline",
+    "updated": "2026-09-15T17:59:14Z"
+  },
+  {
+    "name": "data-enginnering",
+    "lang": "Python",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/data-enginnering",
+    "updated": "2026-09-15T17:54:26Z"
+  },
+  {
+    "name": "crimeintel-ai",
+    "lang": "Python",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/crimeintel-ai",
+    "updated": "2026-09-15T17:47:57Z"
+  },
+  {
+    "name": "ai-scanner",
+    "lang": "Python",
+    "desc": "\"AI-powered document scanner with edge detection, OCR, classification, and cloud sync\"",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/ai-scanner",
+    "updated": "2026-09-15T17:35:28Z"
+  },
+  {
+    "name": "DataZen",
     "lang": "HTML",
     "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/priority_scheduler",
-    "updated": "2025-09-02T06:18:35Z"
+    "url": "https://github.com/OPBSUTHAR/DataZen",
+    "updated": "2026-09-15T17:30:09Z"
   },
   {
-    "name": "ledgerly",
-    "lang": "Other",
+    "name": "cannibals-missionaries",
+    "lang": "CSS",
     "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/ledgerly",
-    "updated": "2026-05-29T10:17:25Z"
+    "url": "https://github.com/OPBSUTHAR/cannibals-missionaries",
+    "updated": "2026-09-15T17:23:34Z"
   },
   {
-    "name": "SynchroGroundedNet",
-    "lang": "TypeScript",
-    "desc": "infrastructural safety system with space, power.",
+    "name": "Satora",
+    "lang": "Python",
+    "desc": "Agnirva AI Internship NEAT 5.0 — AI for Indian Satellites | Framewirk micro-movements | 6-hat artifacts | Christ University",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/SynchroGroundedNet",
-    "updated": "2026-06-05T10:25:04Z"
+    "url": "https://github.com/OPBSUTHAR/Satora",
+    "updated": "2026-09-15T17:19:46Z"
   },
   {
-    "name": "SpaceFlightMonitor",
-    "lang": "JavaScript",
+    "name": "student-registration",
+    "lang": "CSS",
+    "desc": "Simple Python Flask application for student registration with browser storage",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/student-registration",
+    "updated": "2026-09-15T04:35:04Z"
+  },
+  {
+    "name": "salary-prediction",
+    "lang": "HTML",
     "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/SpaceFlightMonitor",
-    "updated": "2026-07-26T16:30:41Z"
+    "url": "https://github.com/OPBSUTHAR/salary-prediction",
+    "updated": "2026-09-15T04:28:12Z"
   },
   {
-    "name": "Krishi-Gati-AI",
-    "lang": "JavaScript",
+    "name": "sarathi-ll-face-simulator",
+    "lang": "Python",
+    "desc": "Sarathi Parivahan LL Face Authentication Simulator - Local practice aid mimicking SmartLock/Aadhaar eKYC with OpenCV, live oval guide, match scoring, and auto-tracking",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/sarathi-ll-face-simulator",
+    "updated": "2026-09-15T03:35:16Z"
+  },
+  {
+    "name": "cyber",
+    "lang": "HTML",
     "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/Krishi-Gati-AI",
-    "updated": "2026-08-07T04:50:01Z"
-  },
-  {
-    "name": "Aviation_NLP_Project",
-    "lang": "Other",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/Aviation_NLP_Project",
-    "updated": "2026-08-18T10:52:50Z"
-  },
-  {
-    "name": "AstraForge",
-    "lang": "TypeScript",
-    "desc": "",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/AstraForge",
-    "updated": "2026-08-27T07:48:05Z"
+    "url": "https://github.com/OPBSUTHAR/cyber",
+    "updated": "2026-09-10T14:09:16Z"
   },
   {
     "name": "Expense-Tracker",
@@ -207,57 +198,75 @@
     "updated": "2026-08-27T09:21:06Z"
   },
   {
-    "name": "cannibals-missionaries",
-    "lang": "CSS",
+    "name": "AstraForge",
+    "lang": "TypeScript",
     "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/cannibals-missionaries",
-    "updated": "2026-08-30T07:14:28Z"
+    "url": "https://github.com/OPBSUTHAR/AstraForge",
+    "updated": "2026-08-27T07:48:05Z"
   },
   {
-    "name": "crimeintel-ai",
-    "lang": "Python",
+    "name": "Krishi-Gati-AI",
+    "lang": "JavaScript",
     "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/crimeintel-ai",
-    "updated": "2026-09-02T07:16:01Z"
+    "url": "https://github.com/OPBSUTHAR/Krishi-Gati-AI",
+    "updated": "2026-08-07T04:50:01Z"
   },
   {
-    "name": "MyByte",
+    "name": "SpaceFlightMonitor",
+    "lang": "JavaScript",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/SpaceFlightMonitor",
+    "updated": "2026-07-26T16:30:41Z"
+  },
+  {
+    "name": "SynchroGroundedNet",
+    "lang": "TypeScript",
+    "desc": "infrastructural safety system with space, power.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/SynchroGroundedNet",
+    "updated": "2026-06-05T10:25:04Z"
+  },
+  {
+    "name": "ledgerly",
+    "lang": "Other",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/ledgerly",
+    "updated": "2026-05-29T10:17:25Z"
+  },
+  {
+    "name": "priority_scheduler",
     "lang": "HTML",
-    "desc": "MyByte — Portfolio by Omprakash Suthar. Efficient GitHub Pages-ready portfolio (HTML/CSS/JS + Python tooling).",
+    "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/MyByte",
-    "updated": "2026-09-04T12:52:16Z"
+    "url": "https://github.com/OPBSUTHAR/priority_scheduler",
+    "updated": "2025-09-02T06:18:35Z"
   },
   {
-    "name": "ai-scanner",
+    "name": "student-tracker",
     "lang": "Python",
-    "desc": "\"AI-powered document scanner with edge detection, OCR, classification, and cloud sync\"",
+    "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/ai-scanner",
-    "updated": "2026-09-05T08:53:27Z"
+    "url": "https://github.com/OPBSUTHAR/student-tracker",
+    "updated": "2025-07-28T04:33:57Z"
   },
   {
-    "name": "Agnirva-AI-Internship",
-    "lang": "Python",
-    "desc": "Agnirva AI Internship NEAT 5.0 — AI for Indian Satellites | Framewirk micro-movements | 6-hat artifacts | Christ University",
+    "name": "MemoryCardGame",
+    "lang": "HTML",
+    "desc": "",
     "stars": 0,
     "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/Agnirva-AI-Internship",
-    "updated": "2026-09-05T10:11:38Z"
-  },
-  {
-    "name": "BharatVista-Nexus",
-    "lang": "C",
-    "desc": "BharatVista Nexus - enterprise-grade open-data nexus for India and world (Pure C + SQLite + Leaflet/OSM). Codename project_C_osint. Uses only api.data.gov.in with API key, cached.",
-    "stars": 0,
-    "forks": 0,
-    "url": "https://github.com/OPBSUTHAR/BharatVista-Nexus",
-    "updated": "2026-09-06T11:30:03Z"
+    "url": "https://github.com/OPBSUTHAR/MemoryCardGame",
+    "updated": "2025-06-27T04:16:13Z"
   }
 ]
