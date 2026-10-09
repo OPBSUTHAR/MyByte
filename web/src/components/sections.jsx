@@ -14,39 +14,39 @@ export function Vision() {
     <section id="vision" className="section">
       <div className="container">
         <div className="section__eyebrow">00 — North Star • Why I Build</div>
-        <div className="bento" style={{ gridTemplateColumns: '1.2fr .8fr' }}>
-          <Reveal className="paper-anim" style={{ background: 'linear-gradient(180deg,#fffef8,#fefce8)', border: '1px solid #e7e5e4', borderRadius: 24, padding: 22, boxShadow: '0 8px 24px rgba(0,0,0,.08)', color: '#1c1917' }}>
-            <h2 style={{ fontFamily: 'Fraunces,serif', fontSize: 'clamp(1.8rem,4vw,2.8rem)', lineHeight: .92, letterSpacing: '-.04em', margin: 0, color: '#1c1917' }}>
-              Byte-scale craft.<br /><span className="grad">Bharat-scale problems.</span>
-            </h2>
-            <p style={{ marginTop: 14, fontSize: '1.02rem', lineHeight: 1.65, color: '#44403c' }}>
+        <div className="bento">
+          <Reveal className="bento__main">
+            <h2>Byte-scale craft.<br /><span className="accent-text">Bharat-scale problems.</span></h2>
+            <p>
               Most portfolios show <em>what</em> I built. I want to show <em>why</em>. My ambition is to build <b>intelligent systems that are fast, frugal and field-ready</b> — that work when the internet doesn't, on low compute, for people who need it most — farmer in Rajasthan, controller at airport, student without laptop.
             </p>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 16 }}>
+            <div className="chips">
               {['Frugal AI — offline-first, ≤30KB', 'Real users, real constraints', "Ship live or it didn't happen"].map((t) => (
-                <span key={t} style={{ border: '1px solid var(--line)', background: 'var(--card2)', padding: '7px 12px', borderRadius: 999, fontWeight: 700, fontSize: '.82rem' }}>{t}</span>
+                <span key={t}>{t}</span>
               ))}
             </div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 18, flexWrap: 'wrap' }}>
+            <div className="row-gap">
               <a href="#infinity" className="btn btn--primary magnetic">My ∞ 8 elements →</a>
               <a href="#about" className="btn btn--ghost">2026–30 roadmap</a>
             </div>
           </Reveal>
 
-          <Reveal from="right" delay={90} style={{ display: 'grid', gap: 14 }}>
-            <div style={{ background: 'linear-gradient(135deg,#06b6d4,#7c3aed 55%,#f59e0b)', color: '#fff', borderRadius: 20, padding: 20, position: 'relative', overflow: 'hidden' }}>
-              <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: '.68rem', letterSpacing: '.14em', opacity: .92 }}>MYBYTE PRINCIPLE</div>
-              <div style={{ fontFamily: 'Fraunces,serif', fontSize: '1.45rem', lineHeight: 1.02, marginTop: 10, fontWeight: 900 }}>“Precision &amp; polish<br />over noise.<br />If it doesn't ship live,<br />it doesn't count.”</div>
-              <div style={{ marginTop: 14, fontSize: '.86rem', opacity: .9 }}>Every project is live and deployed. — <b>Omprakash</b></div>
-            </div>
-            <div style={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 18, padding: 16, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              {[['3rd Year BCA', 'CHRIST Yeshwantpur • 2024–27'], ['AI + Systems', 'Pure C • Python • JS/TS'], ['29', 'Repos shipped • 2 new'], ['Yeshwantpur → Global', 'Bengaluru • On-Campus']].map(([b, s]) => (
-                <div key={b}><b style={{ fontSize: '1.35rem' }}>{b}</b><br /><span className="muted small">{s}</span></div>
-              ))}
-            </div>
-            <div style={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 14, padding: '12px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span className="muted small" style={{ fontWeight: 700 }}>NEXT: Seeking 2026 internships &amp; collabs in AI / Space / AgTech</span>
-              <a href="#contact" className="btn btn--sm btn--primary">Hire me</a>
+          <Reveal from="right" delay={90}>
+            <div className="stack-gap">
+              <div className="principle-card">
+                <div className="principle-card__label">MYBYTE PRINCIPLE</div>
+                <div className="principle-card__quote">“Precision &amp; polish<br />over noise.<br />If it doesn't ship live,<br />it doesn't count.”</div>
+                <div className="principle-card__sig">Every project is live and deployed. — <b>Omprakash</b></div>
+              </div>
+              <div className="stat-grid">
+                {[['3rd Year BCA', 'CHRIST Yeshwantpur • 2024–27'], ['AI + Systems', 'Pure C • Python • JS/TS'], ['29', 'Repos shipped • 2 new'], ['Yeshwantpur → Global', 'Bengaluru • On-Campus']].map(([b, s]) => (
+                  <div key={b}><b>{b}</b><br /><span className="muted small">{s}</span></div>
+                ))}
+              </div>
+              <div className="next-banner">
+                <span className="muted small" style={{ fontWeight: 700 }}>NEXT: Seeking 2026 internships &amp; collabs in AI / Space / AgTech</span>
+                <a href="#contact" className="btn btn--sm btn--primary">Hire me</a>
+              </div>
             </div>
           </Reveal>
         </div>
@@ -59,6 +59,31 @@ export function Vision() {
 export function InfinitySection() {
   const labels = ['Land', 'Infra', 'Power', 'AI', 'Agri', 'Space', 'Move', 'Ocean'];
   const [active, setActive] = useState(null);
+  const svgRef = useRef(null);
+  const travelerRef = useRef(null);
+
+  // traveling light particle along the ∞ path
+  useEffect(() => {
+    if (prefersReduce()) return;
+    const path = svgRef.current?.querySelector('.free-infinity__path');
+    const dot = travelerRef.current;
+    if (!path || !dot) return;
+    let raf;
+    const start = performance.now();
+    const tick = (t) => {
+      const len = path.getTotalLength();
+      const p = ((t - start) / 7000) % 1;
+      const pt = path.getPointAtLength(p * len);
+      const rect = svgRef.current.getBoundingClientRect();
+      const sx = rect.width / 400;
+      const sy = rect.height / 140;
+      dot.style.transform = `translate(${pt.x * sx}px, ${pt.y * sy}px) translate(-50%,-50%)`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   return (
     <section id="infinity" className="section infinity">
       <div className="container">
@@ -66,35 +91,27 @@ export function InfinitySection() {
           <div className="infinity__hero">
             <div>
               <div className="infinity__badge">Focus Areas</div>
-              <h2 style={{ fontFamily: 'Fraunces,serif', fontSize: 'clamp(1.9rem,4vw,2.6rem)', lineHeight: .96, margin: '10px 0', letterSpacing: '-.03em' }}>
-                Eight Focus Areas — <span className="grad">One System</span>
-              </h2>
-              <p className="muted" style={{ fontSize: '1.01rem', lineHeight: 1.6 }}>
+              <h2>Eight Focus Areas — <span className="accent-text">One System</span></h2>
+              <p className="muted">
                 A unified practice across <b>Land, Infrastructure, Power, AI/ML/DL/NLP, Agriculture, Space, Transportation and Ocean</b> — each a node on a continuous, disciplined loop.
               </p>
               <div className="infinity__labels">
                 <span className="hl">∞ Land</span><span>Infrastructure</span><span>Power</span><span>AI/ML</span><span>Agriculture</span><span>Space</span><span>Transportation</span><span>Ocean</span>
               </div>
               <p className="muted small" style={{ marginTop: 10 }}>Research → Prototype → Ship → Iterate — across all eight domains</p>
-              <div style={{ display: 'flex', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
+              <div className="row-gap">
                 <a href="#domains" className="btn btn--primary magnetic">Explore 8 domains →</a>
                 <a href="#about" className="btn btn--ghost">Why ∞ ?</a>
               </div>
             </div>
 
             <div className="infinity__symbol infinity__symbol--free" aria-hidden="true">
-              <div className="free-infinity">
+              <div className="free-infinity" ref={svgRef}>
                 <svg viewBox="0 0 400 140" className="free-infinity__svg" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="negGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#06b6d4" stopOpacity=".85" />
-                      <stop offset="50%" stopColor="#7c3aed" stopOpacity=".85" />
-                      <stop offset="100%" stopColor="#0ea5e9" stopOpacity=".85" />
-                    </linearGradient>
-                  </defs>
                   <motion.path
                     d="M 70 70 C 70 18, 168 8, 200 70 C 232 132, 330 122, 330 70 C 330 18, 232 8, 200 70 C 168 132, 70 122, 70 70 Z"
-                    fill="none" stroke="url(#negGrad)" strokeWidth="3.2" strokeLinecap="round"
+                    fill="none"
+                    className="free-infinity__path"
                     initial={{ pathLength: 0, opacity: 0 }}
                     whileInView={{ pathLength: 1, opacity: 1 }}
                     viewport={{ once: true, amount: 0.4 }}
@@ -110,6 +127,7 @@ export function InfinitySection() {
                   <circle cx="200" cy="70" r="10" fill="var(--card)" stroke="var(--line)" strokeWidth="1.2" />
                   <text x="200" y="74" textAnchor="middle" fontFamily="Fraunces,serif" fontSize="13" fontWeight="800" fill="var(--text)">∞</text>
                 </svg>
+                <div ref={travelerRef} className="traveler" aria-hidden="true" />
                 <div className="free-infinity__labels">{labels.map((l, i) => <span key={l} style={active === i ? { color: 'var(--primary)' } : undefined}>{l}</span>)}</div>
               </div>
             </div>
@@ -168,7 +186,7 @@ export function Domains() {
 
         <div className="domains__viewport">
           <div className="domains__track" ref={trackRef}>
-            {DOMAINS.map((d, i) => (
+            {DOMAINS.map((d) => (
               <Reveal
                 key={d.h}
                 as="article"
@@ -176,12 +194,12 @@ export function Domains() {
                 delay={0}
                 duration={0.5}
               >
-                <div className="domain__icon" style={{ background: d.grad }}>{d.id}</div>
+                <div className="domain__icon">{d.id}</div>
                 <div className="domain__head"><h3>{d.h}</h3><span>{d.tag}</span></div>
                 <p>{d.p}</p>
                 <div className="tags">{d.tags.map((t) => <span key={t}>{t}</span>)}</div>
                 <a href="#work" className="domain__link">View {d.h.split(' ')[0]} →</a>
-                <span className="domain__index">0{i + 1} / 08</span>
+                <span className="domain__index">{String(DOMAINS.indexOf(d) + 1).padStart(2, '0')} / 08</span>
               </Reveal>
             ))}
           </div>
@@ -203,9 +221,9 @@ export function Cases() {
         <div className="case-grid">
           {CASES.map((c, i) => (
             <Reveal key={c.h} as="article" className="case" from="scale" delay={i * 0.09}>
-              <div className="case__bar" style={{ background: c.bar }} />
+              <div className="case__bar" />
               <div className="case__body">
-                <div className="case__eyebrow" style={{ color: c.color }}>{c.eyebrow}</div>
+                <div className="case__eyebrow">{c.eyebrow}</div>
                 <h3>{c.h}</h3>
                 <p className="muted">{c.p}</p>
                 <div className="case__stats">{c.tags.map((t) => <span key={t}>{t}</span>)}</div>
@@ -222,7 +240,7 @@ export function Cases() {
   );
 }
 
-/* ---------------- 06 GOALS ---------------- */
+/* ---------------- 05 GOALS ---------------- */
 export function Goals() {
   return (
     <section id="goals" className="section section--alt">
@@ -264,7 +282,7 @@ export function Stack() {
             </Reveal>
           ))}
         </div>
-        <Reveal className="hire" style={{ marginTop: 18, background: 'var(--card)', border: '1px solid var(--line)', borderRadius: 16, padding: 16, display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'space-between', alignItems: 'center' }}>
+        <Reveal className="hire">
           <div><b>What I can do for you in 2 weeks:</b> <span className="muted">Landing + live demo + analytics, or OCR prototype, or dashboard refactor — all shipped.</span></div>
           <a href="#contact" className="btn btn--primary">Start a project →</a>
         </Reveal>
@@ -352,7 +370,7 @@ export function Contact() {
           <label>Name<input name="name" required placeholder="Omprakash" /></label>
           <label>Email<input name="email" type="email" required placeholder="you@example.com" /></label>
           <label>Budget / Timeline
-            <select name="budget" defaultValue="Just exploring" style={{ padding: '11px 12px', borderRadius: 12, border: '1px solid var(--line)', background: 'var(--card)', color: 'var(--text)', font: 'inherit' }}>
+            <select name="budget" defaultValue="Just exploring">
               <option>Just exploring</option><option>&lt; ₹25k — 1 week sprint</option><option>₹25k–1L — 2–4 weeks</option><option>Internship / Full-time</option><option>Collab / OSS</option>
             </select>
           </label>

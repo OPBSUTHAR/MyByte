@@ -27,7 +27,7 @@ const HELP = [
   ['$', 'ls', '— what is in this repo'],
   ['$', 'sudo hire', '— try it. seriously.'],
   ['$', 'run demo', '— confetti protocol'],
-  ['$', 'theme <obsidian|bone|cyber>', '— material switcher'],
+  ['$', 'theme <dark|light>', '— material switcher'],
   ['$', 'frugal = <true|false>', '— toggle the build budget'],
   ['$', 'clear', '— wipe the terminal'],
 ];
@@ -187,13 +187,13 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
 
     if (cmd === 'theme') {
       const t = arg.toLowerCase();
-      if (['obsidian', 'bone', 'cyber'].includes(t)) {
+      if (['dark', 'light'].includes(t)) {
         setTheme(t);
         stateRef.current.onTheme?.(t);
         print([[ 'n', `✓ material switched → ${t}. The stone remembers.` ]]);
         stateRef.current.onCommand?.(`theme ${t}`);
       } else {
-        print([[ 'n', `theme: unknown material '${arg || '?'}'. Try: obsidian · bone · cyber.` ]]);
+        print([[ 'n', `theme: unknown material '${arg || '?'}'. Try: dark · light.` ]]);
       }
       return;
     }

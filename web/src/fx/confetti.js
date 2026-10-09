@@ -17,7 +17,7 @@ function ensureCanvas() {
   addEventListener('resize', resize);
 }
 
-const COLORS = ['#C2FF04', '#06b6d4', '#FF6B00', '#7c3aed', '#f59e0b', '#EAE8E1'];
+const COLORS = ['#00E599', '#FFFFFF', '#9BA0A8', '#34D399', '#1E2025'];
 
 export function confettiBurst({ x = innerWidth / 2, y = innerHeight * 0.3, count = 90, spread = Math.PI * 2, power = 11 } = {}) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;

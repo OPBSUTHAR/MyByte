@@ -11,11 +11,12 @@
 **You do not ask the user to test, run, or push. You DO it automatically.**
 
 Every task that changes code/docs/assets MUST end with:
-1. **Test/verify** locally
-2. **If all checks pass → commit + push** to `origin/main` automatically. No manual prompt.
-3. **After push → start app in another terminal** automatically so user can see it live. No repetition needed.
+1. **Test/verify** locally (build + static checks — the app is NOT run locally)
+2. **If all checks pass → commit + push** to `origin/main` automatically. Vercel auto-deploys. No manual prompt.
 
-If tests fail, fix and re-test until green before pushing/running.
+**Do NOT start a local dev server / preview server after updates** — the user tests the live Vercel deployment themselves and reports back.
+
+If tests fail, fix and re-test until green before pushing.
 
 ---
 
@@ -68,38 +69,12 @@ git commit -m "feat: <concise what changed> — verified & live"
 git push origin main
 ```
 
-Then **start app in another terminal** so user can see it live with **clickable link** (serve the built app):
-
-```bash
-# Windows PowerShell — new window on port 8000 WITH clickable link (CLOSE previous terminals first)
-# 1) Close previously opened MyByte terminals + kill old servers on 8000/8001 (no stacking)
-Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like "*MyByte live at*" } | ForEach-Object { try { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }
-Get-CimInstance Win32_Process -Filter "Name='python.exe'" -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like "*http.server 8000*" -or $_.CommandLine -like "*http.server 8001*" } | ForEach-Object { try { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }
-Get-NetTCPConnection -LocalPort 8000 -ErrorAction SilentlyContinue | ForEach-Object { try { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue } catch {} }
-Get-NetTCPConnection -LocalPort 8001 -ErrorAction SilentlyContinue | ForEach-Object { try { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue } catch {} }
-Start-Sleep -Seconds 1
-# 2) Launch ONE new terminal that prints clickable URL first, then serves the built app
-Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command","Write-Host '🚀 MyByte live at http://localhost:8000 — Ctrl+Click to open (or Cmd+Click on Mac)'; Write-Host '   Also: http://127.0.0.1:8000'; py -m http.server 8000 --directory web/dist" -WorkingDirectory "C:\vs code\MyByte"
-# 3) verify it started (prints 200 + clickable link in THIS terminal too)
-Start-Sleep -Seconds 1; Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/ | Select-Object StatusCode
-Write-Host "✅ Live at http://localhost:8000 — Ctrl+Click to open"
-# If busy, fallback to 8001 with same clickable pattern + same close logic:
-# Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command","Write-Host '🚀 MyByte live at http://localhost:8001 — Ctrl+Click'; py -m http.server 8001 --directory web/dist" -WorkingDirectory "C:\vs code\MyByte"
-```
-
 Rules for push:
 - Stage only intended files (never secrets/`.env`, `__pycache__/`, `.venv/`).
 - Commit message: concise, imperative, includes `verified`.
 - Do NOT force-push, do NOT amend failed commits — create new commit.
 - If `git push` fails (auth/network), report and retry once.
-
-Rules for run:
-- ALWAYS start app after push, even if user didn't ask.
-- If port 8000 busy, try 8001: `py -m http.server 8001 --directory web/dist` (with same clickable link on 8001)
-- Log the URL (`http://localhost:8000`) in final response AND print clickable link in both new terminal and current terminal.
-- Do NOT block agent on server — run detached (`Start-Process -FilePath "powershell" -ArgumentList "-NoExit","-Command",...`).
-- The new terminal MUST show `http://localhost:8000` as first line so user can Ctrl+Click immediately.
-- ALWAYS close previously opened MyByte terminals + kill old servers on 8000/8001 before starting new — no stacking, only ONE live window. Use `Get-CimInstance Win32_Process` filter `*MyByte live at*`.
+- Report the live URL (https://my-byte.vercel.app) in the final response — do NOT start any local server.
 
 ## 4. Style & Constraints
 

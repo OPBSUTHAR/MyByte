@@ -74,7 +74,7 @@ export default function Resume() {
             <span style={{ fontWeight: 700 }}>Land • Infrastructure • Power • AI/ML/DL/NLP/Tech • Agriculture • Space • Transportation • Ocean</span><br />
             <span className="muted small">∞ = continuous, interconnected, never-ending — loops through all 8.</span>
           </div>
-          <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--grad2)', color: '#fff', display: 'grid', placeItems: 'center', fontWeight: 900, fontSize: '1.5rem', flexShrink: 0 }}>∞</div>
+          <div className="infinity-badge">∞</div>
         </Reveal>
 
         <div className="resume-grid" style={{ marginTop: 18 }}>
@@ -83,7 +83,7 @@ export default function Resume() {
               <h3><i>∞</i> Career Field — 8 Elements</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
                 {['Land', 'Infrastructure', 'Power', 'AI/ML/DL/NLP/Tech', 'Agriculture', 'Space', 'Transportation', 'Ocean'].map((e, i) => (
-                  <span key={e} style={{ border: '1px solid var(--line)', background: i === 3 ? 'var(--grad2)' : 'var(--card2)', color: i === 3 ? '#fff' : 'inherit', borderColor: i === 3 ? 'transparent' : undefined, padding: '6px 10px', borderRadius: 999, fontWeight: 700, fontSize: '.8rem' }}>{e}</span>
+                  <span key={e} className={`elem-chip ${i === 3 ? 'elem-chip--active' : ''}`}>{e}</span>
                 ))}
               </div>
               <p className="muted small" style={{ marginTop: 10 }}><b>∞ life symbol:</b> infinite loop — Land grounds, Infra connects, Power fuels, AI thinks, Agri feeds, Space guides, Transport moves, Ocean sustains — one continuous system.</p>

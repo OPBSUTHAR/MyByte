@@ -164,19 +164,6 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, theme }) {
         </div>
 
         <div className="hero__visual" ref={visual}>
-          <div className="tech-orbit" aria-hidden="true">
-            {['Pure C', 'AI', 'TS', 'Python', 'OCR', 'Satellites'].map((b, i) => (
-              <motion.span
-                key={b}
-                className={`orbit-badge b${i + 1}`}
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 5 + i * 0.4, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                {b}
-              </motion.span>
-            ))}
-          </div>
-
           <Terminal ready={ready} onCommand={onCommand} onTheme={onTheme} onFrugal={onFrugal} initialTheme={theme} />
 
           <motion.div className="profile-float anim-float" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>

@@ -89,14 +89,3 @@ html.lenis, html.lenis body { height: auto; }
 
 /* story book leaves need the page bg on backs too */
 .leaf__front,.leaf__back{background:linear-gradient(105deg,#F3E9D2 0%,#EDE2C8 55%,#E4D5B5 100%)}
-
-/* cyber material (terminal: theme cyber) */
-html.cyber body{
-  --bg:#0A0A14; --bg2:#0E0E1C; --card:#141428; --card2:#1A1A32;
-  --text:#E6E6FA; --muted:#8A8AB0; --line:#26264A;
-  --primary:#00E5FF; --violet:#B266FF; --amber:#FF6B00;
-  --grad:linear-gradient(135deg,#00E5FF,#B266FF 55%,#FF6B00);
-  --grad2:linear-gradient(135deg,#00E5FF,#B266FF);
-}
-html.cyber .grad{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
-html.cyber .orb{opacity:.4}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { useRoute, navigate } from '../router';
+import ThemeToggle from './ThemeToggle';
 
 const SECTIONS = [
   { id: 'vision', label: 'Vision' },
@@ -80,9 +81,7 @@ export default function Nav({ theme, onToggleTheme }) {
         </nav>
 
         <div className="nav__actions">
-          <button className="icon-btn" aria-label="Toggle theme" onClick={onToggleTheme}>
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </button>
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} />
           <button className="icon-btn nav__burger" aria-label="Menu" onClick={() => setOpen((o) => !o)}>☰</button>
         </div>
       </div>

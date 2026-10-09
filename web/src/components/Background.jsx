@@ -47,7 +47,7 @@ export default function Background() {
         if (p.x < 0 || p.x > w) p.vx *= -1;
         if (p.y < 0 || p.y > h) p.vy *= -1;
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.r > 1.2 ? 'rgba(194,255,4,.9)' : 'rgba(6,182,214,.75)';
+        ctx.fillStyle = p.r > 1.2 ? 'rgba(0,229,153,.9)' : 'rgba(0,229,153,.55)';
         ctx.fill();
       }
       // links
@@ -58,7 +58,7 @@ export default function Background() {
           const d = Math.hypot(p.x - q.x, p.y - q.y);
           if (d < 140) {
             ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(194,255,4,${(1 - d / 140) * 0.14})`;
+            ctx.strokeStyle = `rgba(0,229,153,${(1 - d / 140) * 0.12})`;
             ctx.lineWidth = 1; ctx.stroke();
           }
         }
@@ -79,7 +79,7 @@ export default function Background() {
     };
   }, []);
 
-  // orb + chip scroll parallax — desktop only, each layer at its own depth
+  // orb scroll parallax — desktop only
   useEffect(() => {
     if (prefersReduce() || !desktop) return;
     const tweens = gsap.utils.toArray('.orb').map((orb, i) =>
@@ -87,14 +87,7 @@ export default function Background() {
         yPercent: 12 + i * 7, ease: 'none',
         scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: true },
       }));
-    const chips = gsap.utils.toArray('.parallax-chip').map((chip) => {
-      const depth = Number(chip.dataset.depth || 20);
-      return gsap.to(chip, {
-        yPercent: depth, ease: 'none',
-        scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: true },
-      });
-    });
-    return () => tweens.concat(chips).forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
+    return () => tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
   }, [desktop]);
 
   return (
@@ -106,11 +99,6 @@ export default function Background() {
         <div className="orb orb--2" />
         <div className="orb orb--3" />
         <div className="grid-fade" />
-        <span className="parallax-chip" data-depth="-24" style={{ top: '14%', left: '5%' }}>Pure C</span>
-        <span className="parallax-chip" data-depth="32" style={{ top: '26%', right: '6%' }}>SGP4</span>
-        <span className="parallax-chip" data-depth="-14" style={{ top: '52%', left: '8%' }}>∞ loop</span>
-        <span className="parallax-chip" data-depth="22" style={{ top: '64%', right: '9%' }}>SQLite</span>
-        <span className="parallax-chip" data-depth="-30" style={{ top: '82%', left: '12%' }}>OCR</span>
       </div>
     </>
   );

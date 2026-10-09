@@ -10,13 +10,14 @@ import Background from './components/Background';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import Highlights from './components/Highlights';
-import AnimationLab from './components/AnimationLab';
 import Showcase from './components/Showcase';
 import Work from './components/Work';
 import Modal from './components/Modal';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
 import QuestHud from './components/QuestHud';
+import Spotlight from './components/Spotlight';
+import ThemeToggle from './components/ThemeToggle';
 import { Vision, InfinitySection, Domains, Cases, Goals, Stack, About, Journey, Contact } from './components/sections';
 import Resume from './pages/Resume';
 import Story from './pages/Story';
@@ -40,10 +41,7 @@ export default function App() {
   const quest = useQuest();
   const visits = useVisits();
 
-  const [theme, setTheme] = useState(() => {
-    const t = localStorage.getItem('theme');
-    return t === 'bone' || t === 'cyber' ? t : 'obsidian';
-  });
+  const [theme, setTheme] = useState(() => (localStorage.getItem('theme') === 'light' ? 'light' : 'dark'));
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
   const [ready, setReady] = useState(false);
@@ -53,11 +51,9 @@ export default function App() {
 
   useLenis();
 
-  // theme → data-theme + cyber class
+  // theme → data-theme
   useEffect(() => {
-    const root = document.documentElement;
-    root.setAttribute('data-theme', theme === 'bone' ? 'light' : 'dark');
-    root.classList.toggle('cyber', theme === 'cyber');
+    document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -142,13 +138,13 @@ export default function App() {
     domainLabel,
   }), [projects, quest]);
 
-  const cycleTheme = useCallback(() => {
-    setTheme((t) => (t === 'obsidian' ? 'bone' : t === 'bone' ? 'cyber' : 'obsidian'));
+  const toggleTheme = useCallback(() => {
+    setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
     quest.award('theme');
   }, [quest]);
 
   const handleTerminalTheme = useCallback((t) => {
-    setTheme(t);
+    setTheme(t === 'light' ? 'light' : 'dark');
   }, []);
 
   const handleFrugal = useCallback((v) => {
@@ -184,7 +180,6 @@ export default function App() {
       <Work />
       <Goals />
       <Stack />
-      <AnimationLab />
       <About />
       <Journey />
       <Contact />
@@ -196,10 +191,11 @@ export default function App() {
       <ProjectsContext.Provider value={ctx}>
         <div id="progress" />
         <Background />
+        <Spotlight />
         <div className="grain" aria-hidden="true" />
         {!ready && <Preloader onDone={handleReady} />}
         <Cursor />
-        <Nav theme={theme} onToggleTheme={cycleTheme} />
+        <Nav theme={theme} onToggleTheme={toggleTheme} />
 
         <main>
           {route === '/' && home}
