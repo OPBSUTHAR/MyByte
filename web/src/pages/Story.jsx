@@ -5,7 +5,7 @@ import AncientBook from '../components/AncientBook';
 export default function Story() {
   return (
     <section className="section story-page">
-      <div className="container">
+      <div className="story-section-container">
         <div className="section__eyebrow">Story • Ancient Book — ∞ 8 Elements</div>
         <h1 style={{ fontFamily: 'Fraunces,serif', fontSize: 'clamp(2rem,4vw,3rem)', margin: 0 }}>
           Stories as <span className="grad">manuscripts</span>

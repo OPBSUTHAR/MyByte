@@ -108,6 +108,36 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
     if (el) el.scrollTop = el.scrollHeight;
   }, [lines, typed, phase]);
 
+  // re-run the full compile sequence (click anywhere in the window)
+  const rerun = useCallback(() => {
+    if (prefersReduce()) return;
+    setLines([]);
+    setTyped(0);
+    setSecs(0);
+    setPhase('typing');
+    let i = 0;
+    const tick = () => {
+      i += 1;
+      setTyped(i);
+      if (i < BANNER.length) {
+        setTimeout(tick, 110 + Math.random() * 80);
+      } else {
+        setPhase('compiling');
+        const started = performance.now();
+        const count = setInterval(() => {
+          const v = (performance.now() - started) / 1000;
+          setSecs(Math.min(0.8, v));
+          if (v >= 0.8) {
+            clearInterval(count);
+            setSecs(0.8);
+            setPhase('live');
+          }
+        }, 60);
+      }
+    };
+    setTimeout(tick, 200);
+  }, []);
+
   // 3D tilt (heavy slab physics — high damping spring-back)
   useEffect(() => {
     const card = cardRef.current;
@@ -237,7 +267,8 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
       ref={cardRef}
       className={`glass-card code-card tilt tilt--3d ${live ? 'code-card--live' : ''}`}
       data-cursor="code"
-      onClick={() => inputRef.current?.focus()}
+      onClick={(e) => { e.stopPropagation(); rerun(); inputRef.current?.focus(); }}
+      title='Click to recompile · type "help"'
     >
       <div className="code-card__bar">
         <span /><span /><span />
@@ -284,8 +315,8 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
       </pre>
 
       <div className="code-card__foot">
-        <span className={`badge-pill badge-pill--live ${live ? 'is-on' : ''}`}><i /> Live previews</span>
-        <span className={`badge-pill badge-pill--bharat ${live ? 'is-on' : ''}`}><i /> Bharat-ready</span>
+        <span className={`badge-pill badge-pill--live pill-tip ${live ? 'is-on' : ''}`} data-tip="Every project opens a live iframe preview — not just code."><i /> Live previews</span>
+        <span className={`badge-pill badge-pill--bharat pill-tip ${live ? 'is-on' : ''}`} data-tip="Built for Bharat-scale constraints: offline, frugal, field-ready."><i /> Bharat-ready</span>
         <span className="foot-counter">
           {typing ? `${typed}/${BANNER.length} lines` : live ? '0.8s compile ✓' : `compiling ${secs.toFixed(1)}s`}
         </span>

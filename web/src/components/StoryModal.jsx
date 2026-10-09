@@ -41,7 +41,9 @@ export default function StoryModal({ open, onClose }) {
               </div>
               <button className="icon-btn" onClick={onClose} aria-label="Close story">✕</button>
             </div>
-            <AncientBook />
+            <div className="story-section-container">
+              <AncientBook />
+            </div>
           </motion.div>
         </motion.div>
       )}

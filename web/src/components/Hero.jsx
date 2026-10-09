@@ -37,7 +37,7 @@ function Stat({ value, label }) {
 // Headline lines — each word becomes a SplitChars mask; `cls` styles the word.
 const HEADLINE = [
   [{ t: 'Intelligent' }],
-  [{ t: 'systems,' }, { t: '∞', cls: 'grad grad-anim' }],
+  [{ t: 'systems,' }, { t: '∞', cls: 'grad grad-anim infinity-accent' }],
   [{ t: '&' }, { t: 'field-ready' }, { t: '.', cls: 'dot' }],
 ];
 
@@ -127,7 +127,12 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory,
 
           <h1 className="anim-title hero-title" aria-label="Intelligent systems, ∞ & field-ready.">
             {HEADLINE.map((words, li) => (
-              <span className="ht-line" key={li}>
+              <span
+                className="ht-line"
+                key={li}
+                onMouseEnter={() => copy.current?.classList.add('headline-lit')}
+                onMouseLeave={() => copy.current?.classList.remove('headline-lit')}
+              >
                 {words.map((w, wi) => (
                   <span key={wi} className={w.cls || ''}>
                     <SplitChars text={w.t} />
@@ -139,7 +144,7 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory,
           </h1>
 
           <p className="typed-line"><span className="typed-prefix">▸</span> <span className="typed">{typed}</span><span className="cursor">▌</span></p>
-          <p className="lead paper-anim" style={{ maxWidth: '62ch' }}>
+          <p className="lead paper-anim" style={{ maxWidth: '62ch', lineHeight: 1.6 }}>
             <span className="paper-line"><span>I'm <strong>Omprakash Suthar</strong> — <b>Regular, On-Campus — 3rd Year BCA @ CHRIST Yeshwantpur</b></span></span>
             <span className="paper-line"><span>builder of <b>∞ loop systems across 8 elements: Land • Infrastructure • Power • AI/ML/DL/NLP/Tech</b></span></span>
             <span className="paper-line"><span><b>Agriculture • Space • Transportation • Ocean</b> — my life symbol is <b>∞</b>. <b>42 repos</b> live.</span></span>

@@ -244,6 +244,23 @@ button.mini-float{font:inherit; text-align:left; cursor:pointer; color:var(--tex
 .hero-title .ht-word{display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.09em; margin-bottom:-.09em; will-change:transform}
 .hero-title .ht-char{display:inline-block; will-change:transform; transform:translateZ(0)}
 
+/* cursor backlight — headline lines glow softly while hovered */
+.hero__copy.headline-lit .ht-line{color:#fff; transition:color .35s ease}
+[data-theme="light"] .hero__copy.headline-lit .ht-line{color:var(--text)}
+.hero__copy.headline-lit .ht-line .ht-char{text-shadow:0 0 25px rgba(16,185,129,.35), 0 0 60px rgba(16,185,129,.15)}
+
+/* interactive infinity accent — emerald aura on hover */
+.infinity-accent{cursor:pointer}
+.infinity-accent .ht-char{transition:filter .35s ease, color .35s ease}
+.infinity-accent:hover .ht-char{
+  filter:drop-shadow(0 0 14px rgba(16,185,129,.9)) drop-shadow(0 0 34px rgba(16,185,129,.45));
+  animation:infinityPulse 1.6s ease-in-out infinite;
+}
+@keyframes infinityPulse{
+  0%,100%{filter:drop-shadow(0 0 10px rgba(16,185,129,.7)) drop-shadow(0 0 26px rgba(16,185,129,.3))}
+  50%{filter:drop-shadow(0 0 20px rgba(16,185,129,1)) drop-shadow(0 0 44px rgba(16,185,129,.55))}
+}
+
 /* text backlight glow — light appears behind typography on hover */
 .glow-text{transition:text-shadow .3s ease, color .3s ease}
 .glow-text:hover{
@@ -609,6 +626,10 @@ body.cursor-hover .cursor-ring{width:60px; height:60px; opacity:1}
    STORY BOOK
    ============================================================ */
 .story-page{min-height:100vh; display:flex; flex-direction:column; justify-content:center}
+.story-section-container{
+  width:100%; max-width:1200px; margin:0 auto; padding:6rem 2rem 3rem 2rem;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:85vh;
+}
 .story-sub{color:var(--muted); max-width:60ch}
 .book-stage{margin-top:26px; perspective:2200px}
 .book{position:relative; width:min(880px,94vw); margin:0 auto; aspect-ratio:16/9; transform-style:preserve-3d}
@@ -655,11 +676,16 @@ body.cursor-hover .cursor-ring{width:60px; height:60px; opacity:1}
 .page p b{color:#1A1412}
 .page__mark{position:absolute; bottom:16px; right:24px; font-size:1.4rem; color:#8A6D3B; font-family:JetBrains Mono,monospace}
 .leaf{position:absolute; inset:0; transform-style:preserve-3d; transform-origin:left center; z-index:5; transition:transform .9s cubic-bezier(.22,1,.36,1)}
-.leaf__front,.leaf__back{position:absolute; inset:0; backface-visibility:hidden; border-radius:6px 18px 18px 6px; overflow:hidden;
+.leaf__face{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border-radius:6px 18px 18px 6px; overflow:hidden;
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.06'/%3E%3C/svg%3E"),
     linear-gradient(175deg,#F4EFE6 0%,#EDE6D6 45%,#E4D9C4 100%);
-  border:1px solid rgba(120,90,40,.18)}
+  border:1px solid rgba(120,90,40,.18);
+}
+.leaf__front{transform:rotateY(0deg)}
 .leaf__front::after{content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
   background:linear-gradient(90deg, rgba(0,0,0,.14), transparent 12%);}
 .leaf__back{transform:rotateY(180deg)}
@@ -865,6 +891,21 @@ body.cursor-hover .cursor-ring{width:60px; height:60px; opacity:1}
 /* ============================================================
    REDUCED MOTION
    ============================================================ */
+
+/* terminal status pill tooltips */
+.pill-tip{position:relative; cursor:help}
+.pill-tip::after{
+  content:attr(data-tip); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%) translateY(4px);
+  width:max-content; max-width:220px; background:var(--bg2); color:var(--text); border:1px solid var(--line);
+  border-radius:10px; padding:8px 10px; font-size:.72rem; font-weight:500; line-height:1.45; text-transform:none; letter-spacing:0;
+  opacity:0; visibility:hidden; transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  pointer-events:none; z-index:20; box-shadow:var(--shadow); text-align:left;
+}
+.pill-tip::before{
+  content:""; position:absolute; bottom:calc(100% + 3px); left:50%; transform:translateX(-50%);
+  border:5px solid transparent; border-top-color:var(--line); opacity:0; visibility:hidden; transition:opacity .18s, visibility .18s; pointer-events:none; z-index:20;
+}
+.pill-tip:hover::after,.pill-tip:hover::before{opacity:1; visibility:visible; transform:translateX(-50%) translateY(0)}
 @media (prefers-reduced-motion:reduce){
   .preloader{display:none}
   .cc-caret{animation:none}
