@@ -5,7 +5,7 @@ import { PHRASES, MARQUEE } from '../content.jsx';
 import { useCountUp, prefersReduce } from '../hooks/useCountUp';
 import { useProjects } from '../ProjectsContext';
 import SplitChars from './SplitChars';
-import CodeCard from './CodeCard';
+import Terminal from './Terminal';
 
 function useTypewriter(phrases) {
   const [text, setText] = useState('');
@@ -41,7 +41,7 @@ const HEADLINE = [
   [{ t: '&' }, { t: 'field-ready' }, { t: '.', cls: 'dot' }],
 ];
 
-export default function Hero({ ready }) {
+export default function Hero({ ready, onCommand, onTheme, onFrugal, theme }) {
   const copy = useRef(null);
   const visual = useRef(null);
   const typed = useTypewriter(PHRASES);
@@ -177,7 +177,7 @@ export default function Hero({ ready }) {
             ))}
           </div>
 
-          <CodeCard ready={ready} />
+          <Terminal ready={ready} onCommand={onCommand} onTheme={onTheme} onFrugal={onFrugal} initialTheme={theme} />
 
           <motion.div className="profile-float anim-float" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
             <img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash" />

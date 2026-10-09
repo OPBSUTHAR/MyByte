@@ -79,3 +79,24 @@ html.lenis, html.lenis body { height: auto; }
 .fx-theatre__stage { position: relative; height: 150px; border-radius: 14px; border: 1px solid var(--line); background: color-mix(in srgb, var(--card2) 55%, transparent); overflow: hidden; }
 .fx-theatre__box { position: absolute; top: 50%; left: 12px; width: 46px; height: 46px; margin-top: -23px; border-radius: 14px; background: var(--grad); }
 .fx-theatre input[type='range'] { width: 100%; }
+
+/* terminal input caret */
+.cc-input::selection{background:color-mix(in srgb, var(--primary) 30%, transparent)}
+.cc-line--out .s{color:var(--primary); font-weight:700}
+
+/* quest HUD entrance handled by motion; bar fill is JS-driven */
+.quest-hud__bar i{transition:transform .5s cubic-bezier(.22,1,.36,1)}
+
+/* story book leaves need the page bg on backs too */
+.leaf__front,.leaf__back{background:linear-gradient(105deg,#F3E9D2 0%,#EDE2C8 55%,#E4D5B5 100%)}
+
+/* cyber material (terminal: theme cyber) */
+html.cyber body{
+  --bg:#0A0A14; --bg2:#0E0E1C; --card:#141428; --card2:#1A1A32;
+  --text:#E6E6FA; --muted:#8A8AB0; --line:#26264A;
+  --primary:#00E5FF; --violet:#B266FF; --amber:#FF6B00;
+  --grad:linear-gradient(135deg,#00E5FF,#B266FF 55%,#FF6B00);
+  --grad2:linear-gradient(135deg,#00E5FF,#B266FF);
+}
+html.cyber .grad{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
+html.cyber .orb{opacity:.4}

@@ -18,6 +18,15 @@ export function useLenis() {
     const onScroll = () => ScrollTrigger.update();
     lenis.on('scroll', onScroll);
 
+    // global smooth-scroll helper used by nav / route changes
+    window.__scrollToId = (id) => {
+      if (id === 'top') lenis.scrollTo(0, { duration: 1.1 });
+      else {
+        const el = document.getElementById(id);
+        if (el) lenis.scrollTo(el, { offset: -64, duration: 1.1 });
+      }
+    };
+
     // scroll progress bar
     const onLenisScroll = (e) => {
       const bar = document.getElementById('progress');
@@ -28,9 +37,9 @@ export function useLenis() {
     };
     lenis.on('scroll', onLenisScroll);
 
-    // smooth in-page anchor navigation
+    // smooth in-page anchor navigation (route links "#/..." are left alone)
     const onClick = (e) => {
-      const a = e.target.closest?.('a[href^="#"]');
+      const a = e.target.closest?.('a[href^="#"]:not([href^="#/"])');
       if (!a) return;
       const href = a.getAttribute('href');
       if (!href || href === '#') return;
