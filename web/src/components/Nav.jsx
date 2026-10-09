@@ -75,7 +75,7 @@ export default function Nav({ theme, onToggleTheme }) {
               {s.label}
             </a>
           ))}
-          <a href="#/resume" className={route === '/resume' ? 'active' : ''} onClick={() => setOpen(false)}>Resume</a>
+          <a href="/assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf" target="_blank" rel="noopener" className={route === '/resume' ? 'active' : ''}>Resume ↗</a>
           <a href="#/story" className={route === '/story' ? 'active' : ''} onClick={() => setOpen(false)}>Story</a>
           <a className="btn btn--sm btn--glow" href="https://github.com/OPBSUTHAR" target="_blank" rel="noopener">GitHub ↗</a>
         </nav>

@@ -145,8 +145,8 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, theme }) {
             <span className="paper-line"><span><b>Agriculture • Space • Transportation • Ocean</b> — my life symbol is <b>∞</b>. <b>42 repos</b> live.</span></span>
           </p>
           <div className="hero__cta">
-            <a href="#vision" className="btn btn--primary btn--xl magnetic">Open Story →</a>
-            <a href="#about" className="btn btn--ghost btn--xl">My vision</a>
+            <a href="#/story" className="btn btn--primary btn--xl magnetic">Open Story →</a>
+            <a href="#vision" className="btn btn--ghost btn--xl">My vision</a>
             <a href="#work" className="btn btn--ghost btn--xl">Explore work</a>
           </div>
           <div className="hero__meta">
