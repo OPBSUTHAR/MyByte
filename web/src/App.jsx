@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MotionConfig } from 'motion/react';
 import { Analytics } from '@vercel/analytics/react';
 import gsap from 'gsap';
@@ -16,10 +16,10 @@ import Work from './components/Work';
 import Modal from './components/Modal';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
-import QuestHud from './components/QuestHud';
 import ThemeToggle from './components/ThemeToggle';
+import ResumeModal from './components/ResumeModal';
+import StoryModal from './components/StoryModal';
 import { Vision, InfinitySection, Domains, Cases, Goals, Stack, About, Journey, Contact } from './components/sections';
-import Resume from './pages/Resume';
 import Story from './pages/Story';
 import NotFound from './pages/NotFound';
 
@@ -27,27 +27,19 @@ import { ProjectsContext } from './ProjectsContext';
 import { loadProjects, projectDomain, domainLabel, isLiveCandidate } from './lib/github';
 import { useLenis } from './hooks/useLenis';
 import { useRoute } from './router';
-import { useQuest } from './hooks/useQuest';
-import { useVisits } from './hooks/useVisits';
-import { confettiBurst } from './lib/confetti';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-const SECTION_QUESTS = ['vision', 'domains', 'work', 'case', 'contact'];
-
 export default function App() {
   const route = useRoute();
-  const quest = useQuest();
-  const visits = useVisits();
 
   const [theme, setTheme] = useState(() => (localStorage.getItem('theme') === 'light' ? 'light' : 'dark'));
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
   const [ready, setReady] = useState(false);
   const [frugal, setFrugal] = useState(true);
-  const [arcade, setArcade] = useState(false);
-  const konamiIdx = useRef(0);
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const [storyOpen, setStoryOpen] = useState(false);
 
   useLenis();
 
@@ -87,61 +79,20 @@ export default function App() {
   // scroll to top on route change
   useEffect(() => {
     window.__scrollToId?.('top');
-    if (route === '/resume') quest.award('resume');
-    if (route === '/story') quest.award('story');
-  }, [route]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // section exploration XP
-  useEffect(() => {
-    if (!ready || route !== '/') return;
-    const obs = new IntersectionObserver(
-      (es) => es.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const id = e.target.id;
-        const match = SECTION_QUESTS.find((s) => id === s || (s === 'case' && id === 'featured'));
-        if (match) quest.award(match);
-      }),
-      { threshold: 0.35 }
-    );
-    SECTION_QUESTS.forEach((s) => {
-      const el = document.getElementById(s === 'case' ? 'featured' : s);
-      if (el) obs.observe(el);
-    });
-    return () => obs.disconnect();
-  }, [ready, route, quest]);
-
-  // Konami code → Retro Arcade Mode
-  useEffect(() => {
-    const onKey = (e) => {
-      const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      konamiIdx.current = k === KONAMI[konamiIdx.current] ? konamiIdx.current + 1 : (k === KONAMI[0] ? 1 : 0);
-      if (konamiIdx.current === KONAMI.length) {
-        konamiIdx.current = 0;
-        setArcade(true);
-        quest.award('konami');
-        confettiBurst({ count: 160, y: innerHeight * 0.2 });
-        setTimeout(() => confettiBurst({ x: innerWidth * 0.2, y: innerHeight * 0.4, count: 80 }), 400);
-        setTimeout(() => confettiBurst({ x: innerWidth * 0.8, y: innerHeight * 0.4, count: 80 }), 800);
-        setTimeout(() => setArcade(false), 9000);
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [quest]);
+  }, [route]);
 
   const ctx = useMemo(() => ({
     list: projects,
     source: 'github',
-    openProject: (p) => { setActive(p); quest.award('modal'); },
+    openProject: (p) => setActive(p),
     live: (name) => isLiveCandidate((projects.find((x) => x.name === name) || {}).lang, name),
     domain: projectDomain,
     domainLabel,
-  }), [projects, quest]);
+  }), [projects]);
 
   const toggleTheme = useCallback(() => {
     setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
-    quest.award('theme');
-  }, [quest]);
+  }, []);
 
   const handleTerminalTheme = useCallback((t) => {
     setTheme(t === 'light' ? 'light' : 'dark');
@@ -149,18 +100,9 @@ export default function App() {
 
   const handleFrugal = useCallback((v) => {
     setFrugal(v);
-    if (!v) {
-      quest.award('frugal');
-      confettiBurst({ count: 70, y: innerHeight * 0.35 });
-    }
-  }, [quest]);
+  }, []);
 
-  const handleCommand = useCallback((cmd) => {
-    quest.award('terminal');
-    if (cmd === 'run demo') {
-      setTimeout(() => confettiBurst({ count: 120, y: innerHeight * 0.3 }), 350);
-    }
-  }, [quest]);
+  const handleCommand = useCallback(() => {}, []);
 
   const home = route === '/' && (
     <>
@@ -170,6 +112,7 @@ export default function App() {
         onCommand={handleCommand}
         onTheme={handleTerminalTheme}
         onFrugal={handleFrugal}
+        onOpenStory={() => setStoryOpen(true)}
       />
       <Highlights />
       <Vision />
@@ -195,29 +138,24 @@ export default function App() {
         <div className="grain" aria-hidden="true" />
         {!ready && <Preloader onDone={handleReady} />}
         <Cursor />
-        <Nav theme={theme} onToggleTheme={toggleTheme} />
+        <Nav theme={theme} onToggleTheme={toggleTheme} onOpenResume={() => setResumeOpen(true)} />
 
         <main>
           {route === '/' && home}
-          {route === '/resume' && <Resume />}
           {route === '/story' && <Story />}
-          {route !== '/' && route !== '/resume' && route !== '/story' && <NotFound />}
+          {route !== '/' && route !== '/story' && <NotFound />}
         </main>
 
         <footer className="footer">
           <div className="container footer__inner">
-            <p>© 2026 <b>Omprakash Suthar</b> — MyByte. Full-stack React build: Vite • React • GSAP • Lenis • Motion • Three.js • PixiJS. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source ↗</a></p>
-            <p className="small muted">
-              Live at https://my-byte.vercel.app
-              {visits != null && <> • 👣 Total visits: <b>{visits}</b></>}
-            </p>
+            <p>© 2026 Omprakash Suthar — Built with precision. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source Code ↗</a></p>
           </div>
         </footer>
 
-        {arcade && <div className="arcade-banner">🕹 Retro Arcade Mode — 9 seconds of glory</div>}
         {!frugal && <div className="bloat-banner">⚠ Bloat mode — frugal = false (+42KB)</div>}
 
-        <QuestHud quest={quest} visible={ready} />
+        <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
+        <StoryModal open={storyOpen} onClose={() => setStoryOpen(false)} />
         <Modal project={active} onClose={() => setActive(null)} />
       </ProjectsContext.Provider>
     </MotionConfig>

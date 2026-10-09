@@ -41,7 +41,7 @@ const HEADLINE = [
   [{ t: '&' }, { t: 'field-ready' }, { t: '.', cls: 'dot' }],
 ];
 
-export default function Hero({ ready, onCommand, onTheme, onFrugal, theme }) {
+export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory, theme }) {
   const copy = useRef(null);
   const visual = useRef(null);
   const typed = useTypewriter(PHRASES);
@@ -145,7 +145,7 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, theme }) {
             <span className="paper-line"><span><b>Agriculture • Space • Transportation • Ocean</b> — my life symbol is <b>∞</b>. <b>42 repos</b> live.</span></span>
           </p>
           <div className="hero__cta">
-            <a href="#/story" className="btn btn--primary btn--xl magnetic">Open Story →</a>
+            <button type="button" className="btn btn--primary btn--xl magnetic" onClick={onOpenStory}>Open Story →</button>
             <a href="#vision" className="btn btn--ghost btn--xl">My vision</a>
             <a href="#work" className="btn btn--ghost btn--xl">Explore work</a>
           </div>

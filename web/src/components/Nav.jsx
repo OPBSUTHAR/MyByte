@@ -15,7 +15,7 @@ const SECTIONS = [
   { id: 'contact', label: 'Contact' },
 ];
 
-export default function Nav({ theme, onToggleTheme }) {
+export default function Nav({ theme, onToggleTheme, onOpenResume }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('');
   const route = useRoute();
@@ -75,7 +75,13 @@ export default function Nav({ theme, onToggleTheme }) {
               {s.label}
             </a>
           ))}
-          <a href="/assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf" target="_blank" rel="noopener" className={route === '/resume' ? 'active' : ''}>Resume ↗</a>
+          <button
+            type="button"
+            style={linkStyle}
+            onClick={(e) => { e.preventDefault(); setOpen(false); onOpenResume(); }}
+          >
+            Resume
+          </button>
           <a href="#/story" className={route === '/story' ? 'active' : ''} onClick={() => setOpen(false)}>Story</a>
           <a className="btn btn--sm btn--glow" href="https://github.com/OPBSUTHAR" target="_blank" rel="noopener">GitHub ↗</a>
         </nav>

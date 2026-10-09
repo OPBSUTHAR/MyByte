@@ -90,7 +90,7 @@ h1,h2,h3{text-wrap:balance}
    ============================================================ */
 .nav{position:sticky; top:0; z-index:20; backdrop-filter:blur(16px) saturate(1.2); background:color-mix(in srgb, var(--bg) 78%, transparent); border-bottom:1px solid var(--line)}
 .nav__inner{display:flex; align-items:center; justify-content:space-between; height:66px}
-.logo{display:flex; align-items:center; gap:12px; color:var(--text); font-weight:800; letter-spacing:-.02em}
+.logo{display:flex; align-items:center; gap:12px; color:var(--text); font-weight:800; letter-spacing:-.02em; white-space:nowrap}
 .logo__mark{width:34px; height:34px; display:grid; place-items:center; background:var(--primary); color:var(--primary-ink); border-radius:10px; font-family:JetBrains Mono,monospace; font-size:.95rem; box-shadow:var(--glow)}
 .nav__links{display:flex; gap:1rem; align-items:center; flex-wrap:nowrap}
 .nav__links a{color:var(--text); font-weight:500; opacity:.78; font-size:.92rem; white-space:nowrap; padding:.4rem .75rem}
@@ -632,6 +632,100 @@ body.cursor-hover .cursor-ring{width:58px; height:58px; opacity:.95}
 .fx-theatre__stage{position:relative; height:150px; border-radius:14px; border:1px solid var(--line); background:var(--card2); overflow:hidden}
 .fx-theatre__box{position:absolute; top:50%; left:12px; width:46px; height:46px; margin-top:-23px; border-radius:14px; background:var(--primary)}
 .fx-theatre input[type='range']{width:100%}
+
+/* ============================================================
+   MODALS (Resume + Storybook)
+   ============================================================ */
+.overlay-backdrop{
+  position:fixed; inset:0; z-index:1100; display:grid; place-items:center; padding:16px;
+  background:rgba(5,6,8,.72); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  overflow-y:auto;
+}
+
+/* storybook modal */
+.story-modal{
+  width:min(960px,94vw); max-height:92vh; overflow-y:auto;
+  background:var(--bg); border:1px solid var(--line); border-radius:20px;
+  box-shadow:var(--shadow); padding:20px 22px 26px;
+}
+.story-modal__head{display:flex; justify-content:space-between; align-items:start; gap:12px; margin-bottom:18px}
+.story-modal .book-stage{margin-top:0}
+.story-modal .book{max-height:none}
+
+/* resume modal */
+.resume-modal{
+  width:min(980px,94vw); max-height:92vh; overflow-y:auto; display:flex; flex-direction:column;
+  background:var(--bg); border:1px solid var(--line); border-radius:20px;
+  box-shadow:var(--shadow);
+}
+.resume-modal__bar{
+  display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:14px 18px; border-bottom:1px solid var(--line);
+  background:var(--card); border-radius:20px 20px 0 0; position:sticky; top:0; z-index:2;
+}
+.resume-modal__who{display:flex; align-items:center; gap:12px; min-width:0}
+.resume-modal__who img{width:44px; height:44px; border-radius:12px; border:2px solid var(--line)}
+.resume-modal__who b{display:block; font-size:1rem; letter-spacing:-.01em}
+.resume-modal__who span{font-size:.78rem; color:var(--muted)}
+.live-dot{display:inline-flex; align-items:center; gap:6px; margin-left:auto; font-size:.72rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--primary); border:1px solid color-mix(in srgb, var(--primary) 35%, var(--line)); background:color-mix(in srgb, var(--primary) 10%, var(--card)); padding:5px 10px; border-radius:999px; white-space:nowrap}
+.live-dot i{width:6px; height:6px; border-radius:50%; background:var(--primary); box-shadow:0 0 0 4px color-mix(in srgb, var(--primary) 20%, transparent); animation:pulse 2s infinite}
+.resume-modal__actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.resume-tabs{display:flex; gap:8px; padding:12px 18px; border-bottom:1px solid var(--line); flex-wrap:wrap; position:sticky; top:73px; z-index:2; background:var(--bg)}
+.resume-tabs button{border:1px solid var(--line); background:var(--card); color:var(--muted); padding:7px 14px; border-radius:999px; font-weight:700; font-size:.82rem; cursor:pointer; transition:.15s}
+.resume-tabs button.active{background:var(--primary); color:var(--primary-ink); border-color:var(--primary)}
+.resume-modal__body{padding:18px; display:grid; gap:16px}
+
+/* accordions */
+.acc{background:var(--card); border:1px solid var(--line); border-radius:16px; overflow:hidden; transition:border-color .2s}
+.acc--open{border-color:color-mix(in srgb, var(--primary) 35%, var(--line))}
+.acc__head{display:flex; justify-content:space-between; align-items:center; gap:12px; width:100%; padding:14px 16px; background:none; border:0; cursor:pointer; color:var(--text); text-align:left; font:inherit}
+.acc__main{display:flex; gap:12px; align-items:center; min-width:0}
+.acc__main img{width:40px; height:40px; border-radius:10px; border:1px solid var(--line); background:#fff; object-fit:contain; padding:3px; flex-shrink:0}
+.acc__main b{display:block; font-size:.98rem}
+.acc__main span{font-size:.8rem; color:var(--muted)}
+.acc__chev{font-size:1.2rem; color:var(--primary); font-weight:800; flex-shrink:0}
+.acc__body{overflow:hidden; padding:0 16px 14px 68px}
+.acc__body ul{margin:0; padding-left:18px; color:var(--muted); font-size:.88rem}
+.acc__body li{margin:6px 0}
+.acc__meta{display:flex; gap:10px; margin-top:10px; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--primary)}
+.acc__meta span{border:1px solid color-mix(in srgb, var(--primary) 30%, var(--line)); padding:3px 8px; border-radius:999px}
+
+/* resume blocks */
+.resume-block{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px}
+.resume-block h3{margin:0 0 12px; font-family:'Space Grotesk',Inter,sans-serif; font-size:1rem; letter-spacing:-.01em; display:flex; align-items:center; gap:8px}
+.resume-block h3::before{content:""; width:3px; height:16px; border-radius:2px; background:var(--primary)}
+.resume-proj{display:grid; gap:12px}
+.resume-proj__item{padding:12px; border:1px solid var(--line); border-radius:12px; background:var(--card2)}
+.resume-proj__item b{font-size:.95rem}
+.resume-proj__item p{margin:6px 0 8px}
+.resume-proj__item a{font-size:.82rem; font-weight:700}
+
+/* skill tooltips */
+.skill-tip{position:relative; cursor:help}
+.skill-tip::after{
+  content:attr(data-tip); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%) translateY(4px);
+  width:max-content; max-width:240px; background:var(--bg2); color:var(--text); border:1px solid var(--line);
+  border-radius:10px; padding:8px 10px; font-size:.74rem; font-weight:500; line-height:1.45; text-transform:none; letter-spacing:0;
+  opacity:0; visibility:hidden; transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  pointer-events:none; z-index:20; box-shadow:var(--shadow); text-align:left;
+}
+.skill-tip::before{
+  content:""; position:absolute; bottom:calc(100% + 3px); left:50%; transform:translateX(-50%);
+  border:5px solid transparent; border-top-color:var(--line); opacity:0; visibility:hidden; transition:opacity .18s, visibility .18s; pointer-events:none; z-index:20;
+}
+.skill-tip:hover::after,.skill-tip:hover::before{opacity:1; visibility:visible; transform:translateX(-50%) translateY(0)}
+.skill-tip:hover{border-color:color-mix(in srgb, var(--primary) 45%, var(--line))}
+
+/* resume education + certs */
+.resume-edu{display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); align-items:center}
+.resume-edu:last-child{border-bottom:0}
+.resume-edu img{width:44px; height:44px; border-radius:10px; background:#fff; border:1px solid var(--line); object-fit:contain; padding:4px; flex-shrink:0}
+.resume-edu b{display:block; font-size:.92rem}
+.resume-edu span{font-size:.8rem; color:var(--muted)}
+.resume-certs{display:grid; gap:8px}
+.resume-certs>div{display:flex; justify-content:space-between; gap:10px; align-items:center; padding:8px 10px; border:1px solid var(--line); border-radius:10px; background:var(--card2)}
+.resume-certs b{font-size:.84rem}
+.resume-certs span{font-size:.74rem; color:var(--muted); white-space:nowrap}
 
 /* ============================================================
    REDUCED MOTION
