@@ -556,13 +556,16 @@ h1:hover,h2:hover,h3:hover{
 .preloader__cursor{color:var(--primary); animation:blink 1s step-end infinite}
 @keyframes plIn{from{opacity:0; transform:translateY(4px)}to{opacity:1; transform:none}}
 
-/* custom cursor */
+/* custom cursor — theme-aware inversion + difference blend */
 .cursor-dot,.cursor-ring{position:fixed; top:0; left:0; pointer-events:none; z-index:10000; border-radius:50%; mix-blend-mode:difference; will-change:transform}
-.cursor-dot{width:6px; height:6px; background:#fff}
-.cursor-ring{width:34px; height:34px; border:1px solid rgba(255,255,255,.75); opacity:.55; transition:width .25s ease, height .25s ease, opacity .25s ease}
-body.cursor-hover .cursor-ring{width:58px; height:58px; opacity:.95}
+.cursor-dot{width:8px; height:8px; background:var(--cursor-bg,#fff); border:1px solid var(--cursor-border, transparent)}
+.cursor-ring{width:36px; height:36px; border:1.5px solid var(--cursor-ring,rgba(255,255,255,.75)); opacity:.8; transition:width .25s ease, height .25s ease, opacity .25s ease, border-color .25s ease}
+body.cursor-hover .cursor-ring{width:60px; height:60px; opacity:1}
+[data-theme="dark"]{ --cursor-bg:#fff; --cursor-ring:rgba(255,255,255,.8); --cursor-border:rgba(0,0,0,.9) }
+[data-theme="light"]{ --cursor-bg:#111827; --cursor-ring:rgba(17,24,39,.85); --cursor-border:rgba(255,255,255,.9) }
 @media (pointer:fine){ html.fx-cursor, html.fx-cursor *{cursor:none !important} }
-@media (prefers-reduced-motion:reduce){ .cursor-dot,.cursor-ring{display:none} }
+@media (pointer:coarse){ .cursor-dot,.cursor-ring{display:none !important} html.fx-cursor, html.fx-cursor *{cursor:auto !important} }
+@media (prefers-reduced-motion:reduce){ .cursor-dot,.cursor-ring{display:none} html.fx-cursor, html.fx-cursor *{cursor:auto !important} }
 
 /* ============================================================
    RESUME PAGE
@@ -796,6 +799,68 @@ body.cursor-hover .cursor-ring{width:58px; height:58px; opacity:.95}
 .resume-certs>div{display:flex; justify-content:space-between; gap:10px; align-items:center; padding:8px 10px; border:1px solid var(--line); border-radius:10px; background:var(--card2)}
 .resume-certs b{font-size:.84rem}
 .resume-certs span{font-size:.74rem; color:var(--muted); white-space:nowrap}
+
+/* ============================================================
+   PROJECTS TABLE (interactive rows)
+   ============================================================ */
+.proj-table{display:grid; gap:6px; margin-top:14px}
+.proj-row{
+  display:grid;
+  grid-template-columns:34px 1.6fr 1fr .9fr .8fr;
+  align-items:center; gap:12px;
+  padding:10px 14px;
+  background:var(--card); border:1px solid var(--line); border-radius:12px;
+  cursor:pointer; transition:border-color .2s, box-shadow .2s, transform .25s var(--ease-spring);
+  position:relative;
+}
+.proj-row--head{
+  background:var(--card2); font-family:'JetBrains Mono',monospace; font-size:.64rem; font-weight:800;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted); cursor:default;
+}
+.proj-row--head:hover{border-color:var(--line); box-shadow:none; transform:none}
+.proj-row:not(.proj-row--head):hover{
+  border-color:color-mix(in srgb, var(--primary) 45%, var(--line));
+  box-shadow:var(--glow);
+}
+.proj-row__idx{font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--primary); font-weight:800}
+.proj-row__main b{display:block; font-size:.95rem; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.proj-row__repo{font-size:.74rem; color:var(--muted); font-family:'JetBrains Mono',monospace; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.proj-row__tags{display:flex; gap:6px; flex-wrap:wrap}
+.proj-row__tags span{font-size:.7rem; font-weight:700; color:var(--muted); border:1px solid var(--line); background:var(--card2); padding:3px 8px; border-radius:999px; white-space:nowrap}
+.proj-row__status{font-size:.76rem; font-weight:800; letter-spacing:.04em; white-space:nowrap}
+.proj-row__status.is-live{color:var(--primary)}
+.proj-row__actions{display:flex; gap:8px; justify-content:flex-end}
+.proj-row__actions a{
+  font-size:.76rem; font-weight:700; padding:6px 12px; border-radius:9px;
+  border:1px solid var(--line); background:var(--card2); color:var(--text); white-space:nowrap; transition:.15s;
+}
+.proj-row__actions a:hover{border-color:color-mix(in srgb, var(--primary) 45%, var(--line)); color:var(--primary)}
+@media(max-width:980px){
+  .proj-row,.proj-row--head{grid-template-columns:30px 1fr auto}
+  .proj-row__tags,.proj-row__actions{display:none}
+}
+@media(max-width:620px){
+  .proj-row,.proj-row--head{grid-template-columns:26px 1fr auto}
+  .proj-row__status{font-size:.68rem}
+}
+
+/* floating hover preview card */
+.row-preview{
+  position:fixed; z-index:9000; width:340px; pointer-events:none;
+  background:var(--card); border:1px solid color-mix(in srgb, var(--primary) 40%, var(--line));
+  border-radius:16px; overflow:hidden; box-shadow:var(--shadow), var(--glow);
+}
+.row-preview__thumb{position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--card2); border-bottom:1px solid var(--line)}
+.row-preview__thumb img{width:100%; height:100%; object-fit:cover; object-position:center}
+.row-preview__thumb .card__live{top:8px; right:8px}
+.row-preview__body{padding:14px}
+.row-preview__body b{font-size:1rem; letter-spacing:-.01em; display:block; margin-bottom:6px}
+.row-preview__body p{font-size:.82rem; color:var(--muted); margin:0 0 10px; line-height:1.5}
+.row-preview__stack{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px}
+.row-preview__stack span{font-size:.68rem; font-weight:700; color:var(--primary); border:1px solid color-mix(in srgb, var(--primary) 30%, var(--line)); background:color-mix(in srgb, var(--primary) 8%, var(--card)); padding:3px 8px; border-radius:999px}
+.row-preview__actions{display:flex; gap:8px}
+.row-preview__actions a{flex:1; text-align:center; font-size:.78rem; font-weight:700; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--text)}
+.row-preview__actions a:first-child{background:var(--primary); color:var(--primary-ink); border-color:var(--primary)}
 
 /* ============================================================
    REDUCED MOTION

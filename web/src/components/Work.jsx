@@ -6,40 +6,74 @@ import { useProjects } from '../ProjectsContext';
 const LANGS = ['all', 'Python', 'JavaScript', 'TypeScript', 'HTML', 'C'];
 const DOMAINS = ['all', 'krishi', 'safety', 'space', 'edu', 'other'];
 
-function Card({ p, onOpen, index }) {
+// ─── Hover preview card (floating, follows the row) ─────────────────────────
+function RowPreview({ p, x, y }) {
   const live = liveUrl(p.name);
   const isLive = isLiveCandidate(p.lang, p.name);
   return (
-    <motion.article
+    <motion.div
+      className="row-preview"
+      initial={{ opacity: 0, y: 8, scale: .97 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 6, scale: .98 }}
+      transition={{ duration: .18, ease: 'easeOut' }}
+      style={{ left: x, top: y }}
+    >
+      <div className="row-preview__thumb">
+        <img src={ogUrl(p.name)} alt={`${p.name} preview`} loading="lazy" onError={(e) => { e.currentTarget.src = 'https://avatars.githubusercontent.com/u/178475619?v=4'; }} />
+        {isLive && <span className="card__live">◉ Live</span>}
+      </div>
+      <div className="row-preview__body">
+        <b>{p.name}</b>
+        <p>{p.desc || 'No description.'}</p>
+        <div className="row-preview__stack">
+          {(p.lang || 'Other').split(',').map((s) => <span key={s}>{s.trim()}</span>)}
+        </div>
+        <div className="row-preview__actions">
+          <a href={live} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>Live Preview ↗</a>
+          <a href={p.url} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>Code ↗</a>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Table row ──────────────────────────────────────────────────────────────
+function Row({ p, index, onOpen, onHover, onLeave }) {
+  const live = liveUrl(p.name);
+  const isLive = isLiveCandidate(p.lang, p.name);
+  return (
+    <motion.div
       layout
-      className="card"
+      className="proj-row"
       data-lang={p.lang || ''}
       data-domain={p.domain || 'other'}
-      initial={{ opacity: 0, y: 22 }}
+      initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.4, delay: (index % 6) * 0.04 }}
+      exit={{ opacity: 0, scale: .98 }}
+      transition={{ duration: .3, delay: (index % 8) * 0.03 }}
       onClick={() => onOpen(p)}
-      style={{ position: 'relative' }}
+      onMouseMove={(e) => onHover(p, e.clientX, e.clientY)}
+      onMouseLeave={onLeave}
     >
-      <div className="card__thumb">
-        <img src={ogUrl(p.name)} alt={`${p.name} preview`} loading="lazy" onError={(e) => { e.currentTarget.src = 'https://avatars.githubusercontent.com/u/178475619?v=4'; }} />
+      <span className="proj-row__idx">{String(index + 1).padStart(2, '0')}</span>
+      <div className="proj-row__main">
+        <b>{p.name}</b>
+        <span className="proj-row__repo">{p.name}</span>
       </div>
-      {isLive && <span className="card__live">◉ Live</span>}
-      <div className="card__top">
-        <span>{p.lang || 'Other'}</span>
+      <div className="proj-row__tags">
         <span>{domainLabel(p.domain || 'other')}</span>
+        <span>{p.lang || 'Other'}</span>
         <span>★ {p.stars ?? 0}</span>
-        <span>⑂ {p.forks ?? 0}</span>
       </div>
-      <h3>{p.name}</h3>
-      <p>{p.desc || 'No description.'}</p>
-      <div className="card__meta"><span>↗ {live.replace('https://', '')}</span></div>
-      <div className="card__actions">
-        <a className="primary" href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); onOpen(p); }}>Live Preview</a>
+      <span className={`proj-row__status ${isLive ? 'is-live' : ''}`}>
+        {isLive ? '🟢 Live' : '◌ Code'}
+      </span>
+      <div className="proj-row__actions">
+        <a href={live} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>Preview</a>
         <a href={p.url} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>Code</a>
       </div>
-    </motion.article>
+    </motion.div>
   );
 }
 
@@ -48,6 +82,7 @@ export default function Work() {
   const [q, setQ] = useState('');
   const [lang, setLang] = useState('all');
   const [domain, setDomain] = useState('all');
+  const [preview, setPreview] = useState(null); // { p, x, y }
 
   const filtered = useMemo(() => {
     const query = q.toLowerCase().trim();
@@ -61,6 +96,9 @@ export default function Work() {
         return okLang && okDomain && okQ;
       });
   }, [list, q, lang, domain]);
+
+  const onHover = (p, x, y) => setPreview({ p, x: Math.min(x + 20, innerWidth - 380), y: Math.max(y - 140, 80) });
+  const onLeave = () => setPreview(null);
 
   return (
     <section id="work" className="section">
@@ -84,15 +122,26 @@ export default function Work() {
             </button>
           ))}
         </div>
-        <p className="muted small" style={{ marginTop: 10 }}>{filtered.length} of {list.length} projects • browse by domain and technology.</p>
+        <p className="muted small" style={{ marginTop: 10 }}>{filtered.length} of {list.length} projects • hover a row for preview.</p>
 
-        <motion.div layout className="cards">
+        <div className="proj-table">
+          <div className="proj-row proj-row--head">
+            <span>#</span>
+            <span>Project</span>
+            <span>Domain • Lang • Stars</span>
+            <span>Status</span>
+            <span>Links</span>
+          </div>
           <AnimatePresence mode="popLayout">
             {filtered.map((p, i) => (
-              <Card key={p.name} p={p} index={i} onOpen={openProject} />
+              <Row key={p.name} p={p} index={i} onOpen={openProject} onHover={onHover} onLeave={onLeave} />
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
+
+        <AnimatePresence>
+          {preview && <RowPreview p={preview.p} x={preview.x} y={preview.y} />}
+        </AnimatePresence>
 
         <div className="center mt">
           <a href="https://github.com/OPBSUTHAR?tab=repositories" target="_blank" rel="noopener" className="btn btn--ghost">View all on GitHub ↗</a>
