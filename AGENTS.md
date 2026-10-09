@@ -6,6 +6,8 @@
 
 Static HTML/CSS/JS portfolio + Python build step (`tools/fetch_github.py` → `data/projects.json`). Hosted on GitHub Pages via `.github/workflows/deploy.yml`. Zero-build, vanilla stack.
 
+**Primary live deployment:** https://my-byte.vercel.app — Vercel builds the React app (`web/` → `web/dist`, see root `vercel.json`). Push to `origin/main` auto-deploys there; Vercel needs no extra config. The repo-root static build remains for GitHub Pages.
+
 ### Golden Rule
 
 **You do not ask the user to test, run, or push. You DO it automatically.**

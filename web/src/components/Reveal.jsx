@@ -32,10 +32,10 @@ export default function Reveal({
       return;
     }
     const offset =
-      from === 'left' ? { x: -32, y: 0 } :
-      from === 'right' ? { x: 32, y: 0 } :
-      from === 'scale' ? { y: 28, scale: 0.98 } :
-      { y: 26 };
+      from === 'left' ? { x: -40, y: 0 } :
+      from === 'right' ? { x: 40, y: 0 } :
+      from === 'scale' ? { y: 36, scale: 0.97 } :
+      { y: 40, scale: 0.985 };
 
     const tween = gsap.from(el, {
       ...offset,

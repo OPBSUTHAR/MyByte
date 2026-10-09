@@ -8,7 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Lenis smooth scrolling wired into GSAP's ticker so ScrollTrigger stays in
- * sync. Disabled entirely under prefers-reduced-motion.
+ * sync. Also intercepts in-page anchor clicks for smooth scrollTo, and drives
+ * the top scroll-progress bar. Disabled entirely under prefers-reduced-motion.
  */
 export function useLenis() {
   useEffect(() => {
@@ -17,6 +18,33 @@ export function useLenis() {
     const onScroll = () => ScrollTrigger.update();
     lenis.on('scroll', onScroll);
 
+    // scroll progress bar
+    const onLenisScroll = (e) => {
+      const bar = document.getElementById('progress');
+      if (!bar) return;
+      const limit = lenis.limit || 1;
+      const p = typeof e?.progress === 'number' ? e.progress : (lenis.scroll || 0) / limit;
+      bar.style.width = `${Math.min(100, Math.max(0, p * 100)).toFixed(1)}%`;
+    };
+    lenis.on('scroll', onLenisScroll);
+
+    // smooth in-page anchor navigation
+    const onClick = (e) => {
+      const a = e.target.closest?.('a[href^="#"]');
+      if (!a) return;
+      const href = a.getAttribute('href');
+      if (!href || href === '#') return;
+      e.preventDefault();
+      if (href === '#top') {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        const el = document.querySelector(href);
+        if (el) lenis.scrollTo(el, { offset: -64, duration: 1.2 });
+      }
+      history.replaceState(null, '', href);
+    };
+    document.addEventListener('click', onClick);
+
     const raf = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
@@ -24,6 +52,8 @@ export function useLenis() {
     return () => {
       gsap.ticker.remove(raf);
       lenis.off('scroll', onScroll);
+      lenis.off('scroll', onLenisScroll);
+      document.removeEventListener('click', onClick);
       lenis.destroy();
     };
   }, []);

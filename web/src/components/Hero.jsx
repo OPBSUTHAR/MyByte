@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import gsap from 'gsap';
 import { PHRASES, MARQUEE } from '../content.jsx';
-import { useCountUp } from '../hooks/useCountUp';
-import { prefersReduce } from '../hooks/useCountUp';
+import { useCountUp, prefersReduce } from '../hooks/useCountUp';
+import { useProjects } from '../ProjectsContext';
+import SplitChars from './SplitChars';
+import CodeCard from './CodeCard';
 
 function useTypewriter(phrases) {
   const [text, setText] = useState('');
@@ -32,34 +34,68 @@ function Stat({ value, label }) {
   return <div><b ref={ref}>0</b><span>{label}</span></div>;
 }
 
-export default function Hero() {
+// Headline lines — each word becomes a SplitChars mask; `cls` styles the word.
+const HEADLINE = [
+  [{ t: 'Intelligent' }],
+  [{ t: 'systems,' }, { t: '∞', cls: 'grad grad-anim' }],
+  [{ t: '&' }, { t: 'field-ready' }, { t: '.', cls: 'dot' }],
+];
+
+export default function Hero({ ready }) {
   const copy = useRef(null);
   const visual = useRef(null);
   const typed = useTypewriter(PHRASES);
+  const { list, openProject } = useProjects();
 
-  // Hero GSAP intro timeline
+  // Open the live-preview modal for a floating project pill.
+  const openByName = (name) => {
+    const hit = list.find((p) => p.name.toLowerCase().includes(name.toLowerCase().split(' ')[0]));
+    openProject(hit || {
+      name, lang: '', desc: `${name} — live build preview.`,
+      url: `https://github.com/OPBSUTHAR/${name}`, stars: 0, forks: 0, updated: '',
+    });
+  };
+
+  // Hero GSAP intro timeline — runs once the preloader hands off.
   useEffect(() => {
     const c = copy.current, v = visual.current;
     if (!c) return;
-    const kids = Array.from(c.children);
+    const kids = Array.from(c.children).filter((k) => !k.classList.contains('anim-title'));
+    const chars = gsap.utils.toArray('.hero-title .ht-char');
     const floats = gsap.utils.toArray('.profile-float, .mini-float');
-    gsap.set([...kids, ...(v ? [v] : [])], { autoAlpha: 1 });
-    if (prefersReduce()) {
-      document.documentElement.classList.add('gsap-hero-done');
+
+    if (!ready) {
+      gsap.set([...kids, ...(v ? [v] : []), ...floats], { autoAlpha: 0 });
       return;
     }
+    gsap.set([...kids, ...(v ? [v] : []), ...floats], { autoAlpha: 1 });
+
+    if (prefersReduce()) {
+      document.documentElement.classList.add('gsap-hero-done');
+      gsap.set([...kids, ...(v ? [v] : []), ...floats, ...chars], { clearProps: 'transform,opacity,visibility,filter' });
+      return;
+    }
+
     const tl = gsap.timeline({
       defaults: { ease: 'power3.out' },
       onComplete: () => {
         document.documentElement.classList.add('gsap-hero-done');
-        gsap.set([...kids, ...(v ? [v] : []), ...floats], { clearProps: 'transform,opacity,visibility,filter' });
+        gsap.set([...kids, ...(v ? [v] : []), ...floats, ...chars], { clearProps: 'transform,opacity,visibility,filter' });
       },
     });
-    tl.from(kids, { y: 30, autoAlpha: 0, duration: 0.7, stagger: 0.09 });
-    if (v) tl.from(v, { y: 40, autoAlpha: 0, duration: 0.85 }, '-=0.55');
+    // split headline — chars slide up out of their word masks
+    tl.from(chars, {
+      yPercent: 112,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: 'power4.out',
+      stagger: { each: 0.016, from: 'start' },
+    }, 0.1);
+    tl.from(kids, { y: 26, autoAlpha: 0, duration: 0.55, stagger: 0.07 }, '-=0.25');
+    if (v) tl.from(v, { y: 40, autoAlpha: 0, duration: 0.85, ease: 'power3.out' }, '-=0.5');
     if (floats.length) tl.from(floats, { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.08 }, '-=0.4');
     return () => tl.kill();
-  }, []);
+  }, [ready]);
 
   // magnetic CTA buttons
   useEffect(() => {
@@ -88,7 +124,20 @@ export default function Hero() {
       <div className="container hero__grid">
         <div className="hero__copy" ref={copy}>
           <div className="pill"><span className="pulse" /> Omprakash Suthar • MyByte — ∞ 8 Elements • Land → Ocean, byte-scale impact <span className="pill__arrow">→</span></div>
-          <h1 className="anim-title">Intelligent<br /><span className="grad grad-anim">systems, ∞</span><br />&amp; field-ready<span className="dot dot-blink">.</span></h1>
+
+          <h1 className="anim-title hero-title" aria-label="Intelligent systems, ∞ & field-ready.">
+            {HEADLINE.map((words, li) => (
+              <span className="ht-line" key={li}>
+                {words.map((w, wi) => (
+                  <span key={wi} className={w.cls || ''}>
+                    <SplitChars text={w.t} />
+                    {wi < words.length - 1 ? ' ' : ''}
+                  </span>
+                ))}
+              </span>
+            ))}
+          </h1>
+
           <p className="typed-line"><span className="typed-prefix">▸</span> <span className="typed">{typed}</span><span className="cursor">▌</span></p>
           <p className="lead paper-anim" style={{ maxWidth: '62ch' }}>
             <span className="paper-line"><span>I'm <strong>Omprakash Suthar</strong> — <b>Regular, On-Campus — 3rd Year BCA @ CHRIST Yeshwantpur</b></span></span>
@@ -128,25 +177,7 @@ export default function Hero() {
             ))}
           </div>
 
-          <motion.div
-            className="glass-card code-card tilt"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, type: 'spring', stiffness: 90, damping: 18 }}
-          >
-            <div className="code-card__bar"><span /><span /><span /><b>mybyte.py — live ● compiling</b><span className="bar__right">● Python • edge • shipped</span></div>
-            <pre><code>{`# ∞ — 8 elements → infinite loop → ship
-class MyByte:
-  symbol = "∞"  # infinite loop — my life symbol
-  elements = ["Land","Infrastructure","Power","AI/ML/DL/NLP/Tech","Agriculture","Space","Transportation","Ocean"]
-  cost = "≤30KB • offline-first • frugal • ∞"
-  def ship(self, idea):
-    return idea.loop().polished().deployed()  # ∞
-
-print(MyByte().ship(your_problem))  → ∞ shipped`}</code></pre>
-            <div className="code-card__foot"><span className="foot-pulse">Frugal</span><span>Live previews</span><span>Bharat-ready</span><span className="foot-counter">12 lines • 0.8s compile</span></div>
-            <div className="code-glow" />
-          </motion.div>
+          <CodeCard ready={ready} />
 
           <motion.div className="profile-float anim-float" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
             <img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash" />
@@ -155,10 +186,24 @@ print(MyByte().ship(your_problem))  → ∞ shipped`}</code></pre>
           </motion.div>
 
           <div className="mini-float-row">
-            {[['BharatVista Nexus', 'Pure C • SQLite • Live ↗'], ['Agnirva NEAT 5.0', 'AI for Satellites ↗'], ['AI Scanner', 'OCR • Edge • Live ↗']].map(([b, s], i) => (
-              <motion.div key={b} className="mini-float anim-float" initial={{ opacity: 0, x: 18 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + i * 0.12 }}>
+            {([
+              ['BharatVista Nexus', 'Pure C • SQLite • Live ↗', 'BharatVista-Nexus'],
+              ['Agnirva NEAT 5.0', 'AI for Satellites ↗', 'Satora'],
+              ['AI Scanner', 'OCR • Edge • Live ↗', 'ai-scanner'],
+            ]).map(([b, s, key], i) => (
+              <motion.button
+                key={key}
+                type="button"
+                className="mini-float anim-float"
+                data-cursor="view"
+                title={`Open ${b} live preview`}
+                initial={{ opacity: 0, x: 18 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 + i * 0.12 }}
+                onClick={() => openByName(key)}
+              >
                 <b>{b}</b><span>{s}</span><i className="mini-dot" />
-              </motion.div>
+              </motion.button>
             ))}
           </div>
         </div>

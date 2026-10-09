@@ -14,6 +14,8 @@ import AnimationLab from './components/AnimationLab';
 import Showcase from './components/Showcase';
 import Work from './components/Work';
 import Modal from './components/Modal';
+import Cursor from './components/Cursor';
+import Preloader from './components/Preloader';
 import { Vision, InfinitySection, Domains, Cases, Goals, Stack, About, Journey, Contact } from './components/sections';
 
 import { ProjectsContext } from './ProjectsContext';
@@ -26,6 +28,7 @@ export default function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
+  const [ready, setReady] = useState(false);
 
   useLenis();
 
@@ -34,6 +37,12 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // preloader hand-off → hero intro timeline + re-measure pinned triggers
+  const handleReady = useCallback(() => {
+    setReady(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => ScrollTrigger.refresh()));
+  }, []);
 
   // data
   useEffect(() => {
@@ -68,10 +77,12 @@ export default function App() {
       <ProjectsContext.Provider value={ctx}>
         <div id="progress" />
         <Background />
+        {!ready && <Preloader onDone={handleReady} />}
+        <Cursor />
         <Nav theme={theme} onToggleTheme={toggleTheme} />
 
         <main>
-          <Hero />
+          <Hero ready={ready} />
           <Highlights />
           <Vision />
           <InfinitySection />
@@ -89,8 +100,8 @@ export default function App() {
 
         <footer className="footer">
           <div className="container footer__inner">
-            <p>© 2026 <b>Omprakash Suthar</b> — MyByte. React build: Motion • Anime.js • Theatre.js • Lottie • Three.js • Spline • PixiJS • Popmotion • Mo.js • GSAP. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source ↗</a></p>
-            <p className="small muted">Full-potential Vercel build. GitHub Pages build remains at the repo root.</p>
+            <p>© 2026 <b>Omprakash Suthar</b> — MyByte. React build: Motion • Anime.js • Theatre.js • Lottie • Three.js • Spline • PixiJS • Popmotion • Mo.js • GSAP • Lenis • SplitType-style reveal. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source ↗</a></p>
+            <p className="small muted">Live at https://my-byte.vercel.app — Vercel auto-deploys on push to main. Static GitHub Pages build remains at the repo root.</p>
           </div>
         </footer>
 

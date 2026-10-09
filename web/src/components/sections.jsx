@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Reveal from './Reveal';
+import { prefersReduce } from '../hooks/useCountUp';
 import { DOMAINS, CASES, GOALS, SKILLS, BENTO, TIMELINE } from '../content.jsx';
+
+gsap.registerPlugin(ScrollTrigger);
 
 /* ---------------- 00 VISION ---------------- */
 export function Vision() {
@@ -115,24 +120,74 @@ export function InfinitySection() {
   );
 }
 
-/* ---------------- 01 DOMAINS ---------------- */
+/* ---------------- 01 DOMAINS — pinned horizontal scroll (desktop) ---------------- */
 export function Domains() {
+  const sectionRef = useRef(null);
+  const trackRef = useRef(null);
+  const barRef = useRef(null);
+
+  useEffect(() => {
+    if (prefersReduce()) return;
+    // Desktop: pin the stage and slide the 8 domain cards sideways as the
+    // user scrolls vertically. Mobile/tablet: plain vertical grid (no pin).
+    const mm = ScrollTrigger.matchMedia({
+      '(min-width: 901px)': () => {
+        const track = trackRef.current;
+        const viewport = track?.parentElement;
+        if (!track || !viewport) return;
+        const getAmount = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+        return gsap.to(track, {
+          x: () => -getAmount(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: () => '+=' + getAmount(),
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              if (barRef.current) barRef.current.style.transform = `scaleX(${self.progress})`;
+            },
+          },
+        });
+      },
+    });
+    return () => mm.revert();
+  }, []);
+
   return (
-    <section id="domains" className="section section--alt">
-      <div className="container">
+    <section id="domains" className="section section--alt domains" ref={sectionRef}>
+      <div className="container domains__stage">
         <div className="section__eyebrow">01 — Domains • ∞ 8 Elements • One Loop</div>
-        <div className="section__head"><h2>Eight elements, one infinite system</h2><p className="muted">∞ connects Land → Ocean. Each domain has stack &amp; live work.</p></div>
-        <div className="infinity__grid">
-          {DOMAINS.map((d, i) => (
-            <Reveal key={d.h} as="article" className="domain domain--infinity" delay={(i % 4) * 0.06}>
-              <div className="domain__icon" style={{ background: d.grad }}>{d.id}</div>
-              <div className="domain__head"><h3>{d.h}</h3><span>{d.tag}</span></div>
-              <p>{d.p}</p>
-              <div className="tags">{d.tags.map((t) => <span key={t}>{t}</span>)}</div>
-              <a href="#work" className="domain__link">View {d.h.split(' ')[0]} →</a>
-            </Reveal>
-          ))}
+        <div className="section__head">
+          <h2>Eight elements, one infinite system</h2>
+          <p className="muted">∞ connects Land → Ocean. Scroll to travel the loop — each domain has stack &amp; live work.</p>
         </div>
+
+        <div className="domains__viewport">
+          <div className="domains__track" ref={trackRef}>
+            {DOMAINS.map((d, i) => (
+              <Reveal
+                key={d.h}
+                as="article"
+                className="domain domain--infinity domain--pin"
+                delay={0}
+                duration={0.5}
+              >
+                <div className="domain__icon" style={{ background: d.grad }}>{d.id}</div>
+                <div className="domain__head"><h3>{d.h}</h3><span>{d.tag}</span></div>
+                <p>{d.p}</p>
+                <div className="tags">{d.tags.map((t) => <span key={t}>{t}</span>)}</div>
+                <a href="#work" className="domain__link">View {d.h.split(' ')[0]} →</a>
+                <span className="domain__index">0{i + 1} / 08</span>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        <div className="domains__progress"><i ref={barRef} /></div>
       </div>
     </section>
   );
