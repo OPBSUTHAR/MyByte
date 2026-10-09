@@ -49,18 +49,26 @@ export default function Nav({ theme, onToggleTheme, onOpenResume }) {
 
   return (
     <header className="nav">
-      <div className="container nav__inner">
-        <motion.button
-          type="button"
-          className="logo"
-          style={{ background: 'none', border: 0, cursor: 'pointer', padding: 0 }}
+      <div className="nav__inner">
+        {/* LEFT ZONE — brand */}
+        <motion.div
+          className="nav__brand"
           initial={{ opacity: 0, x: -14 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}
-          onClick={() => { navigate('/'); setTimeout(() => window.__scrollToId?.('top'), 120); }}
         >
-          <span className="logo__mark">MB</span><span>MyByte</span>
-          <span style={{ fontWeight: 500, color: 'var(--muted)', fontSize: '.82rem', marginLeft: 4 }}>by Omprakash</span>
-        </motion.button>
+          <button
+            type="button"
+            className="logo"
+            onClick={() => { navigate('/'); setTimeout(() => window.__scrollToId?.('top'), 120); }}
+          >
+            <span className="logo__mark">MB</span>
+            <span className="logo__text">
+              <span className="logo__name">MyByte</span>
+              <span className="logo__sub">by OPBSUTHAR</span>
+            </span>
+          </button>
+        </motion.div>
 
+        {/* CENTER ZONE — navigation links */}
         <nav className={`nav__links ${open ? 'open' : ''}`}>
           <button
             type="button"
@@ -83,10 +91,13 @@ export default function Nav({ theme, onToggleTheme, onOpenResume }) {
             Resume
           </button>
           <a href="#/story" className={route === '/story' ? 'active' : ''} onClick={() => setOpen(false)}>Story</a>
-          <a className="btn btn--sm btn--glow" href="https://github.com/OPBSUTHAR" target="_blank" rel="noopener">GitHub ↗</a>
         </nav>
 
+        {/* RIGHT ZONE — actions */}
         <div className="nav__actions">
+          <a className="nav__github" href="https://github.com/OPBSUTHAR" target="_blank" rel="noopener">
+            <span>GitHub</span> <span aria-hidden="true">↗</span>
+          </a>
           <ThemeToggle theme={theme} onToggle={onToggleTheme} />
           <button className="icon-btn nav__burger" aria-label="Menu" onClick={() => setOpen((o) => !o)}>☰</button>
         </div>
@@ -97,5 +108,5 @@ export default function Nav({ theme, onToggleTheme, onOpenResume }) {
 
 const linkStyle = {
   background: 'none', border: 0, cursor: 'pointer', padding: 0,
-  font: 'inherit', color: 'var(--text)', fontWeight: 500, opacity: .82, fontSize: '.92rem',
+  font: 'inherit', color: 'var(--text)', fontWeight: 500, opacity: .78, fontSize: '.875rem',
 };
