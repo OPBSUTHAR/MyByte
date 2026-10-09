@@ -118,7 +118,7 @@ export default function Work() {
   const onHover = (p, x, y) => {
     mx.set(Math.min(x + 20, innerWidth - 380));
     my.set(Math.max(y - 140, 80));
-    setPreview({ p });
+    setPreview((prev) => (prev && prev.p.name === p.name ? prev : { p }));
   };
   const onLeave = () => setPreview(null);
 
@@ -154,7 +154,7 @@ export default function Work() {
             <span>Status</span>
             <span>Links</span>
           </div>
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence>
             {filtered.map((p, i) => (
               <Row key={p.name} p={p} index={i} onOpen={openProject} onHover={onHover} onLeave={onLeave} />
             ))}
