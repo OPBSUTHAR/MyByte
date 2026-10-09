@@ -1,45 +1,69 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-// The ancient book — CSS-3D flipbook with leather cover + parchment pages.
-// Shared by the Story page route and the Storybook modal.
+// ─── Web Audio API paper-rustle sound ───────────────────────────────────────
+let audioCtx = null;
+function playPageSound() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const dur = 0.35;
+    const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * dur, audioCtx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      const t = i / data.length;
+      data[i] = (Math.random() * 2 - 1) * Math.sin(t * Math.PI) * 0.3;
+    }
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 3000;
+    filter.Q.value = 0.8;
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    src.connect(filter).connect(gain).connect(audioCtx.destination);
+    src.start();
+  } catch { /* audio unavailable */ }
+}
 
+// ─── Page content ───────────────────────────────────────────────────────────
 const PAGES = [
   {
     num: 'I',
     title: 'Origins & Academic Foundation',
+    img: 'https://avatars.githubusercontent.com/u/178475619?v=4',
     body: <>3rd Year BCA — <b>Regular, On-Campus</b> @ CHRIST (Deemed to be University), Yeshwantpur, Bengaluru. Batch 2024–27. Learning by shipping: first Git repos, first deploys, first live demos — fundamentals forged in public.</>,
   },
   {
     num: 'II',
     title: 'The 8 Elements — One Infinite System',
+    img: 'https://opengraph.githubassets.com/1/OPBSUTHAR/BharatVista-Nexus',
     body: <><b>Land • Infrastructure • Power • AI/ML/DL/NLP • Agriculture • Space • Transportation • Ocean.</b> My life symbol is ∞ — a continuous loop where each element feeds the next. Research → Prototype → Ship → Iterate, across all eight domains.</>,
   },
   {
     num: 'III',
     title: 'Core Engineering Principles',
+    img: 'https://opengraph.githubassets.com/1/OPBSUTHAR/Satora',
     body: <><b>Offline-first. ≤30KB. Frugal AI.</b> Systems that work when the internet doesn't — on low compute, for people who need it most. Precision &amp; polish over noise. If it doesn't ship live, it doesn't count.</>,
   },
   {
     num: 'IV',
     title: 'Future Roadmap & Collaboration',
+    img: 'https://opengraph.githubassets.com/1/OPBSUTHAR/SpaceFlightMonitor',
     body: <>2026 → 2030: Ship 5 field-ready AI tools → frugal edge models &lt;10MB → systems for Bharat at 1M rural users → <b>MyByte as a product studio.</b> Seeking internships &amp; collabs in AI / Space / AgTech. Let's build.</>,
   },
 ];
 
+// ─── Main component ─────────────────────────────────────────────────────────
 export default function AncientBook() {
   const [open, setOpen] = useState(false);
-  const [spread, setSpread] = useState(0); // -1 = cover, 0..1 = two two-page spreads
+  const [spread, setSpread] = useState(0); // -1 = cover, 0..1 = two spreads
+  const [dragging, setDragging] = useState(null); // { leafIdx, startX, startTime }
+  const bookRef = useRef(null);
 
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'ArrowRight') setSpread((s) => Math.min(1, s + 1));
-      if (e.key === 'ArrowLeft') setSpread((s) => Math.max(-1, s - 1));
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
-
-  const flip = (dir) => {
+  const flip = useCallback((dir) => {
+    playPageSound();
     setSpread((s) => {
       const n = s + dir;
       if (n < -1) return -1;
@@ -47,12 +71,53 @@ export default function AncientBook() {
       return n;
     });
     if (!open) setOpen(true);
+  }, [open]);
+
+  // keyboard nav
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowRight') flip(1);
+      if (e.key === 'ArrowLeft') flip(-1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [flip]);
+
+  // drag page corner
+  const onPointerDown = (e, leafIdx) => {
+    if (spread <= leafIdx) return; // can't drag a leaf that hasn't been reached
+    e.preventDefault();
+    setDragging({ leafIdx, startX: e.clientX, startTime: Date.now() });
   };
+
+  const onPointerMove = (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - dragging.startX;
+    const threshold = 80;
+    if (dx < -threshold && spread > dragging.leafIdx) {
+      flip(1);
+      setDragging(null);
+    } else if (dx > threshold && spread <= dragging.leafIdx) {
+      flip(-1);
+      setDragging(null);
+    }
+  };
+
+  const onPointerUp = () => setDragging(null);
+
+  useEffect(() => {
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    return () => {
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+    };
+  }, [dragging, spread, flip]);
 
   const page = (i) => PAGES[i];
 
   return (
-    <div className="book-stage">
+    <div className="book-stage" ref={bookRef}>
       <div className={`book ${open ? 'is-open' : ''}`}>
         <div className="book__spine" aria-hidden="true" />
 
@@ -76,11 +141,20 @@ export default function AncientBook() {
           const rightIdx = leafIdx * 2 + 1;
           const state = spread > leafIdx ? 'flipped' : 'rest';
           return (
-            <div className={`leaf leaf--${leafIdx} leaf--${state}`} key={leafIdx} aria-hidden={state === 'rest'}>
+            <div
+              className={`leaf leaf--${leafIdx} leaf--${state}`}
+              key={leafIdx}
+              aria-hidden={state === 'rest'}
+              onPointerDown={(e) => onPointerDown(e, leafIdx)}
+              style={{ cursor: spread > leafIdx ? 'grab' : 'default' }}
+            >
               <div className="leaf__front page">
                 <div className="page__inner">
                   <span className="page__num">[{String(leftIdx + 1).padStart(2, '0')}]</span>
                   <h3>{page(leftIdx)?.title}</h3>
+                  <div className="page__img">
+                    <img src={page(leftIdx)?.img} alt="" loading="lazy" />
+                  </div>
                   <p>{page(leftIdx)?.body}</p>
                   <span className="page__mark">∞</span>
                 </div>
@@ -89,6 +163,9 @@ export default function AncientBook() {
                 <div className="page__inner">
                   <span className="page__num">[{String(rightIdx + 1).padStart(2, '0')}]</span>
                   <h3>{page(rightIdx)?.title}</h3>
+                  <div className="page__img">
+                    <img src={page(rightIdx)?.img} alt="" loading="lazy" />
+                  </div>
                   <p>{page(rightIdx)?.body}</p>
                   <span className="page__mark">∞</span>
                 </div>

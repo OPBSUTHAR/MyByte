@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 
 // Tiny hash router — no dependency. Routes:
-//   #/          → home (all sections)
-//   #/resume    → interactive resume
-//   #/story     → ancient book
-//   anything    → 404
+//   #/ or #/story → ancient book
+//   #story       → ancient book (no-slash fallback)
+//   #/           → home (all sections)
+//   anything     → 404
 // In-page section links (#vision, #work, …) are handled separately by
 // Lenis scrollTo — see useLenis' anchor interceptor (it skips "#/" hrefs).
+
+const KNOWN = ['/story'];
 
 export function useRoute() {
   const read = () => {
     const h = window.location.hash.replace(/^#/, '');
-    return h.startsWith('/') ? h : '/';
+    const path = h.startsWith('/') ? h : (h ? `/${h}` : '/');
+    return KNOWN.includes(path) ? path : (h === '' || h === '/' ? '/' : path);
   };
   const [route, setRoute] = useState(read);
   useEffect(() => {
@@ -24,12 +27,4 @@ export function useRoute() {
 
 export function navigate(path) {
   window.location.hash = path;
-}
-
-export function Link({ to, children, className, onClick, ...rest }) {
-  return (
-    <a href={`#${to}`} className={className} onClick={onClick} {...rest}>
-      {children}
-    </a>
-  );
 }
