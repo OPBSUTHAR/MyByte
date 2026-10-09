@@ -17,7 +17,7 @@ export default function ThemeToggle({ theme, onToggle }) {
       <motion.span
         className="switch__knob"
         initial={false}
-        animate={{ x: on ? 26 : 0 }}
+        animate={{ x: on ? 24 : 0 }}
         transition={prefersReduce()
           ? { duration: 0 }
           : { type: 'spring', stiffness: 550, damping: 28, mass: 0.9 }}

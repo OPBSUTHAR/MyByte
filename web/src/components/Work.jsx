@@ -1,23 +1,26 @@
 import { useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'motion/react';
 import { ogUrl, liveUrl, isLiveCandidate, domainLabel } from '../lib/github';
 import { useProjects } from '../ProjectsContext';
 
 const LANGS = ['all', 'Python', 'JavaScript', 'TypeScript', 'HTML', 'C'];
 const DOMAINS = ['all', 'krishi', 'safety', 'space', 'edu', 'other'];
 
-// ─── Hover preview card (floating, follows the row) ─────────────────────────
-function RowPreview({ p, x, y }) {
+// ─── Hover preview card with spring mouse-tracking ──────────────────────────
+function RowPreview({ p, mx, my }) {
   const live = liveUrl(p.name);
   const isLive = isLiveCandidate(p.lang, p.name);
+  // spring config: damping 20, stiffness 200, mass 0.5 — smooth inertia
+  const sx = useSpring(mx, { damping: 20, stiffness: 200, mass: 0.5 });
+  const sy = useSpring(my, { damping: 20, stiffness: 200, mass: 0.5 });
   return (
     <motion.div
       className="row-preview"
-      initial={{ opacity: 0, y: 8, scale: .97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 6, scale: .98 }}
-      transition={{ duration: .18, ease: 'easeOut' }}
-      style={{ left: x, top: y }}
+      style={{ x: sx, y: sy }}
+      initial={{ opacity: 0, scale: .85, y: 15 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: .9, y: -10 }}
+      transition={{ duration: .25, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="row-preview__thumb">
         <img src={ogUrl(p.name)} alt={`${p.name} preview`} loading="lazy" onError={(e) => { e.currentTarget.src = 'https://avatars.githubusercontent.com/u/178475619?v=4'; }} />
@@ -27,11 +30,21 @@ function RowPreview({ p, x, y }) {
         <b>{p.name}</b>
         <p>{p.desc || 'No description.'}</p>
         <div className="row-preview__stack">
-          {(p.lang || 'Other').split(',').map((s) => <span key={s}>{s.trim()}</span>)}
+          {(p.lang || 'Other').split(',').map((s) => (
+            <span key={s.trim()} className="tag-lift">{s.trim()}</span>
+          ))}
         </div>
         <div className="row-preview__actions">
-          <a href={live} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>Live Preview ↗</a>
-          <a href={p.url} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>Code ↗</a>
+          <motion.a
+            href={live} target="_blank" rel="noopener"
+            whileHover={{ scale: 1.04, boxShadow: '0 0 15px rgba(16,185,129,.3)' }}
+            whileTap={{ scale: .98 }}
+          >Live Preview ↗</motion.a>
+          <motion.a
+            href={p.url} target="_blank" rel="noopener"
+            whileHover={{ scale: 1.04, boxShadow: '0 0 15px rgba(16,185,129,.3)' }}
+            whileTap={{ scale: .98 }}
+          >Code ↗</motion.a>
         </div>
       </div>
     </motion.div>
@@ -58,13 +71,13 @@ function Row({ p, index, onOpen, onHover, onLeave }) {
     >
       <span className="proj-row__idx">{String(index + 1).padStart(2, '0')}</span>
       <div className="proj-row__main">
-        <b>{p.name}</b>
+        <b className="proj-row__title">{p.name}</b>
         <span className="proj-row__repo">{p.name}</span>
       </div>
       <div className="proj-row__tags">
-        <span>{domainLabel(p.domain || 'other')}</span>
-        <span>{p.lang || 'Other'}</span>
-        <span>★ {p.stars ?? 0}</span>
+        <span className="tag-lift">{domainLabel(p.domain || 'other')}</span>
+        <span className="tag-lift">{p.lang || 'Other'}</span>
+        <span className="tag-lift">★ {p.stars ?? 0}</span>
       </div>
       <span className={`proj-row__status ${isLive ? 'is-live' : ''}`}>
         {isLive ? '🟢 Live' : '◌ Code'}
@@ -82,7 +95,11 @@ export default function Work() {
   const [q, setQ] = useState('');
   const [lang, setLang] = useState('all');
   const [domain, setDomain] = useState('all');
-  const [preview, setPreview] = useState(null); // { p, x, y }
+  const [preview, setPreview] = useState(null);
+
+  // raw cursor motion values — the springs below smooth them
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
 
   const filtered = useMemo(() => {
     const query = q.toLowerCase().trim();
@@ -97,7 +114,12 @@ export default function Work() {
       });
   }, [list, q, lang, domain]);
 
-  const onHover = (p, x, y) => setPreview({ p, x: Math.min(x + 20, innerWidth - 380), y: Math.max(y - 140, 80) });
+  // offset: +20px right, −140px up — clamped into the viewport
+  const onHover = (p, x, y) => {
+    mx.set(Math.min(x + 20, innerWidth - 380));
+    my.set(Math.max(y - 140, 80));
+    setPreview({ p });
+  };
   const onLeave = () => setPreview(null);
 
   return (
@@ -140,7 +162,7 @@ export default function Work() {
         </div>
 
         <AnimatePresence>
-          {preview && <RowPreview p={preview.p} x={preview.x} y={preview.y} />}
+          {preview && <RowPreview p={preview.p} mx={mx} my={my} />}
         </AnimatePresence>
 
         <div className="center mt">

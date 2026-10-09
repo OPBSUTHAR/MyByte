@@ -155,19 +155,28 @@ h1,h2,h3{text-wrap:balance}
   .nav__burger{display:inline-grid}
 }
 
-/* tactile theme switch */
-.switch{position:relative; width:58px; height:30px; border-radius:999px; border:1px solid var(--line); background:var(--card2); cursor:pointer; padding:0; transition:background .35s ease, border-color .35s ease}
-.switch__track{position:absolute; inset:0; border-radius:999px}
-.switch__knob{
-  position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%;
-  background:var(--primary); box-shadow:0 2px 8px rgba(0,0,0,.35);
-  display:grid; place-items:center; color:var(--primary-ink); font-size:.7rem; font-weight:900;
-  transition:left .45s var(--ease-spring);
+/* tactile theme switch — thumb strictly contained */
+.switch{
+  position:relative; width:48px; height:24px; border-radius:9999px;
+  background:#E2E4E9; border:1px solid var(--line);
+  cursor:pointer; padding:2px; box-sizing:border-box; overflow:hidden;
+  display:flex; align-items:center;
+  transition:background .35s ease, border-color .35s ease;
 }
-.switch[data-on="true"] .switch__knob{left:31px}
-.switch__icon{position:absolute; top:50%; font-size:.62rem; transform:translateY(-50%); pointer-events:none}
-.switch__icon--sun{right:8px; color:var(--muted)}
-.switch__icon--moon{left:8px; color:var(--muted)}
+[data-theme="dark"] .switch{background:var(--card2)}
+.switch__track{position:absolute; inset:0; border-radius:9999px}
+.switch__knob{
+  position:relative; flex-shrink:0;
+  width:20px; height:20px; border-radius:50%;
+  background:#10B981; box-shadow:0 2px 8px rgba(0,0,0,.35);
+  display:grid; place-items:center; color:#fff; font-size:.62rem; font-weight:900;
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+  transform:translateX(0);
+}
+.switch[data-on="true"] .switch__knob{transform:translateX(24px)}
+.switch__icon{position:absolute; top:50%; font-size:.58rem; transform:translateY(-50%); pointer-events:none; color:var(--muted)}
+.switch__icon--sun{right:7px}
+.switch__icon--moon{left:7px}
 
 /* ============================================================
    BUTTONS
@@ -869,6 +878,43 @@ body.cursor-hover .cursor-ring{width:60px; height:60px; opacity:1}
   .proj-row,.proj-row--head{grid-template-columns:26px 1fr auto}
   .proj-row__status{font-size:.68rem}
 }
+
+/* row hover lighting — background, emerald underline, title shift, index pulse */
+.proj-row:not(.proj-row--head){
+  transition:transform .25s var(--ease-spring), box-shadow .25s, border-color .25s, background-color .25s;
+}
+.proj-row:not(.proj-row--head):hover{
+  background-color:rgba(30,32,37,.6);
+  border-bottom-color:rgba(16,185,129,.4);
+}
+[data-theme="light"] .proj-row:not(.proj-row--head):hover{background-color:#EAECEF}
+.proj-row__title{transition:transform .25s var(--ease-spring), color .2s}
+.proj-row:not(.proj-row--head):hover .proj-row__title{transform:translateX(4px); color:var(--primary)}
+.proj-row__idx{transition:color .2s, text-shadow .2s}
+.proj-row:not(.proj-row--head):hover .proj-row__idx{
+  color:var(--primary);
+  text-shadow:0 0 10px rgba(16,185,129,.6);
+  animation:idxPulse 1.2s ease-in-out infinite;
+}
+@keyframes idxPulse{0%,100%{opacity:1}50%{opacity:.75}}
+
+/* spring hover-lift for tag badges (table + preview) */
+.tag-lift{transition:transform .25s var(--ease-spring), box-shadow .2s, border-color .2s}
+.tag-lift:hover{
+  transform:translateY(-3px);
+  border-color:color-mix(in srgb, var(--primary) 45%, var(--line));
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+
+/* contact form success state */
+.form-success{
+  display:grid; gap:8px; text-align:center; padding:22px 16px;
+  border:1px solid color-mix(in srgb, var(--primary) 40%, var(--line));
+  background:color-mix(in srgb, var(--primary) 8%, var(--card));
+  border-radius:14px;
+}
+.form-success b{font-size:1.05rem; color:var(--primary)}
+.form-success span{color:var(--muted); font-size:.85rem}
 
 /* floating hover preview card */
 .row-preview{

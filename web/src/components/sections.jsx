@@ -340,17 +340,42 @@ export function Journey() {
   );
 }
 
-/* ---------------- 09 CONTACT ---------------- */
+/* ---------------- 09 CONTACT → Google Sheets (Apps Script) ---------------- */
+// Deploy the doPost() snippet (Extensions → Apps Script → Deploy → Web app)
+// and paste the Web App URL here — submissions append to the Sheet AND
+// email you instantly. No mailto:, no client redirect.
+const APPS_SCRIPT_URL = import.meta.env?.VITE_APPS_SCRIPT_URL || '';
+
 export function Contact() {
-  const [msg, setMsg] = useState('');
-  const submit = (e) => {
+  const [state, setState] = useState('idle'); // idle → sending → sent | error
+  const submit = async (e) => {
     e.preventDefault();
+    if (!APPS_SCRIPT_URL) {
+      setState('error');
+      return;
+    }
     const fd = new FormData(e.target);
-    const subject = encodeURIComponent(`MyByte — contact from ${fd.get('name')}`);
-    const body = encodeURIComponent(`From: ${fd.get('name')} <${fd.get('email')}>\n\n${fd.get('message')}\n\n— via MyByte`);
-    location.href = `mailto:omprakashsuthar.os974660@gmail.com?subject=${subject}&body=${body}`;
-    setMsg('Opening mail client… fallback: omprakashsuthar.os974660@gmail.com');
+    const payload = {
+      name: fd.get('name') || '',
+      email: fd.get('email') || '',
+      budget: fd.get('budget') || '',
+      message: fd.get('message') || '',
+    };
+    setState('sending');
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      setState('sent');
+      e.target.reset();
+    } catch {
+      setState('error');
+    }
   };
+
   return (
     <section id="contact" className="section section--alt contact">
       <div className="container grid2">
@@ -375,8 +400,28 @@ export function Contact() {
             </select>
           </label>
           <label>Message<textarea name="message" rows={5} required placeholder="Tell me about your idea / problem… what's the real constraint?" /></label>
-          <motion.button className="btn btn--primary btn--xl magnetic" type="submit" whileTap={{ scale: 0.97 }}>Send — let's ship</motion.button>
-          <p className="small muted">{msg}</p>
+
+          {state === 'sent' ? (
+            <div className="form-success">
+              <b>✓ Message sent</b>
+              <span>Recorded in Google Sheets — I'll reply within 24h.</span>
+              <button type="button" className="btn btn--sm" onClick={() => setState('idle')}>Send another</button>
+            </div>
+          ) : (
+            <motion.button
+              className="btn btn--primary btn--xl magnetic"
+              type="submit"
+              disabled={state === 'sending'}
+              whileTap={{ scale: 0.97 }}
+            >
+              {state === 'sending' ? 'Sending…' : 'Send — let\'s ship'}
+            </motion.button>
+          )}
+          {state === 'error' && (
+            <p className="small" style={{ color: '#f87171' }}>
+              Submission failed — email me directly: omprakashsuthar.os974660@gmail.com
+            </p>
+          )}
         </Reveal>
       </div>
     </section>
