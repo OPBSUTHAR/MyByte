@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { confettiBurst } from '../fx/confetti';
+import { confettiBurst } from '../lib/confetti';
 
 // XP / achievement system. XP is earned by exploring; levels unlock titles.
 // Persisted to localStorage. Emits toasts on level-up and achievement unlock.

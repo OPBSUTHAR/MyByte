@@ -29,7 +29,7 @@ import { useLenis } from './hooks/useLenis';
 import { useRoute } from './router';
 import { useQuest } from './hooks/useQuest';
 import { useVisits } from './hooks/useVisits';
-import { confettiBurst } from './fx/confetti';
+import { confettiBurst } from './lib/confetti';
 
 gsap.registerPlugin(ScrollTrigger);
 

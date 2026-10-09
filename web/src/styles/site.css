@@ -77,6 +77,8 @@ h1,h2,h3{text-wrap:balance}
   background-size:48px 48px; opacity:.08; mask:radial-gradient(ellipse 80% 60% at 50% 10%, black 60%, transparent 85%)}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
 
+/* particle canvas — strictly fixed, out of flow, behind content */
+#techCanvas{position:fixed; inset:0; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; display:block; opacity:.55}
 /* spotlight canvas (flashlight) */
 #spotlight{position:fixed; inset:0; z-index:2; pointer-events:none}
 
@@ -130,7 +132,7 @@ h1,h2,h3{text-wrap:balance}
 /* ============================================================
    HERO
    ============================================================ */
-.hero{padding:36px 0 8px}
+.hero{position:relative; z-index:1; margin-top:0; padding:5rem 0 8px}
 .hero__grid{display:grid; grid-template-columns:1.08fr .92fr; gap:28px; align-items:start}
 .hero__copy,.hero__visual{position:relative; z-index:1; min-width:0}
 .pill{display:inline-flex; align-items:center; gap:10px; padding:7px 12px 7px 8px; border-radius:999px; border:1px solid var(--line); background:color-mix(in srgb, var(--card) 85%, transparent); color:var(--muted); font-size:.82rem; font-weight:600; backdrop-filter:blur(10px)}
@@ -139,6 +141,8 @@ h1,h2,h3{text-wrap:balance}
 .pill__arrow{margin-left:4px; background:var(--primary); color:var(--primary-ink); width:18px; height:18px; display:grid; place-items:center; border-radius:50%; font-size:.7rem}
 h1{font-family:Fraunces,serif; font-size:clamp(2.6rem,6vw,4.4rem); line-height:.92; margin:.7rem 0 .4rem; letter-spacing:-.04em; font-weight:800}
 .dot{color:var(--primary)}
+.grad{color:var(--primary)}
+[data-theme="light"] .grad{color:var(--primary)}
 .accent-text{color:var(--primary); font-weight:inherit}
 [data-theme="light"] .accent-text{color:var(--primary)}
 .row-gap{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
@@ -258,10 +262,11 @@ button.mini-float{font:inherit; text-align:left; cursor:pointer; color:var(--tex
    CARDS (projects / domains / cases / goals — one clean slate)
    ============================================================ */
 .card,.domain,.case,.goal,.skill{
-  background:var(--card); border:1px solid var(--line); border-radius:18px;
+  background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:18px;
   transition:transform .3s var(--ease-spring), box-shadow .25s, border-color .25s;
   position:relative; overflow:hidden;
 }
+[data-theme="light"] .card,[data-theme="light"] .domain,[data-theme="light"] .case,[data-theme="light"] .goal,[data-theme="light"] .skill{border-color:var(--line)}
 .card:hover,.domain:hover,.case:hover,.goal:hover,.skill:hover{
   transform:scale(1.02);
   border-color:color-mix(in srgb, var(--primary) 45%, var(--line));
@@ -438,8 +443,9 @@ button.mini-float{font:inherit; text-align:left; cursor:pointer; color:var(--tex
    ============================================================ */
 .quest-hud{
   position:fixed; left:16px; bottom:16px; z-index:9000;
-  background:var(--card); border:1px solid var(--line); border-radius:16px; padding:12px 14px;
-  backdrop-filter:blur(14px); box-shadow:var(--shadow); min-width:210px; font-size:.78rem;
+  background:color-mix(in srgb, var(--card) 72%, transparent); border:1px solid var(--line); border-radius:14px; padding:10px 12px;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); box-shadow:var(--shadow); min-width:180px; max-width:240px; font-size:.75rem;
+  overflow:hidden;
 }
 .quest-hud__row{display:flex; align-items:center; gap:8px; justify-content:space-between}
 .quest-hud__level{font-family:'JetBrains Mono',monospace; font-weight:800; color:var(--primary); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase}
