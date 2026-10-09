@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MotionConfig } from 'motion/react';
+import { Analytics } from '@vercel/analytics/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -16,7 +17,6 @@ import Modal from './components/Modal';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
 import QuestHud from './components/QuestHud';
-import Spotlight from './components/Spotlight';
 import ThemeToggle from './components/ThemeToggle';
 import { Vision, InfinitySection, Domains, Cases, Goals, Stack, About, Journey, Contact } from './components/sections';
 import Resume from './pages/Resume';
@@ -188,10 +188,10 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <Analytics />
       <ProjectsContext.Provider value={ctx}>
         <div id="progress" />
         <Background />
-        <Spotlight />
         <div className="grain" aria-hidden="true" />
         {!ready && <Preloader onDone={handleReady} />}
         <Cursor />

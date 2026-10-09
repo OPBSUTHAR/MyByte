@@ -92,8 +92,8 @@ h1,h2,h3{text-wrap:balance}
 .nav__inner{display:flex; align-items:center; justify-content:space-between; height:66px}
 .logo{display:flex; align-items:center; gap:12px; color:var(--text); font-weight:800; letter-spacing:-.02em}
 .logo__mark{width:34px; height:34px; display:grid; place-items:center; background:var(--primary); color:var(--primary-ink); border-radius:10px; font-family:JetBrains Mono,monospace; font-size:.95rem; box-shadow:var(--glow)}
-.nav__links{display:flex; gap:18px; align-items:center}
-.nav__links a{color:var(--text); font-weight:500; opacity:.78; font-size:.92rem}
+.nav__links{display:flex; gap:1rem; align-items:center; flex-wrap:nowrap}
+.nav__links a{color:var(--text); font-weight:500; opacity:.78; font-size:.92rem; white-space:nowrap; padding:.4rem .75rem}
 .nav__links a:hover{opacity:1}
 .nav__links a.active{color:var(--primary); opacity:1; border-bottom:2px solid var(--primary); padding-bottom:2px}
 .nav__actions{display:flex; gap:10px; align-items:center}
@@ -192,6 +192,25 @@ button.mini-float{font:inherit; text-align:left; cursor:pointer; color:var(--tex
 .hero-title .ht-line{display:block}
 .hero-title .ht-word{display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.09em; margin-bottom:-.09em; will-change:transform}
 .hero-title .ht-char{display:inline-block; will-change:transform; transform:translateZ(0)}
+
+/* text backlight glow — light appears behind typography on hover */
+.glow-text{transition:text-shadow .3s ease, color .3s ease}
+.glow-text:hover{
+  color:#FFFFFF;
+  text-shadow:0 0 20px rgba(16,185,129,.4), 0 0 40px rgba(16,185,129,.2);
+}
+[data-theme="light"] .glow-text:hover{color:var(--text); text-shadow:0 0 18px rgba(16,185,129,.35), 0 0 36px rgba(16,185,129,.18)}
+h1,h2,h3{transition:text-shadow .3s ease, color .3s ease}
+h1:hover,h2:hover,h3:hover{
+  text-shadow:0 0 20px rgba(16,185,129,.35), 0 0 40px rgba(16,185,129,.18);
+}
+[data-theme="light"] h1:hover,[data-theme="light"] h2:hover,[data-theme="light"] h3:hover{text-shadow:0 0 16px rgba(16,185,129,.3), 0 0 32px rgba(16,185,129,.15)}
+.nav__links a{transition:text-shadow .3s ease, opacity .2s ease}
+.nav__links a:hover{text-shadow:0 0 16px rgba(16,185,129,.45), 0 0 32px rgba(16,185,129,.2)}
+.card h3,.domain h3,.case h3,.goal h3,.skill h3,.shot__body h3{transition:text-shadow .3s ease}
+.card h3:hover,.domain h3:hover,.case h3:hover,.goal h3:hover,.skill h3:hover,.shot__body h3:hover{
+  text-shadow:0 0 18px rgba(16,185,129,.4), 0 0 36px rgba(16,185,129,.18);
+}
 
 /* ============================================================
    TERMINAL (interactive CLI)
