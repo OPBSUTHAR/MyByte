@@ -14,6 +14,9 @@
   --text:#FFFFFF; --muted:#9BA0A8; --line:#2A2D35;
   --primary:#00E599;
   --neon:#00FF87;
+  --mint:#A7F3D0;
+  --teal:#2DD4BF;
+  --deep:#065F46;
   --primary-ink:#052E22;
   --radius:18px; --radius-lg:24px;
   --shadow:0 18px 50px rgba(0,0,0,.5);
@@ -56,15 +59,16 @@ h1,h2,h3{text-wrap:balance}
 }
 
 /* ---------- progress bar ---------- */
-#progress{position:fixed; top:0; left:0; height:2px; width:0; background:var(--primary); z-index:99; transition:width .1s}
+#progress{position:fixed; top:0; left:0; height:2px; width:0; background:linear-gradient(90deg, var(--mint), var(--primary), var(--teal)); z-index:99; transition:width .1s}
 
 /* ---------- background mesh ---------- */
 .bg-mesh{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
-/* static radial glows — no per-frame blur/blend cost; only orb--1 drifts */
+/* static radial glows — light-through-prism variety across the emerald
+   spectrum; no per-frame blur/blend cost; only orb--1 drifts */
 .orb{position:absolute; border-radius:50%; opacity:.2}
-.orb--1{width:640px; height:640px; background:radial-gradient(circle at 30% 30%, rgba(0,255,135,.5), transparent 62%); left:-140px; top:-180px; animation:float 16s ease-in-out infinite}
+.orb--1{width:640px; height:640px; background:radial-gradient(circle at 30% 30%, rgba(167,243,208,.5), transparent 62%); left:-140px; top:-180px; animation:float 16s ease-in-out infinite}
 .orb--2{width:720px; height:720px; background:radial-gradient(circle at 50% 50%, rgba(0,229,153,.45), transparent 64%); right:-220px; top:8%}
-.orb--3{width:560px; height:560px; background:radial-gradient(circle at 50% 50%, rgba(0,255,135,.32), transparent 66%); left:28%; bottom:-240px; opacity:.12}
+.orb--3{width:560px; height:560px; background:radial-gradient(circle at 50% 50%, rgba(45,212,191,.36), transparent 66%); left:28%; bottom:-240px; opacity:.12}
 /* cyber glass tint over the hero — static, zero blur cost */
 .hero::before{
   content:""; position:absolute; inset:0; pointer-events:none;
@@ -155,18 +159,37 @@ h1,h2,h3{text-wrap:balance}
 .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:11px 16px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--text); font-weight:650; cursor:pointer; transition:transform .18s, box-shadow .18s, border-color .18s, background-color .18s, filter .18s; font-size:.92rem}
 .btn:hover{transform:translateY(-1px); box-shadow:var(--shadow); border-color:color-mix(in srgb, var(--primary) 40%, var(--line))}
 .btn--primary{background:var(--primary); color:var(--primary-ink); border-color:transparent; box-shadow:0 8px 24px rgba(0,229,153,.25), 0 0 18px rgba(0,255,135,.12)}
+/* light-split sheen — diagonal prism sweep on hover (transform-only) */
+.btn--primary{position:relative; overflow:hidden}
+.btn--primary::after{
+  content:""; position:absolute; top:-20%; bottom:-20%; left:-30%; width:36px;
+  background:linear-gradient(105deg, transparent, rgba(167,243,208,.5), rgba(255,255,255,.65), rgba(45,212,191,.5), transparent);
+  transform:translateX(-120px) skewX(-18deg); transition:transform .01s;
+  pointer-events:none;
+}
+.btn--primary:hover::after{transform:translateX(320px) skewX(-18deg); transition:transform .7s ease}
+.shot__thumb{position:relative}
+.shot__thumb::before{
+  content:""; position:absolute; top:-20%; bottom:-20%; left:-30%; width:56px; z-index:1;
+  background:linear-gradient(105deg, transparent, rgba(167,243,208,.35), rgba(255,255,255,.45), transparent);
+  transform:translateX(-140px) skewX(-18deg); transition:transform .01s;
+  pointer-events:none;
+}
+.shot:hover .shot__thumb::before{transform:translateX(420px) skewX(-18deg); transition:transform .8s ease}
 .btn--primary:hover{filter:brightness(1.05); box-shadow:0 12px 36px rgba(0,229,153,.35), 0 0 32px rgba(0,255,135,.28)}
 .btn--ghost{background:var(--card)}
 .btn--glow{box-shadow:var(--glow)} .btn--sm{padding:8px 14px; border-radius:10px} .btn--xl{padding:13px 18px; border-radius:14px; font-size:.95rem}
 
-/* neon cyber card — static emerald glow, no backdrop blur, explicit props */
+/* neon cyber card — holographic foil edge (static conic spectrum, paint-once),
+   no backdrop blur, explicit props */
 .neon-glow-card{
-  border:1px solid rgba(0,255,135,.3);
+  border:1px solid transparent;
+  background:linear-gradient(var(--card), var(--card)) padding-box,
+    conic-gradient(from 140deg, var(--mint), var(--primary), var(--teal), var(--deep), var(--mint)) border-box;
   box-shadow:0 0 20px rgba(0,255,135,.12), inset 0 0 15px rgba(0,255,135,.04);
   transition:transform .3s var(--ease-spring), box-shadow .3s, border-color .3s;
 }
 .neon-glow-card:hover{
-  border-color:var(--neon);
   box-shadow:var(--glow-neon);
   transform:translateY(-3px);
 }
@@ -229,21 +252,21 @@ button.mini-float{font:inherit; text-align:left; cursor:pointer; color:var(--tex
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .marquee:hover .marquee__track{animation-play-state:paused}
 
-/* split headline */
+/* split headline — every char carries a faint static channel-split */
 .hero-title .ht-line{display:block}
 .hero-title .ht-word{display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.09em; margin-bottom:-.09em}
-.hero-title .ht-char{display:inline-block; transform:translateZ(0)}
+.hero-title .ht-char{display:inline-block; transform:translateZ(0); text-shadow:1px 0 0 rgba(167,243,208,.2), -1px 0 0 rgba(6,95,70,.35)}
 
 /* cursor backlight — glow lives on the hovered line once, not per-char */
-.hero__copy.headline-lit .ht-line{color:#fff; transition:color .35s ease; text-shadow:0 0 25px rgba(16,185,129,.35), 0 0 60px rgba(16,185,129,.15)}
+.hero__copy.headline-lit .ht-line{color:#fff; transition:color .35s ease; text-shadow:0 0 25px rgba(0,255,135,.4), 0 0 60px rgba(0,229,153,.18)}
 
-/* interactive infinity accent — emerald aura on hover (text-shadow pulse,
-   not per-char drop-shadow filters, so it stays compositor-cheap) */
+/* interactive infinity accent — prismatic aura pulse (text-shadow only,
+   stays compositor-cheap) */
 .infinity-accent{cursor:pointer; transition:text-shadow .35s ease}
 .infinity-accent:hover{animation:infinityPulse 1.6s ease-in-out infinite}
 @keyframes infinityPulse{
-  0%,100%{text-shadow:0 0 10px rgba(16,185,129,.7), 0 0 26px rgba(16,185,129,.3)}
-  50%{text-shadow:0 0 20px rgba(16,185,129,1), 0 0 44px rgba(16,185,129,.55)}
+  0%,100%{text-shadow:1px 0 0 rgba(167,243,208,.8), -1px 0 0 rgba(6,95,70,.6), 0 0 26px rgba(0,229,153,.35)}
+  50%{text-shadow:2px 0 0 rgba(167,243,208,1), -2px 0 0 rgba(45,212,191,.8), 0 0 44px rgba(0,255,135,.6)}
 }
 
 /* heading hover glow — hero + section titles only (card/shot headings stay
@@ -293,7 +316,17 @@ h1:hover,h2:hover{
 .section{padding:64px 0}
 .section--alt{background:var(--bg2); border-top:1px solid var(--line); border-bottom:1px solid transparent}
 .section__eyebrow{font-family:JetBrains Mono,monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--primary); font-weight:700; margin-bottom:8px}
-.section h2{font-family:Space Grotesk,Inter,sans-serif; font-size:clamp(1.6rem,3.6vw,2.4rem); line-height:1.02; letter-spacing:-.03em; margin:0 0 10px}
+.section__eyebrow::after{
+  content:""; display:block; height:1px; margin-top:7px; max-width:220px;
+  background:linear-gradient(90deg, var(--mint), var(--primary) 45%, var(--teal) 70%, transparent);
+}
+.section h2{
+  font-family:Space Grotesk,Inter,sans-serif; font-size:clamp(1.6rem,3.6vw,2.4rem); line-height:1.02; letter-spacing:-.03em; margin:0 0 10px;
+  /* prismatic channel-split: mint lifts left, deep green drops right */
+  text-shadow:1px 0 0 rgba(167,243,208,.22), -1px 0 0 rgba(6,95,70,.45);
+  transition:text-shadow .3s ease;
+}
+.section h2:hover{text-shadow:2px 0 0 rgba(167,243,208,.4), -2px 0 0 rgba(6,95,70,.6), 0 0 28px rgba(0,229,153,.3)}
 .section__head{display:flex; align-items:end; justify-content:space-between; gap:16px; flex-wrap:wrap}
 
 /* bento */
@@ -371,7 +404,10 @@ h1:hover,h2:hover{
 /* case studies */
 .case-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px}
 @media(max-width:980px){ .case-grid{grid-template-columns:1fr} }
-.case{display:flex; flex-direction:column}
+.case{display:flex; flex-direction:column; border:1px solid transparent;
+  background:linear-gradient(var(--card), var(--card)) padding-box,
+    conic-gradient(from 100deg, rgba(167,243,208,.55), rgba(0,229,153,.28), rgba(45,212,191,.4), rgba(6,95,70,.5), rgba(167,243,208,.55)) border-box;
+}
 .case__bar{height:3px; background:var(--primary)}
 .case__body{padding:18px; display:flex; flex-direction:column; gap:10px; flex:1}
 .case__eyebrow{font-family:JetBrains Mono,monospace; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; font-weight:800; color:var(--primary)}
@@ -525,8 +561,8 @@ h1:hover,h2:hover{
 /* custom cursor — clean emerald dot + tight ring (no blend modes, no lag) */
 .cursor-dot,.cursor-ring{position:fixed; top:0; left:0; pointer-events:none; z-index:10000; border-radius:50%}
 .cursor-dot{width:8px; height:8px; background:var(--primary); box-shadow:0 0 10px rgba(0,229,153,.8)}
-.cursor-ring{width:34px; height:34px; border:1.5px solid rgba(0,229,153,.65); opacity:.9; transition:width .2s ease, height .2s ease, opacity .2s ease, border-color .2s ease}
-body.cursor-hover .cursor-ring{width:56px; height:56px; opacity:1; border-color:var(--neon); box-shadow:0 0 18px rgba(0,255,135,.35)}
+.cursor-ring{width:34px; height:34px; border:1.5px solid rgba(0,229,153,.65); opacity:.9; box-shadow:0 0 12px rgba(167,243,208,.25), 0 0 26px rgba(0,229,153,.12); transition:width .2s ease, height .2s ease, opacity .2s ease, border-color .2s ease, box-shadow .2s ease}
+body.cursor-hover .cursor-ring{width:56px; height:56px; opacity:1; border-color:var(--mint); box-shadow:0 0 18px rgba(167,243,208,.5), 0 0 40px rgba(0,255,135,.3)}
 @media (pointer:fine){ html.fx-cursor, html.fx-cursor *{cursor:none} }
 @media (pointer:coarse){ .cursor-dot,.cursor-ring{display:none} }
 @media (prefers-reduced-motion:reduce){ .cursor-dot,.cursor-ring{display:none} }
@@ -901,8 +937,10 @@ html.crt-mode .scanlines{opacity:.28}
 
 /* secret modal card */
 .secret-card{
-  width:min(520px,92vw); background:var(--bg); border:1px solid color-mix(in srgb, var(--primary) 40%, var(--line));
-  border-radius:20px; box-shadow:var(--shadow), var(--glow); padding:24px;
+  width:min(520px,92vw); border-radius:20px; box-shadow:var(--shadow), var(--glow); padding:24px;
+  border:1px solid transparent;
+  background:linear-gradient(var(--bg), var(--bg)) padding-box,
+    conic-gradient(from 200deg, var(--mint), var(--teal), var(--primary), var(--deep), var(--mint)) border-box;
 }
 .secret-card__eyebrow{font-family:'JetBrains Mono',monospace; font-size:.68rem; font-weight:800; letter-spacing:.14em; color:var(--primary); margin-bottom:8px}
 .secret-card h2{margin:0 0 10px; font-size:1.5rem}
