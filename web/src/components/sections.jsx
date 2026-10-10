@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Reveal from './Reveal';
+import GlitchButton from './GlitchButton';
 import { prefersReduce } from '../hooks/useCountUp';
 import { useTiltGrid } from '../hooks/useTilt';
 import { DOMAINS, CASES, GOALS, SKILLS, BENTO, TIMELINE } from '../content.jsx';
@@ -64,6 +65,17 @@ export function InfinitySection() {
   const [active, setActive] = useState(null);
   const svgRef = useRef(null);
   const travelerRef = useRef(null);
+  const tapTimes = useRef([]);
+
+  // secret 05: triple-click the traveler dot → origin log modal
+  const onTravelerClick = () => {
+    const now = Date.now();
+    tapTimes.current = [...tapTimes.current.filter((t) => now - t < 1200), now];
+    if (tapTimes.current.length >= 3) {
+      tapTimes.current = [];
+      window.dispatchEvent(new CustomEvent('mybyte:secret', { detail: { id: 'origin' } }));
+    }
+  };
 
   // traveling light particle along the ∞ path — paused while offscreen
   useEffect(() => {
@@ -140,7 +152,7 @@ export function InfinitySection() {
                   <circle cx="200" cy="70" r="10" fill="var(--card)" stroke="var(--line)" strokeWidth="1.2" />
                   <text x="200" y="74" textAnchor="middle" fontFamily="Fraunces,serif" fontSize="13" fontWeight="800" fill="var(--text)">∞</text>
                 </svg>
-                <div ref={travelerRef} className="traveler" aria-hidden="true" />
+                <div ref={travelerRef} className="traveler" aria-hidden="true" onClick={onTravelerClick} title="∞" style={{ cursor: 'pointer' }} />
                 <div className="free-infinity__labels">{labels.map((l, i) => <span key={l} style={active === i ? { color: 'var(--primary)' } : undefined}>{l}</span>)}</div>
               </div>
             </div>
@@ -247,8 +259,8 @@ export function Cases() {
                 <p className="muted">{c.p}</p>
                 <div className="case__stats">{c.tags.map((t) => <span key={t}>{t}</span>)}</div>
                 <div className="case__actions">
-                  <a className="btn btn--primary btn--sm" href={c.code} target="_blank" rel="noopener">Code ↗</a>
-                  <a className="btn btn--sm" href="#work">Live preview</a>
+                  <GlitchButton className="btn btn--primary btn--sm" href={c.code} label="Code ↗" />
+                  <GlitchButton className="btn btn--sm" href="#work" label="Live preview" />
                 </div>
               </div>
             </Reveal>

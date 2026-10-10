@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { useRoute, navigate } from '../router';
+import GlitchText from './GlitchText';
 
 const SECTIONS = [
   { id: 'vision', label: 'Vision' },
@@ -75,11 +76,11 @@ export default function Nav({ onOpenResume }) {
             style={linkStyle}
             onClick={() => { setOpen(false); navigate('/'); setTimeout(() => window.__scrollToId?.('top'), 120); }}
           >
-            Home
+            <GlitchText text="Home" />
           </button>
           {SECTIONS.map((s) => (
             <a key={s.id} href={`#${s.id}`} className={active === `#${s.id}` ? 'active' : ''} onClick={goSection(s.id)}>
-              {s.label}
+              <GlitchText text={s.label} />
             </a>
           ))}
           <button
@@ -87,9 +88,9 @@ export default function Nav({ onOpenResume }) {
             style={linkStyle}
             onClick={(e) => { e.preventDefault(); setOpen(false); onOpenResume(); }}
           >
-            Resume
+            <GlitchText text="Resume" />
           </button>
-          <a href="#/story" className={route === '/story' ? 'active' : ''} onClick={() => setOpen(false)}>Story</a>
+          <a href="#/story" className={route === '/story' ? 'active' : ''} onClick={() => setOpen(false)}><GlitchText text="Story" /></a>
         </nav>
 
         {/* RIGHT ZONE — actions */}

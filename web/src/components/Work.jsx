@@ -1,7 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'motion/react';
 import { ogUrl, liveUrl, isLiveCandidate, domainLabel } from '../lib/github';
 import { useProjects } from '../ProjectsContext';
+import GlitchText from './GlitchText';
+import { scrambleTo } from '../hooks/useScramble';
+import { prefersReduce } from '../hooks/useCountUp';
 
 const LANGS = ['all', 'Python', 'JavaScript', 'TypeScript', 'HTML', 'C'];
 const DOMAINS = ['all', 'krishi', 'safety', 'space', 'edu', 'other'];
@@ -71,7 +74,7 @@ function Row({ p, index, onOpen, onHover, onLeave }) {
     >
       <span className="proj-row__idx">{String(index + 1).padStart(2, '0')}</span>
       <div className="proj-row__main">
-        <b className="proj-row__title">{p.name}</b>
+        <b className="proj-row__title"><GlitchText text={p.name} /></b>
         <span className="proj-row__repo">{p.name}</span>
       </div>
       <div className="proj-row__tags">
@@ -96,6 +99,22 @@ export default function Work() {
   const [lang, setLang] = useState('all');
   const [domain, setDomain] = useState('all');
   const [preview, setPreview] = useState(null);
+
+  // tag micro-secret: hovering a domain/lang/star badge plays a one-shot
+  // ASCII decode (delegated single listener — no per-tag state or timers)
+  const tableRef = useRef(null);
+  useEffect(() => {
+    const root = tableRef.current;
+    if (!root || prefersReduce()) return;
+    const onOver = (e) => {
+      const tag = e.target.closest?.('.tag-lift');
+      if (!tag || tag._scramble) return;
+      if (!tag.dataset.orig) tag.dataset.orig = tag.textContent;
+      scrambleTo(tag, tag.dataset.orig);
+    };
+    root.addEventListener('mouseover', onOver, { passive: true });
+    return () => root.removeEventListener('mouseover', onOver);
+  }, []);
 
   // raw cursor motion values — the springs below smooth them
   const mx = useMotionValue(0);
@@ -146,7 +165,7 @@ export default function Work() {
         </div>
         <p className="muted small" style={{ marginTop: 10 }}>{filtered.length} of {list.length} projects • hover a row for preview.</p>
 
-        <div className="proj-table">
+        <div className="proj-table" ref={tableRef}>
           <div className="proj-row proj-row--head">
             <span>#</span>
             <span>Project</span>

@@ -19,6 +19,10 @@ import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
 import ResumeModal from './components/ResumeModal';
 import StoryModal from './components/StoryModal';
+import { useSecretEngine } from './components/SecretEngine';
+import SecretsHud from './components/SecretsHud';
+import SecretModal from './components/SecretModal';
+import MatrixRain from './components/MatrixRain';
 import { Vision, InfinitySection, Domains, Cases, Goals, Stack, About, Journey, Contact } from './components/sections';
 import Story from './pages/Story';
 import NotFound from './pages/NotFound';
@@ -26,7 +30,7 @@ import NotFound from './pages/NotFound';
 import { ProjectsContext } from './ProjectsContext';
 import { loadProjects, projectDomain } from './lib/github';
 import { useLenis } from './hooks/useLenis';
-import { useRoute } from './router';
+import { useRoute, navigate } from './router';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,6 +46,7 @@ export default function App() {
   const [frugal, setFrugal] = useState(true);
   const [resumeOpen, setResumeOpen] = useState(false);
   const [storyOpen, setStoryOpen] = useState(false);
+  const secrets = useSecretEngine();
 
   useLenis();
 
@@ -102,6 +107,13 @@ export default function App() {
     setFrugal(v);
   }, []);
 
+  // V.I.P. modal → contact section (cross-route safe)
+  const goContact = useCallback(() => {
+    secrets.setModal(null);
+    if (route !== '/') navigate('/');
+    setTimeout(() => window.__scrollToId?.('contact'), 160);
+  }, [route, secrets]);
+
   const home = isHome && (
     <>
       <Hero
@@ -153,6 +165,12 @@ export default function App() {
         <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
         <StoryModal open={storyOpen} onClose={() => setStoryOpen(false)} />
         <Modal project={active} onClose={() => setActive(null)} />
+        <SecretsHud count={secrets.unlocked.length} total={secrets.total} toast={secrets.toast} />
+        {secrets.modal && (
+          <SecretModal kind={secrets.modal} onClose={() => secrets.setModal(null)} onGoContact={goContact} />
+        )}
+        {secrets.matrixOn && <MatrixRain onClose={() => secrets.setMatrixOn(false)} />}
+        {secrets.crtOn && <div className="crt-overlay" aria-hidden="true" />}
       </ProjectsContext.Provider>
     </MotionConfig>
   );

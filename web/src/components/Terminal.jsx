@@ -3,10 +3,11 @@ import gsap from 'gsap';
 import { prefersReduce } from '../hooks/useCountUp';
 
 // nybyte.py — interactive CLI window:
-//   help · whoami · cat skills · sudo hire · run demo · ls
-//   frugal = true|false · clear
+//   help · whoami · cat skills · cat secret.txt · sudo hire · run demo
+//   matrix · frugal = true|false · clear
 // Typing → compiling → live runs on mount (overlapping the preloader, not
 // serialized after it). ⟳ in the title bar replays the sequence.
+// Secret commands dispatch window `mybyte:secret` events (HUD + modals).
 
 const BANNER = [
   [['c', '# infinite loop — 8 elements, ship, polish']],
@@ -24,9 +25,11 @@ const HELP = [
   ['$', 'help', '— this message'],
   ['$', 'whoami', '— about the builder'],
   ['$', 'cat skills', '— the stack, direct from source'],
+  ['$', 'cat secret.txt', '— origin log (shhh)'],
   ['$', 'ls', '— what is in this repo'],
   ['$', 'sudo hire', '— try it. seriously.'],
   ['$', 'run demo', '— confetti protocol'],
+  ['$', 'matrix', '— rain protocol'],
   ['$', 'frugal = <true|false>', '— toggle the build budget'],
   ['$', 'clear', '— wipe the terminal'],
 ];
@@ -51,6 +54,19 @@ const cmdOut = {
   ],
   'cat skills': SKILLS,
   help: HELP,
+};
+
+// hidden origin log — unlocked via `cat secret.txt` (secret #04)
+const SECRET_LOG = [
+  ['c', '# ── origin.log ── classified: ∞'],
+  ['n', '2024 :: first repo. on-campus BCA, off-campus curiosity.'],
+  ['n', '2025 :: JS mastery — state, storage, polish. ship after ship.'],
+  ['n', '2026 :: AI + systems — OCR, NLP, satellites, Pure C.'],
+  ['s', '∞    :: eight elements, one loop. secret 04/05 logged.'],
+];
+
+const fireSecret = (id) => {
+  window.dispatchEvent(new CustomEvent('mybyte:secret', { detail: { id } }));
 };
 
 export default function Terminal({ onFrugal }) {
@@ -190,8 +206,9 @@ export default function Terminal({ onFrugal }) {
     if (cmd === 'sudo' && arg === 'hire') {
       print([
         [ 'n', 'sudo: omprakash is already hired — by the problem.'],
-        [ 'n', '  → scroll to #contact and let’s ship something live.'],
+        [ 'n', '  → V.I.P. lane opening… check the modal.'],
       ]);
+      fireSecret('sudo');
       return;
     }
 
@@ -202,6 +219,16 @@ export default function Terminal({ onFrugal }) {
 
     if (cmd === 'run' && arg === 'demo') {
       print([[ 'n', '✓ demo protocol engaged — the ∞ loop is already live. Scroll ↓' ]]);
+      return;
+    }
+
+    if (cmd === 'matrix') {
+      if (prefersReduce()) {
+        print([[ 'n', 'matrix: rain disabled under reduced-motion. The loop stays calm.' ]]);
+      } else {
+        print([[ 'n', '◉ matrix rain engaged — Esc or click to exit.' ]]);
+        fireSecret('matrix');
+      }
       return;
     }
 
@@ -222,6 +249,12 @@ export default function Terminal({ onFrugal }) {
 
     if (cmd === 'rm' && arg.includes('-rf')) {
       print([[ 'n', 'rm: nice try. The ∞ loop is immutable.' ]]);
+      return;
+    }
+
+    if (cmd === 'cat' && arg === 'secret.txt') {
+      print(SECRET_LOG);
+      fireSecret('secret');
       return;
     }
 

@@ -5,6 +5,7 @@ import { PHRASES, MARQUEE } from '../content.jsx';
 import { useCountUp, prefersReduce } from '../hooks/useCountUp';
 import { useProjects } from '../ProjectsContext';
 import SplitChars from './SplitChars';
+import GlitchText from './GlitchText';
 import Terminal from './Terminal';
 
 // Isolated typewriter line — owns its tick state so the 42–96ms updates
@@ -157,9 +158,9 @@ export default function Hero({ ready, onFrugal, onOpenStory }) {
             <span className="paper-line"><span><b>Agriculture • Space • Transportation • Ocean</b> — my life symbol is <b>∞</b>. <b>42 repos</b> live.</span></span>
           </p>
           <div className="hero__cta">
-            <button type="button" className="btn btn--primary btn--xl magnetic" onClick={onOpenStory}>Open Story →</button>
-            <a href="#vision" className="btn btn--ghost btn--xl">My vision</a>
-            <a href="#work" className="btn btn--ghost btn--xl">Explore work</a>
+            <button type="button" className="btn btn--primary btn--xl magnetic" onClick={onOpenStory}><GlitchText text="Open Story →" /></button>
+            <a href="#vision" className="btn btn--ghost btn--xl"><GlitchText text="My vision" /></a>
+            <a href="#work" className="btn btn--ghost btn--xl"><GlitchText text="Explore work" /></a>
           </div>
           <div className="hero__meta">
             <div className="avatars">
