@@ -1,19 +1,11 @@
-import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import AncientBook from './AncientBook';
+import { useScrollLock, useTopmostEscape } from '../hooks/useScrollLock';
 
 // Full-screen overlay hosting the ancient book. Esc / backdrop / ✕ closes.
 export default function StoryModal({ open, onClose }) {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
-  }, [open, onClose]);
+  useScrollLock(open);
+  useTopmostEscape(open, onClose);
 
   return (
     <AnimatePresence>

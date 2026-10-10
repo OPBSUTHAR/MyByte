@@ -5,18 +5,20 @@ import { useEffect, useState } from 'react';
 export function useVisits() {
   const [count, setCount] = useState(null);
   useEffect(() => {
+    const ctrl = new AbortController();
     let alive = true;
     const NS = 'opbsuthar-mybyte';
     const KEY = 'visits';
-    fetch(`https://api.counterapi.dev/v1/${NS}/${KEY}/up`)
+    fetch(`https://api.counterapi.dev/v1/${NS}/${KEY}/up`, { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
       .then((d) => { if (alive) setCount(d.count); })
       .catch(() => {
+        if (!alive) return;
         const n = Number(localStorage.getItem('mybyte_visits') || 0) + 1;
         localStorage.setItem('mybyte_visits', String(n));
-        if (alive) setCount(n);
+        setCount(n);
       });
-    return () => { alive = false; };
+    return () => { alive = false; ctrl.abort(); };
   }, []);
   return count;
 }

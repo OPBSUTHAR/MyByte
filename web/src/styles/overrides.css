@@ -1,30 +1,21 @@
 /* MyByte React build — shell layer.
    The full design system lives in styles/site.css. This file only adds
-   what the React shell needs on top of it. */
+   what the React shell needs on top of it. No duplicates, no overrides
+   of site.css component skins. */
 :root {
   --ease-out: cubic-bezier(.22, 1, .36, 1);
 }
 
-/* keeps the vignette/scanline layers behind content but above the canvas */
-.scanlines { z-index: 1; }
+/* stacking: vignette/scanline layers behind content but above the canvas */
 #root { position: relative; z-index: 2; }
 
 /* smooth scrolling is driven by Lenis on the React build */
 html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* GSAP reveal wrapper (React build) */
-.fx-reveal { will-change: transform, opacity; }
 /* GSAP drives the bar fill frame-by-frame; drop the CSS transition to avoid fight */
 .bar i { transition: none; }
 
 /* terminal input caret */
 .cc-input::selection{background:color-mix(in srgb, var(--primary) 30%, transparent)}
-.cc-line--out .s{color:var(--primary); font-weight:700}
-
-/* quest HUD entrance handled by motion; bar fill is JS-driven */
-.quest-hud__bar i{transition:transform .5s cubic-bezier(.22,1,.36,1)}
-
-/* story book leaves */
-.leaf__front,.leaf__back{background:var(--card)}

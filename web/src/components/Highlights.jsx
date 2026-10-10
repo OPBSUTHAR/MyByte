@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { HIGHLIGHTS } from '../content.jsx';
 import Reveal from './Reveal';
 
-// Overview strip — the 5 highlights. On the static build this auto-scrolls as
-// a marquee; here it becomes a responsive, keyboard-friendly grid.
+// Overview strip — the 5 highlights. Responsive, keyboard-friendly grid.
+// (No hover state: the old `active` class had no visual rule — pure CSS
+// :hover/:focus-visible in site.css handles the highlight instead.)
 export default function Highlights() {
-  const [active, setActive] = useState(0);
   return (
     <section id="storyboard" className="section">
       <div className="container">
@@ -19,10 +18,8 @@ export default function Highlights() {
             <Reveal
               key={h.h}
               as="article"
-              className={`overview-card ${active === i ? 'active' : ''}`}
-              delay={i * 0.06}
-              onMouseEnter={() => setActive(i)}
-              onFocus={() => setActive(i)}
+              className="overview-card"
+              delay={Math.min(i * 0.06, 0.12)}
               tabIndex={0}
             >
               <div className="overview-card__eyebrow">{h.eyebrow}</div>

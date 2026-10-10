@@ -23,7 +23,7 @@ function RowPreview({ p, mx, my }) {
       transition={{ duration: .25, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="row-preview__thumb">
-        <img src={ogUrl(p.name)} alt={`${p.name} preview`} loading="lazy" onError={(e) => { e.currentTarget.src = 'https://avatars.githubusercontent.com/u/178475619?v=4'; }} />
+        <img src={ogUrl(p.name)} alt={`${p.name} preview`} loading="lazy" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://avatars.githubusercontent.com/u/178475619?v=4'; }} />
         {isLive && <span className="card__live">◉ Live</span>}
       </div>
       <div className="row-preview__body">

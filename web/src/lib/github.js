@@ -1,15 +1,17 @@
 // GitHub data layer — mirrors assets/js/github.js but as reusable React helpers.
 export const USER = 'OPBSUTHAR';
 
-// factorial domain map — diverse → reflects ambitions
-export const DOMAIN_MAP = {
-  'Krishi-Gati-AI': 'krishi', ledgerly: 'krishi', Agri360: 'krishi', LoRa_IoT_AgriSim: 'krishi',
-  'ai-scanner': 'safety', 'crimeintel-ai': 'safety', 'file-lock-app': 'safety', 'sarathi-ll-face-simulator': 'safety', cyber: 'safety',
-  'Aviation_NLP_Project': 'space', SpaceFlightMonitor: 'space', SynchroGroundedNet: 'space', AstraForge: 'space', railway: 'space', 'BharatVista-Nexus': 'space', Satora: 'space', 'delhivery-pipeline': 'space',
-  Econnect: 'edu', 'student-tracker': 'edu', 'student-teacher-appointment-booking': 'edu', 'catering-reservation-and-order-system': 'edu', 'gym-management-system': 'edu', priority_scheduler: 'edu', 'To-Do-Master': 'edu', 'Expense-Tracker': 'edu', 'recipe-book': 'edu', 'Basic-Calculator': 'edu', 'Tic-Tac-Toe-Game': 'edu', MemoryCardGame: 'edu', 'countdown-timer': 'edu', 'cannibals-missionaries': 'edu', 'electric-vehicle-recharge-bunk': 'krishi', 'student-registration': 'edu', 'project-E': 'edu', 'salary-prediction': 'edu',
-};
+// factorial domain map — diverse → reflects ambitions.
+// Keys are matched case-insensitively (GitHub names are mixed-case).
+const DOMAIN_ENTRIES = [
+  ['Krishi-Gati-AI', 'krishi'], ['ledgerly', 'krishi'], ['Agri360', 'krishi'], ['LoRa_IoT_AgriSim', 'krishi'],
+  ['ai-scanner', 'safety'], ['crimeintel-ai', 'safety'], ['file-lock-app', 'safety'], ['sarathi-ll-face-simulator', 'safety'], ['cyber', 'safety'],
+  ['Aviation_NLP_Project', 'space'], ['SpaceFlightMonitor', 'space'], ['SynchroGroundedNet', 'space'], ['AstraForge', 'space'], ['railway', 'space'], ['BharatVista-Nexus', 'space'], ['Satora', 'space'], ['delhivery-pipeline', 'space'],
+  ['Econnect', 'edu'], ['student-tracker', 'edu'], ['student-teacher-appointment-booking', 'edu'], ['catering-reservation-and-order-system', 'edu'], ['gym-management-system', 'edu'], ['priority_scheduler', 'edu'], ['To-Do-Master', 'edu'], ['Expense-Tracker', 'edu'], ['recipe-book', 'edu'], ['Basic-Calculator', 'edu'], ['Tic-Tac-Toe-Game', 'edu'], ['MemoryCardGame', 'edu'], ['countdown-timer', 'edu'], ['cannibals-missionaries', 'edu'], ['electric-vehicle-recharge-bunk', 'krishi'], ['student-registration', 'edu'], ['project-E', 'edu'], ['salary-prediction', 'edu'],
+];
+const DOMAIN_MAP = Object.fromEntries(DOMAIN_ENTRIES.map(([k, v]) => [k.toLowerCase(), v]));
 
-export const projectDomain = (name) => DOMAIN_MAP[name] || DOMAIN_MAP[name?.toLowerCase()] || 'other';
+export const projectDomain = (name) => DOMAIN_MAP[name?.toLowerCase()] || 'other';
 export const domainLabel = (d) => ({ krishi: '🌾 Krishi', safety: '🛡️ Safety', space: '🛰️ Space', edu: '🎓 Edu', other: '◐ Other' }[d] || d);
 
 export const ogUrl = (name) => `https://opengraph.githubassets.com/1/${USER}/${name}`;

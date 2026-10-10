@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { useRoute, navigate } from '../router';
-import ThemeToggle from './ThemeToggle';
 
 const SECTIONS = [
   { id: 'vision', label: 'Vision' },
@@ -15,7 +14,7 @@ const SECTIONS = [
   { id: 'contact', label: 'Contact' },
 ];
 
-export default function Nav({ theme, onToggleTheme, onOpenResume }) {
+export default function Nav({ onOpenResume }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('');
   const route = useRoute();
@@ -98,7 +97,6 @@ export default function Nav({ theme, onToggleTheme, onOpenResume }) {
           <a className="nav__github" href="https://github.com/OPBSUTHAR" target="_blank" rel="noopener">
             <span>GitHub</span> <span aria-hidden="true">↗</span>
           </a>
-          <ThemeToggle theme={theme} onToggle={onToggleTheme} />
           <button className="icon-btn nav__burger" aria-label="Menu" onClick={() => setOpen((o) => !o)}>☰</button>
         </div>
       </div>
@@ -107,6 +105,6 @@ export default function Nav({ theme, onToggleTheme, onOpenResume }) {
 }
 
 const linkStyle = {
-  background: 'none', border: 0, cursor: 'pointer', padding: 0,
+  background: 'none', border: 0, padding: 0,
   font: 'inherit', color: 'var(--text)', fontWeight: 500, opacity: .78, fontSize: '.875rem',
 };

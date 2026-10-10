@@ -54,13 +54,19 @@ export default function Reveal({
       const fill = el.querySelector('.bar i');
       if (fill) {
         barTween = gsap.fromTo(fill, { scaleX: 0 }, {
-          scaleX: 1, duration: 1.2, ease: 'power3.out',
+          scaleX: 1, duration: 1.2, ease: 'power3.out', transformOrigin: 'left center',
           scrollTrigger: { trigger: el, start: 'top 84%', once: true },
         });
       }
     }
 
-    return () => { tween.scrollTrigger?.kill(); tween.kill(); barTween?.scrollTrigger?.kill(); barTween?.kill(); };
+    // if the component unmounts (route change) before the trigger fires,
+    // clear the pre-reveal inline styles so nothing sticks invisible
+    return () => {
+      tween.scrollTrigger?.kill(); tween.kill();
+      barTween?.scrollTrigger?.kill(); barTween?.kill();
+      gsap.set(el, { clearProps: 'transform,opacity,visibility,filter' });
+    };
   }, [from, delay, duration, bar]);
 
   return (

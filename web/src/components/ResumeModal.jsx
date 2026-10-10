@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useScrollLock, useTopmostEscape } from '../hooks/useScrollLock';
 
 // Interactive web-native resume — modal with filter tabs, expandable
 // accordions, skill tooltips and a recruiter action bar.
@@ -49,25 +50,24 @@ export default function ResumeModal({ open, onClose }) {
   const [tab, setTab] = useState('All');
   const [expanded, setExpanded] = useState(null);
   const [copied, setCopied] = useState(null);
+  const copyTimer = useRef(0);
+
+  useScrollLock(open);
+  useTopmostEscape(open, onClose);
 
   useEffect(() => {
     if (!open) return;
-    fetch('data/resume.json')
+    // BASE_URL-aware so subpath deploys resolve data correctly
+    fetch(`${import.meta.env.BASE_URL}data/resume.json`)
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then(setData)
       .catch(() => setData(null));
   }, [open]);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
-  }, [open, onClose]);
+  // changing tabs repoints index-based accordion ids — collapse on switch
+  useEffect(() => { setExpanded(null); }, [tab]);
+
+  useEffect(() => () => clearTimeout(copyTimer.current), []);
 
   const matches = (text, t) => t === 'All' || TAB_MATCH[t]?.some((k) => text.toLowerCase().includes(k.toLowerCase()));
 
@@ -79,11 +79,29 @@ export default function ResumeModal({ open, onClose }) {
   }, [data, tab]);
 
   const copy = async (kind) => {
-    try {
-      await navigator.clipboard.writeText(kind === 'email' ? EMAIL : `OM PRAKASH SUTHAR — Resume\n${location.origin}/assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf`);
+    const text = kind === 'email' ? EMAIL : `OM PRAKASH SUTHAR — Resume\n${location.origin}/assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf`;
+    const done = () => {
       setCopied(kind);
-      setTimeout(() => setCopied(null), 1800);
-    } catch { /* clipboard unavailable */ }
+      clearTimeout(copyTimer.current);
+      copyTimer.current = setTimeout(() => setCopied(null), 1800);
+    };
+    try {
+      await navigator.clipboard.writeText(text);
+      done();
+    } catch {
+      // http / denied clipboard — legacy execCommand fallback
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        if (document.execCommand('copy')) done();
+        else setCopied('error');
+        document.body.removeChild(ta);
+      } catch { setCopied('error'); }
+    }
   };
 
   return (

@@ -13,8 +13,6 @@ export const PHRASES = [
 
 export const MARQUEE = ['∞ Land', '•', 'Infrastructure', '•', 'Power', '•', 'AI/ML/DL/NLP', '•', 'Agriculture', '•', 'Space', '•', 'Transportation', '•', 'Ocean', '•', 'Pure C', '•', 'BharatVista Nexus', '•', 'Agnirva NEAT 5.0', '•'];
 
-export const STRIP = ['∞ Land', 'Infrastructure', 'Power', 'AI/ML', 'Agriculture', 'Space', 'Transport', 'Ocean', 'Pure C', 'SQLite', 'Python', 'Leaflet', '∞ Loop'];
-
 export const HIGHLIGHTS = [
   { eyebrow: '01 — Focus', h: '∞ 8 Elements — One System', p: 'Land • Infrastructure • Power • AI/ML/DL/NLP • Agriculture • Space • Transportation • Ocean', href: '#infinity', link: 'View focus →' },
   { eyebrow: '02 — Vision', h: 'Why I Build', p: 'Frugal, field-ready systems that work offline — for farmers, controllers, students.', href: '#vision', link: 'Read vision →' },
@@ -35,9 +33,9 @@ export const DOMAINS = [
 ];
 
 export const CASES = [
-  { eyebrow: 'Case 01 • BharatVista-Nexus — Pure C • NEW', h: 'BharatVista Nexus — open-data nexus in Pure C + SQLite', p: <><b>Challenge:</b> Enterprise-grade OSINT nexus without Python/Node — only <code>api.data.gov.in</code> + Celestrak TLE.<br /><b>Role:</b> Solo — C server (POSIX/WinSock, pthreads, libcurl, SQLite), geo kernel (haversine), Leaflet/satellite.js frontend.<br /><b>Process:</b> POSIX sockets → /api/datasets + /api/satellites → SQLite cache → Leaflet + SGP4 ground-track.<br /><b>Result:</b> Live at <code>opbsuthar.github.io/BharatVista-Nexus</code> — <code>make &amp;&amp; ./build/server</code> on :8080. No framework bloat.</>, tags: ['Pure C', 'SQLite', '● Live'], code: 'https://github.com/OPBSUTHAR/BharatVista-Nexus', project: 'BharatVista-Nexus' },
-  { eyebrow: 'Case 02 • Agnirva AI Internship — NEAT 5.0 • NEW', h: 'Agnirva — AI for Indian Satellites — ISRO track', p: <><b>Challenge:</b> Make Indian satellite data more useful, scalable &amp; intelligent.<br /><b>Role:</b> Intern @ Agnirva (CHRIST) — BRD v0.2 (11 sections), Framewirk micro-movements, 6-hat artifacts, progress-log as source of truth.<br /><b>Process:</b> Week 1 ✓ → Week 2 Business Analyst (BRD, day-1 lens) → prototype stub in <code>src/</code>.<br /><b>Result:</b> <code>github.com/OPBSUTHAR/Satora</code> — docs/progress-log → weekly reports → Earth-observation pipelines. CHRIST Yeshwantpur.</>, tags: ['NEAT 5.0', 'BRD', 'CHRIST'], code: 'https://github.com/OPBSUTHAR/Satora', project: 'Satora' },
-  { eyebrow: 'Case 03 • ai-scanner — Python • Featured', h: 'AI Scanner — document intelligence on the edge', p: <><b>Challenge:</b> Scan docs with shadows/glare without cloud.<br /><b>Role:</b> Solo — OpenCV, OCR, classifier, cloud sync.<br /><b>Process:</b> Edge detection → perspective warp → Tesseract → lightweight classifier.<br /><b>Result:</b> Mobile scanner with live preview at <code>opbsuthar.github.io/ai-scanner</code>. Offline-first, updated Sep 2025.</>, tags: ['Edge', 'OCR', '● Live'], code: 'https://github.com/OPBSUTHAR/ai-scanner', project: 'ai-scanner' },
+  { eyebrow: 'Case 01 • BharatVista-Nexus — Pure C • NEW', h: 'BharatVista Nexus — open-data nexus in Pure C + SQLite', p: <><b>Challenge:</b> Enterprise-grade OSINT nexus without Python/Node — only <code>api.data.gov.in</code> + Celestrak TLE.<br /><b>Role:</b> Solo — C server (POSIX/WinSock, pthreads, libcurl, SQLite), geo kernel (haversine), Leaflet/satellite.js frontend.<br /><b>Process:</b> POSIX sockets → /api/datasets + /api/satellites → SQLite cache → Leaflet + SGP4 ground-track.<br /><b>Result:</b> Live at <code>opbsuthar.github.io/BharatVista-Nexus</code> — <code>make &amp;&amp; ./build/server</code> on :8080. No framework bloat.</>, tags: ['Pure C', 'SQLite', '● Live'], code: 'https://github.com/OPBSUTHAR/BharatVista-Nexus' },
+  { eyebrow: 'Case 02 • Agnirva AI Internship — NEAT 5.0 • NEW', h: 'Agnirva — AI for Indian Satellites — ISRO track', p: <><b>Challenge:</b> Make Indian satellite data more useful, scalable &amp; intelligent.<br /><b>Role:</b> Intern @ Agnirva (CHRIST) — BRD v0.2 (11 sections), Framewirk micro-movements, 6-hat artifacts, progress-log as source of truth.<br /><b>Process:</b> Week 1 ✓ → Week 2 Business Analyst (BRD, day-1 lens) → prototype stub in <code>src/</code>.<br /><b>Result:</b> <code>github.com/OPBSUTHAR/Satora</code> — docs/progress-log → weekly reports → Earth-observation pipelines. CHRIST Yeshwantpur.</>, tags: ['NEAT 5.0', 'BRD', 'CHRIST'], code: 'https://github.com/OPBSUTHAR/Satora' },
+  { eyebrow: 'Case 03 • ai-scanner — Python • Featured', h: 'AI Scanner — document intelligence on the edge', p: <><b>Challenge:</b> Scan docs with shadows/glare without cloud.<br /><b>Role:</b> Solo — OpenCV, OCR, classifier, cloud sync.<br /><b>Process:</b> Edge detection → perspective warp → Tesseract → lightweight classifier.<br /><b>Result:</b> Mobile scanner with live preview at <code>opbsuthar.github.io/ai-scanner</code>. Offline-first, updated Sep 2025.</>, tags: ['Edge', 'OCR', '● Live'], code: 'https://github.com/OPBSUTHAR/ai-scanner' },
 ];
 
 export const GOALS = [
@@ -67,11 +65,4 @@ export const TIMELINE = [
   { when: '2026 H1', h: 'Depth — AI & Systems', p: 'ai-scanner, CrimeIntel-AI, Aviation NLP, Krishi-Gati-AI, SynchroGroundedNet, SpaceFlightMonitor, AstraForge.' },
   { when: '2026 H2 — NEW', h: 'BharatVista Nexus + Agnirva NEAT 5.0 — 3rd Year @ CHRIST Yeshwantpur', p: <><b>BharatVista Nexus</b> — Pure C (POSIX/WinSock, pthreads, libcurl, SQLite) + Leaflet + satellite.js (SGP4) — data.gov.in &amp; Celestrak. <b>Agnirva AI Internship</b> — NEAT 5.0, AI for Indian Satellites, BRD v0.2, Framewirk. 42 repos shipped.</> },
   { when: 'Now', h: 'MyByte — Portfolio as Product', p: 'Not a template. A system: Python fetch → JSON → live showcase → modal iframe. Your idea → shipped. 3rd Year BCA, Yeshwantpur.' },
-];
-
-export const LABS = [
-  { tag: 'Motion', h: 'Layout & spring physics', p: 'Shared-layout tiles and spring transitions with the Motion library.' },
-  { tag: 'Anime.js', h: 'SVG line-draw', p: 'The ∞ glyph traces itself — timeline controls, tiny payload.' },
-  { tag: 'Theatre.js', h: 'Keyframe sequence', p: 'Author keyframes once, scrub them here. Ready for the Theatre editor.' },
-  { tag: 'Lottie', h: 'Vector motion', p: 'After Effects JSON rendered natively — designer-to-dev pipeline.' },
 ];

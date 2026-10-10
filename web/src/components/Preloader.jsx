@@ -23,8 +23,9 @@ export default function Preloader({ onDone }) {
     document.body.style.overflow = 'hidden';
     if (prefersReduce()) {
       setCount(LINES.length);
-      doneRef.current();
-      return () => { document.body.style.overflow = ''; };
+      // deferred even in the instant path — never unmount mid-commit
+      const t = requestAnimationFrame(() => requestAnimationFrame(() => doneRef.current()));
+      return () => { cancelAnimationFrame(t); document.body.style.overflow = ''; };
     }
     let i = 0;
     let t1, t2, t3;
@@ -34,8 +35,9 @@ export default function Preloader({ onDone }) {
       if (i < LINES.length) {
         t1 = setTimeout(tick, 105 + Math.random() * 55);
       } else {
-        t2 = setTimeout(() => setLeaving(true), 190);
-        t3 = setTimeout(() => doneRef.current(), 620);
+        // fade overlaps the hero intro: the handoff fires mid-fade, not after
+        t2 = setTimeout(() => setLeaving(true), 140);
+        t3 = setTimeout(() => doneRef.current(), 420);
       }
     };
     t1 = setTimeout(tick, 160);

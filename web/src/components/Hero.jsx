@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import gsap from 'gsap';
 import { PHRASES, MARQUEE } from '../content.jsx';
@@ -7,27 +7,31 @@ import { useProjects } from '../ProjectsContext';
 import SplitChars from './SplitChars';
 import Terminal from './Terminal';
 
-function useTypewriter(phrases) {
+// Isolated typewriter line — owns its tick state so the 42–96ms updates
+// never re-render the whole Hero (Terminal, stats, headline stay still).
+const TypedLine = memo(function TypedLine() {
   const [text, setText] = useState('');
   useEffect(() => {
-    if (prefersReduce()) { setText(phrases[0]); return; }
+    if (prefersReduce()) { setText(PHRASES[0]); return; }
     let pi = 0, ci = 0, del = false, t;
     const tick = () => {
-      const w = phrases[pi];
+      const w = PHRASES[pi];
       if (!del) {
         ci++; setText(w.slice(0, ci));
         if (ci === w.length) { del = true; t = setTimeout(tick, 1600); return; }
       } else {
         ci--; setText(w.slice(0, ci));
-        if (ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
+        if (ci === 0) { del = false; pi = (pi + 1) % PHRASES.length; }
       }
       t = setTimeout(tick, del ? 42 : 96);
     };
     tick();
     return () => clearTimeout(t);
-  }, [phrases]);
-  return text;
-}
+  }, []);
+  return (
+    <p className="typed-line"><span className="typed-prefix">▸</span> <span className="typed">{text}</span><span className="cursor">▌</span></p>
+  );
+});
 
 function Stat({ value, label }) {
   const ref = useCountUp(value);
@@ -41,10 +45,10 @@ const HEADLINE = [
   [{ t: '&' }, { t: 'field-ready' }, { t: '.', cls: 'dot' }],
 ];
 
-export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory, theme }) {
+export default function Hero({ ready, onFrugal, onOpenStory }) {
+  const section = useRef(null);
   const copy = useRef(null);
   const visual = useRef(null);
-  const typed = useTypewriter(PHRASES);
   const { list, openProject } = useProjects();
 
   // Open the live-preview modal for a floating project pill.
@@ -57,22 +61,24 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory,
   };
 
   // Hero GSAP intro timeline — runs once the preloader hands off.
+  // Floats are owned by Motion (initial/animate below) and excluded here so
+  // the two systems never fight over the same transforms. Char query is
+  // scoped to this hero instance, not the whole document.
   useEffect(() => {
     const c = copy.current, v = visual.current;
     if (!c) return;
     const kids = Array.from(c.children).filter((k) => !k.classList.contains('anim-title'));
-    const chars = gsap.utils.toArray('.hero-title .ht-char');
-    const floats = gsap.utils.toArray('.profile-float, .mini-float');
+    const chars = c.querySelectorAll('.hero-title .ht-char');
 
     if (!ready) {
-      gsap.set([...kids, ...(v ? [v] : []), ...floats], { autoAlpha: 0 });
+      gsap.set([...kids, ...(v ? [v] : [])], { autoAlpha: 0 });
       return;
     }
-    gsap.set([...kids, ...(v ? [v] : []), ...floats], { autoAlpha: 1 });
+    gsap.set([...kids, ...(v ? [v] : [])], { autoAlpha: 1 });
 
     if (prefersReduce()) {
       document.documentElement.classList.add('gsap-hero-done');
-      gsap.set([...kids, ...(v ? [v] : []), ...floats, ...chars], { clearProps: 'transform,opacity,visibility,filter' });
+      gsap.set([...kids, ...(v ? [v] : []), ...chars], { clearProps: 'transform,opacity,visibility,filter' });
       return;
     }
 
@@ -80,7 +86,7 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory,
       defaults: { ease: 'power3.out' },
       onComplete: () => {
         document.documentElement.classList.add('gsap-hero-done');
-        gsap.set([...kids, ...(v ? [v] : []), ...floats, ...chars], { clearProps: 'transform,opacity,visibility,filter' });
+        gsap.set([...kids, ...(v ? [v] : []), ...chars], { clearProps: 'transform,opacity,visibility,filter' });
       },
     });
     // split headline — chars slide up out of their word masks
@@ -93,23 +99,24 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory,
     }, 0.1);
     tl.from(kids, { y: 26, autoAlpha: 0, duration: 0.55, stagger: 0.07 }, '-=0.25');
     if (v) tl.from(v, { y: 40, autoAlpha: 0, duration: 0.85, ease: 'power3.out' }, '-=0.5');
-    if (floats.length) tl.from(floats, { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.08 }, '-=0.4');
     return () => tl.kill();
   }, [ready]);
 
-  // magnetic CTA buttons
+  // magnetic CTA buttons — scoped to this hero; gsap.to with overwrite so it
+  // never clobbers the intro tween's inline transforms.
   useEffect(() => {
-    if (prefersReduce()) return;
-    const els = document.querySelectorAll('.magnetic');
+    const root = section.current;
+    if (!root || prefersReduce()) return;
+    const els = root.querySelectorAll('.magnetic');
     const cleanups = [];
     els.forEach((btn) => {
       const move = (e) => {
         const r = btn.getBoundingClientRect();
         const x = (e.clientX - (r.left + r.width / 2)) * 0.22;
         const y = (e.clientY - (r.top + r.height / 2)) * 0.28;
-        btn.style.transform = `translate(${x}px,${y}px)`;
+        gsap.to(btn, { x, y, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
       };
-      const leave = () => { btn.style.transform = ''; };
+      const leave = () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' });
       btn.addEventListener('mousemove', move);
       btn.addEventListener('mouseleave', leave);
       cleanups.push(() => { btn.removeEventListener('mousemove', move); btn.removeEventListener('mouseleave', leave); });
@@ -120,7 +127,7 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory,
   const marqueeHtml = MARQUEE.map((m, i) => <span key={i}>{m}</span>);
 
   return (
-    <section className="hero" id="top">
+    <section className="hero" id="top" ref={section}>
       <div className="container hero__grid">
         <div className="hero__copy" ref={copy}>
           <div className="pill"><span className="pulse" /> Omprakash Suthar • MyByte — ∞ 8 Elements • Land → Ocean, byte-scale impact <span className="pill__arrow">→</span></div>
@@ -143,7 +150,7 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory,
             ))}
           </h1>
 
-          <p className="typed-line"><span className="typed-prefix">▸</span> <span className="typed">{typed}</span><span className="cursor">▌</span></p>
+          <TypedLine />
           <p className="lead paper-anim" style={{ maxWidth: '62ch', lineHeight: 1.6 }}>
             <span className="paper-line"><span>I'm <strong>Omprakash Suthar</strong> — <b>Regular, On-Campus — 3rd Year BCA @ CHRIST Yeshwantpur</b></span></span>
             <span className="paper-line"><span>builder of <b>∞ loop systems across 8 elements: Land • Infrastructure • Power • AI/ML/DL/NLP/Tech</b></span></span>
@@ -169,7 +176,7 @@ export default function Hero({ ready, onCommand, onTheme, onFrugal, onOpenStory,
         </div>
 
         <div className="hero__visual" ref={visual}>
-          <Terminal ready={ready} onCommand={onCommand} onTheme={onTheme} onFrugal={onFrugal} initialTheme={theme} />
+          <Terminal onFrugal={onFrugal} />
 
           <motion.div className="profile-float anim-float" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
             <img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash" />

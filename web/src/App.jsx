@@ -16,7 +16,6 @@ import Work from './components/Work';
 import Modal from './components/Modal';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
-import ThemeToggle from './components/ThemeToggle';
 import ResumeModal from './components/ResumeModal';
 import StoryModal from './components/StoryModal';
 import { Vision, InfinitySection, Domains, Cases, Goals, Stack, About, Journey, Contact } from './components/sections';
@@ -24,16 +23,18 @@ import Story from './pages/Story';
 import NotFound from './pages/NotFound';
 
 import { ProjectsContext } from './ProjectsContext';
-import { loadProjects, projectDomain, domainLabel, isLiveCandidate } from './lib/github';
+import { loadProjects, projectDomain } from './lib/github';
 import { useLenis } from './hooks/useLenis';
 import { useRoute } from './router';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Single obsidian theme — no light mode, no toggle, no persistence.
+// data-theme="dark" is set statically in index.html.
 export default function App() {
   const route = useRoute();
+  const isHome = route === '/';
 
-  const [theme, setTheme] = useState(() => (localStorage.getItem('theme') === 'light' ? 'light' : 'dark'));
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
   const [ready, setReady] = useState(false);
@@ -43,38 +44,48 @@ export default function App() {
 
   useLenis();
 
-  // theme → data-theme
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
   // frugal → bloat mode
   useEffect(() => {
     document.documentElement.classList.toggle('bloat', !frugal);
   }, [frugal]);
 
-  // preloader hand-off → hero intro timeline + re-measure pinned triggers
+  // preloader hand-off → hero intro timeline
   const handleReady = useCallback(() => {
     setReady(true);
-    requestAnimationFrame(() => requestAnimationFrame(() => ScrollTrigger.refresh()));
   }, []);
 
-  // data
+  // fail-safe: if the preloader ever stalls, force the handoff so the hero
+  // can never deadlock invisible (single place — covers Hero + Terminal).
+  useEffect(() => {
+    if (ready) return;
+    const t = setTimeout(() => setReady(true), 4000);
+    return () => clearTimeout(t);
+  }, [ready]);
+
+  // data — load once, never throws (falls back to cache → curated)
   useEffect(() => {
     let alive = true;
     loadProjects().then(({ list }) => {
       if (!alive) return;
       setProjects(list.map((p) => ({ ...p, domain: p.domain || projectDomain(p.name) })));
-      requestAnimationFrame(() => ScrollTrigger.refresh());
     });
     return () => { alive = false; };
   }, []);
 
+  // single ScrollTrigger re-measure: fires after render commits for the new
+  // projects / route / ready state, plus once when webfonts land (they shift
+  // layout). Replaces the old triple-refresh (rAF + 400ms timeout + handoff).
   useEffect(() => {
-    const id = setTimeout(() => ScrollTrigger.refresh(), 400);
-    return () => clearTimeout(id);
-  }, [projects]);
+    let raf = 0;
+    const refresh = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+    refresh();
+    let cancelled = false;
+    document.fonts?.ready.then(() => { if (!cancelled) refresh(); }).catch(() => {});
+    return () => { cancelled = true; cancelAnimationFrame(raf); };
+  }, [projects, ready, route]);
 
   // scroll to top on route change
   useEffect(() => {
@@ -83,34 +94,17 @@ export default function App() {
 
   const ctx = useMemo(() => ({
     list: projects,
-    source: 'github',
     openProject: (p) => setActive(p),
-    live: (name) => isLiveCandidate((projects.find((x) => x.name === name) || {}).lang, name),
-    domain: projectDomain,
-    domainLabel,
   }), [projects]);
-
-  const toggleTheme = useCallback(() => {
-    setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
-  }, []);
-
-  const handleTerminalTheme = useCallback((t) => {
-    setTheme(t === 'light' ? 'light' : 'dark');
-  }, []);
 
   const handleFrugal = useCallback((v) => {
     setFrugal(v);
   }, []);
 
-  const handleCommand = useCallback(() => {}, []);
-
-  const home = route === '/' && (
+  const home = isHome && (
     <>
       <Hero
         ready={ready}
-        theme={theme}
-        onCommand={handleCommand}
-        onTheme={handleTerminalTheme}
         onFrugal={handleFrugal}
         onOpenStory={() => setStoryOpen(true)}
       />
@@ -136,14 +130,14 @@ export default function App() {
         <div id="progress" />
         <Background />
         <div className="grain" aria-hidden="true" />
-        {!ready && <Preloader onDone={handleReady} />}
+        {isHome && !ready && <Preloader onDone={handleReady} />}
         <Cursor />
-        <Nav theme={theme} onToggleTheme={toggleTheme} onOpenResume={() => setResumeOpen(true)} />
+        <Nav onOpenResume={() => setResumeOpen(true)} />
 
         <main>
-          {route === '/' && home}
+          {isHome && home}
           {route === '/story' && <Story />}
-          {route !== '/' && route !== '/story' && <NotFound />}
+          {!isHome && route !== '/story' && <NotFound />}
         </main>
 
         <footer className="footer">

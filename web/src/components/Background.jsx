@@ -12,12 +12,16 @@ export default function Background() {
   const canvas = useRef(null);
   const desktop = useDesktop();
 
-  // particle field with pointer repulsion
+  // particle field with pointer repulsion — desktop + fine pointer only,
+  // paused while the tab is hidden
   useEffect(() => {
     const c = canvas.current;
-    if (!c || prefersReduce()) { if (c) c.style.display = 'none'; return; }
+    const coarse = matchMedia('(pointer: coarse)').matches;
+    if (!c || prefersReduce() || coarse || !desktop) { if (c) c.style.display = 'none'; return; }
+    c.style.display = '';
     const ctx = c.getContext('2d');
     let w, h, particles, raf;
+    let visible = !document.hidden;
     const pointer = { x: -9999, y: -9999 };
 
     const init = () => {
@@ -30,6 +34,7 @@ export default function Background() {
     };
     const resize = () => { w = c.width = innerWidth; h = c.height = innerHeight; init(); };
     const step = () => {
+      if (!visible) { raf = 0; return; }
       ctx.clearRect(0, 0, w, h);
       for (const p of particles) {
         // pointer repulsion field
@@ -67,17 +72,23 @@ export default function Background() {
     };
     const onMove = (e) => { pointer.x = e.clientX; pointer.y = e.clientY; };
     const onLeave = () => { pointer.x = -9999; pointer.y = -9999; };
+    const onVis = () => {
+      visible = !document.hidden;
+      if (visible && !raf) raf = requestAnimationFrame(step);
+    };
     resize(); step();
     addEventListener('resize', resize);
     addEventListener('pointermove', onMove, { passive: true });
     document.documentElement.addEventListener('pointerleave', onLeave);
+    document.addEventListener('visibilitychange', onVis);
     return () => {
       cancelAnimationFrame(raf);
       removeEventListener('resize', resize);
       removeEventListener('pointermove', onMove);
       document.documentElement.removeEventListener('pointerleave', onLeave);
+      document.removeEventListener('visibilitychange', onVis);
     };
-  }, []);
+  }, [desktop]);
 
   // orb scroll parallax — desktop only
   useEffect(() => {
@@ -85,7 +96,7 @@ export default function Background() {
     const tweens = gsap.utils.toArray('.orb').map((orb, i) =>
       gsap.to(orb, {
         yPercent: 12 + i * 7, ease: 'none',
-        scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: true },
+        scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
       }));
     return () => tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
   }, [desktop]);

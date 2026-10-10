@@ -1,20 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { liveUrl, ogUrl } from '../lib/github';
+import { useScrollLock, useTopmostEscape } from '../hooks/useScrollLock';
 
 export default function Modal({ project, onClose }) {
   const [tab, setTab] = useState('live');
   const [failed, setFailed] = useState(false);
+  const loadedRef = useRef(false);
+
+  useScrollLock(!!project);
+  useTopmostEscape(!!project, onClose);
 
   useEffect(() => {
     if (!project) return;
     setTab('live');
     setFailed(false);
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
-  }, [project, onClose]);
+    loadedRef.current = false;
+    // iframe onError never fires for X-Frame-Options / cross-origin blocks —
+    // fall back to the OG preview if nothing loads within 10s
+    const t = setTimeout(() => { if (!loadedRef.current) setFailed(true); }, 10000);
+    return () => clearTimeout(t);
+  }, [project]);
 
   const live = project ? liveUrl(project.name) : '#';
 
@@ -25,7 +31,7 @@ export default function Modal({ project, onClose }) {
           className="opencode-modal-backdrop"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose}
-          style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(7,10,20,.68)', backdropFilter: 'blur(6px)', display: 'grid', placeItems: 'center', padding: 16 }}
+          style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(7,10,20,.72)', display: 'grid', placeItems: 'center', padding: 16 }}
         >
           <motion.div
             role="dialog" aria-modal="true" aria-label={project.name}
@@ -58,7 +64,7 @@ export default function Modal({ project, onClose }) {
                         <img src={ogUrl(project.name)} alt="preview" />
                       </div>
                     ) : (
-                      <iframe title={`${project.name} live preview`} src={live} loading="lazy" onError={() => setFailed(true)} />
+                      <iframe title={`${project.name} live preview`} src={live} loading="lazy" onLoad={() => { loadedRef.current = true; }} onError={() => setFailed(true)} />
                     )}
                   </div>
                 </div>

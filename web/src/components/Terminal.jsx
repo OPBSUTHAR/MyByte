@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { prefersReduce } from '../hooks/useCountUp';
 
-// nybyte.py — interactive CLI window. Same tactile look as the old code
-// card, but now it is a real terminal:
+// nybyte.py — interactive CLI window:
 //   help · whoami · cat skills · sudo hire · run demo · ls
-//   theme obsidian|bone|cyber · frugal = true|false · clear
-// Hidden commands trigger confetti + XP (handled via onCommand callback).
+//   frugal = true|false · clear
+// Typing → compiling → live runs on mount (overlapping the preloader, not
+// serialized after it). ⟳ in the title bar replays the sequence.
 
 const BANNER = [
   [['c', '# infinite loop — 8 elements, ship, polish']],
@@ -27,7 +27,6 @@ const HELP = [
   ['$', 'ls', '— what is in this repo'],
   ['$', 'sudo hire', '— try it. seriously.'],
   ['$', 'run demo', '— confetti protocol'],
-  ['$', 'theme <dark|light>', '— material switcher'],
   ['$', 'frugal = <true|false>', '— toggle the build budget'],
   ['$', 'clear', '— wipe the terminal'],
 ];
@@ -47,70 +46,55 @@ const cmdOut = {
   ls: [
     ['s', 'drwxr-xr-x  8 elements/   Land Infra Power AI Agri Space Move Ocean'],
     ['s', '-rw-r--r--   nybyte.py         the build script you are typing into'],
-    ['s', '-rw-r--r--   resume.pdf        the paper trail → #/resume'],
-    ['s', '-rw-r--r--   quest.log        your XP so far (bottom-left HUD)'],
+    ['s', '-rw-r--r--   resume.pdf        hit the Résumé button in the nav ↑'],
+    ['s', '-rw-r--r--   contact.md        scroll to #contact ↓'],
   ],
   'cat skills': SKILLS,
   help: HELP,
 };
 
-export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialTheme }) {
+export default function Terminal({ onFrugal }) {
   const cardRef = useRef(null);
   const inputRef = useRef(null);
   const scrollRef = useRef(null);
   const [lines, setLines] = useState([]); // history of [segments[], isInput]
   const [frugal, setFrugal] = useState(true);
-  const [theme, setTheme] = useState(initialTheme);
   const [phase, setPhase] = useState('typing'); // typing → compiling → live
   const [typed, setTyped] = useState(0);
   const [secs, setSecs] = useState(0);
-  const stateRef = useRef({ frugal: true, theme: initialTheme, onCommand, onTheme, onFrugal });
-  stateRef.current = { frugal, theme, onCommand, onTheme, onFrugal };
+  const frugalRef = useRef({ onFrugal });
+  frugalRef.current = { onFrugal };
 
-  // banner typing → compiling → live (starts when the hero is visible)
-  useEffect(() => {
-    if (!ready) return;
+  // central timer registry — every timeout/interval in the compile sequence
+  // is tracked so rerun() and unmount always cancel the previous run first.
+  // (Rapid ⟳ clicks used to spawn overlapping tick chains racing on setTyped.)
+  const timers = useRef({ timeouts: new Set(), intervals: new Set() });
+  const later = useCallback((fn, ms) => {
+    const id = setTimeout(() => { timers.current.timeouts.delete(id); fn(); }, ms);
+    timers.current.timeouts.add(id);
+    return id;
+  }, []);
+  const every = useCallback((fn, ms) => {
+    const id = setInterval(fn, ms);
+    timers.current.intervals.add(id);
+    return id;
+  }, []);
+  const clearTimers = useCallback(() => {
+    timers.current.timeouts.forEach(clearTimeout);
+    timers.current.intervals.forEach(clearInterval);
+    timers.current.timeouts.clear();
+    timers.current.intervals.clear();
+  }, []);
+  useEffect(() => clearTimers, [clearTimers]);
+
+  const startRun = useCallback(() => {
+    clearTimers();
     if (prefersReduce()) {
       setTyped(BANNER.length);
       setPhase('live');
       setSecs(0.8);
       return;
     }
-    let i = 0;
-    let t;
-    const tick = () => {
-      i += 1;
-      setTyped(i);
-      if (i < BANNER.length) {
-        t = setTimeout(tick, 110 + Math.random() * 80);
-      } else {
-        setPhase('compiling');
-        const started = performance.now();
-        const count = setInterval(() => {
-          const v = (performance.now() - started) / 1000;
-          setSecs(Math.min(0.8, v));
-          if (v >= 0.8) {
-            clearInterval(count);
-            setSecs(0.8);
-            setPhase('live');
-          }
-        }, 60);
-        return () => clearInterval(count);
-      }
-    };
-    t = setTimeout(tick, 350);
-    return () => clearTimeout(t);
-  }, [ready]);
-
-  // auto-scroll the output
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [lines, typed, phase]);
-
-  // re-run the full compile sequence (click anywhere in the window)
-  const rerun = useCallback(() => {
-    if (prefersReduce()) return;
     setLines([]);
     setTyped(0);
     setSecs(0);
@@ -120,14 +104,15 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
       i += 1;
       setTyped(i);
       if (i < BANNER.length) {
-        setTimeout(tick, 110 + Math.random() * 80);
+        later(tick, 110 + Math.random() * 80);
       } else {
         setPhase('compiling');
         const started = performance.now();
-        const count = setInterval(() => {
+        const count = every(() => {
           const v = (performance.now() - started) / 1000;
           setSecs(Math.min(0.8, v));
           if (v >= 0.8) {
+            timers.current.intervals.delete(count);
             clearInterval(count);
             setSecs(0.8);
             setPhase('live');
@@ -135,33 +120,43 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
         }, 60);
       }
     };
-    setTimeout(tick, 200);
-  }, []);
+    later(tick, 300);
+  }, [clearTimers, later, every]);
 
-  // 3D tilt (heavy slab physics — high damping spring-back)
+  // banner typing → compiling → live. Starts on mount so it overlaps the
+  // preloader instead of serializing ~2.6s behind it.
+  useEffect(() => {
+    startRun();
+  }, [startRun]);
+
+  // auto-scroll only when already near the bottom — never yanks a user who
+  // scrolled up to read, and skips a forced layout on every ~110ms tick.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+    if (nearBottom) el.scrollTop = el.scrollHeight;
+  }, [lines, typed, phase]);
+
+  // 3D tilt — quickTo setters (no per-event tween allocation/GC churn).
   useEffect(() => {
     const card = cardRef.current;
     if (!card || prefersReduce() || matchMedia('(pointer: coarse)').matches) return;
+    const rY = gsap.quickTo(card, 'rotationY', { duration: 0.6, ease: 'power2.out' });
+    const rX = gsap.quickTo(card, 'rotationX', { duration: 0.6, ease: 'power2.out' });
     const onMove = (e) => {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
       const py = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
       card.style.setProperty('--mx', `${((px + 1) / 2 * 100).toFixed(1)}%`);
       card.style.setProperty('--my', `${((py + 1) / 2 * 100).toFixed(1)}%`);
-      gsap.to(card, {
-        rotateY: px * 8,
-        rotateX: -py * 8,
-        y: -4,
-        scale: 1.015,
-        transformPerspective: 1000,
-        duration: 0.6,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      });
+      gsap.set(card, { transformPerspective: 1000, y: -4, scale: 1.015 });
+      rY(px * 8);
+      rX(-py * 8);
     };
     const onLeave = () => {
       gsap.to(card, {
-        rotateX: 0, rotateY: 0, y: 0, scale: 1,
+        rotationX: 0, rotationY: 0, y: 0, scale: 1,
         duration: 1.1,
         ease: 'elastic.out(1, 0.45)', // heavy slab — slow spring back
         overwrite: 'auto',
@@ -188,43 +183,25 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
 
     // known commands
     if (cmdOut[input] || cmdOut[`${cmd} ${arg}`]) {
-      const out = cmdOut[input] || cmdOut[`${cmd} ${arg}`];
-      print(out);
-      stateRef.current.onCommand?.(input);
+      print(cmdOut[input] || cmdOut[`${cmd} ${arg}`]);
       return;
     }
 
     if (cmd === 'sudo' && arg === 'hire') {
       print([
         [ 'n', 'sudo: omprakash is already hired — by the problem.'],
-        [ 'n', '  → open #/contact and let’s ship something live.'],
+        [ 'n', '  → scroll to #contact and let’s ship something live.'],
       ]);
-      stateRef.current.onCommand?.('sudo hire');
       return;
     }
 
     if (cmd === 'sudo') {
       print([[ 'n', `sudo: permission denied — '${arg}' is not in the sudoers file. This incident will be reported (to the ∞ loop).` ]]);
-      stateRef.current.onCommand?.(input);
       return;
     }
 
     if (cmd === 'run' && arg === 'demo') {
-      print([[ 'n', '✓ demo protocol engaged — deploying confetti…' ]]);
-      stateRef.current.onCommand?.('run demo');
-      return;
-    }
-
-    if (cmd === 'theme') {
-      const t = arg.toLowerCase();
-      if (['dark', 'light'].includes(t)) {
-        setTheme(t);
-        stateRef.current.onTheme?.(t);
-        print([[ 'n', `✓ material switched → ${t}. The stone remembers.` ]]);
-        stateRef.current.onCommand?.(`theme ${t}`);
-      } else {
-        print([[ 'n', `theme: unknown material '${arg || '?'}'. Try: dark · light.` ]]);
-      }
+      print([[ 'n', '✓ demo protocol engaged — the ∞ loop is already live. Scroll ↓' ]]);
       return;
     }
 
@@ -233,26 +210,28 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
       if (m) {
         const v = m[1] === 'true';
         setFrugal(v);
-        stateRef.current.onFrugal?.(v);
+        frugalRef.current.onFrugal?.(v);
         print(v
           ? [[ 'n', '✓ frugal = True. Build budget: ≤30KB. The stone stays lean.' ]]
           : [[ 'n', '⚠ frugal = False. Bloat mode engaged. (+42KB, +3 shadows, 0 regrets)' ]]);
-        stateRef.current.onCommand?.('frugal toggle');
       } else {
-        print([[ 'n', `frugal = ${frugal}` ]]);
+        print([[ 'n', 'frugal = true' ]]);
       }
       return;
     }
 
     if (cmd === 'rm' && arg.includes('-rf')) {
       print([[ 'n', 'rm: nice try. The ∞ loop is immutable.' ]]);
-      stateRef.current.onCommand?.('easter egg');
       return;
     }
 
     if (cmd === 'cat' || cmd === 'dog') {
       print([[ 'n', `cat: ${arg || 'skills'}: No such file. This is a C portfolio, not a petting zoo.` ]]);
-      stateRef.current.onCommand?.('easter egg');
+      return;
+    }
+
+    if (cmd === 'clear') {
+      setLines([]);
       return;
     }
 
@@ -267,12 +246,19 @@ export default function Terminal({ ready, onCommand, onTheme, onFrugal, initialT
       ref={cardRef}
       className={`glass-card code-card tilt tilt--3d ${live ? 'code-card--live' : ''}`}
       data-cursor="code"
-      onClick={(e) => { e.stopPropagation(); rerun(); inputRef.current?.focus(); }}
-      title='Click to recompile · type "help"'
+      onClick={() => inputRef.current?.focus()}
+      title='Click to focus · type "help" · ⟳ recompiles'
     >
       <div className="code-card__bar">
         <span /><span /><span />
         <b>{live ? 'nybyte.py — ✓ compiled in 0.8s · type "help"' : typing ? 'nybyte.py — typing…' : 'nybyte.py — compiling…'}</b>
+        <button
+          type="button"
+          className="recompile-btn"
+          title="Replay the compile sequence"
+          aria-label="Replay the compile sequence"
+          onClick={(e) => { e.stopPropagation(); startRun(); inputRef.current?.focus(); }}
+        >⟳</button>
         <span className="bar__right">● Python • edge • shipped</span>
       </div>
 

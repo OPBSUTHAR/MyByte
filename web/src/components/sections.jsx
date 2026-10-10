@@ -31,7 +31,7 @@ export function Vision() {
             </div>
           </Reveal>
 
-          <Reveal from="right" delay={90}>
+          <Reveal from="right" delay={0.09}>
             <div className="stack-gap">
               <div className="principle-card">
                 <div className="principle-card__label">MYBYTE PRINCIPLE</div>
@@ -62,15 +62,18 @@ export function InfinitySection() {
   const svgRef = useRef(null);
   const travelerRef = useRef(null);
 
-  // traveling light particle along the ∞ path
+  // traveling light particle along the ∞ path — paused while offscreen
   useEffect(() => {
     if (prefersReduce()) return;
     const path = svgRef.current?.querySelector('.free-infinity__path');
     const dot = travelerRef.current;
     if (!path || !dot) return;
-    let raf;
+    let raf = 0;
+    let inView = true;
     const start = performance.now();
     const tick = (t) => {
+      raf = 0;
+      if (!inView) return;
       const len = path.getTotalLength();
       const p = ((t - start) / 7000) % 1;
       const pt = path.getPointAtLength(p * len);
@@ -80,8 +83,15 @@ export function InfinitySection() {
       dot.style.transform = `translate(${pt.x * sx}px, ${pt.y * sy}px) translate(-50%,-50%)`;
       raf = requestAnimationFrame(tick);
     };
+    const obs = new IntersectionObserver((es) => {
+      const v = es.some((e) => e.isIntersecting);
+      if (v === inView) return;
+      inView = v;
+      if (v && !raf) raf = requestAnimationFrame(tick);
+    }, { threshold: 0 });
+    obs.observe(svgRef.current);
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => { obs.disconnect(); cancelAnimationFrame(raf); };
   }, []);
 
   return (
@@ -186,13 +196,17 @@ export function Domains() {
 
         <div className="domains__viewport">
           <div className="domains__track" ref={trackRef}>
-            {DOMAINS.map((d) => (
-              <Reveal
+            {DOMAINS.map((d, i) => (
+              // Motion whileInView (IntersectionObserver), NOT ScrollTrigger:
+              // nested triggers inside a pinned + scrubbed track mis-measure
+              // and fight the pin transform.
+              <motion.article
                 key={d.h}
-                as="article"
                 className="domain domain--infinity domain--pin"
-                delay={0}
-                duration={0.5}
+                initial={{ opacity: 0, y: 36, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: (i % 4) * 0.05 }}
               >
                 <div className="domain__icon">{d.id}</div>
                 <div className="domain__head"><h3>{d.h}</h3><span>{d.tag}</span></div>
@@ -200,7 +214,7 @@ export function Domains() {
                 <div className="tags">{d.tags.map((t) => <span key={t}>{t}</span>)}</div>
                 <a href="#work" className="domain__link">View {d.h.split(' ')[0]} →</a>
                 <span className="domain__index">{String(DOMAINS.indexOf(d) + 1).padStart(2, '0')} / 08</span>
-              </Reveal>
+              </motion.article>
             ))}
           </div>
         </div>
@@ -348,21 +362,33 @@ const APPS_SCRIPT_URL = import.meta.env?.VITE_APPS_SCRIPT_URL || '';
 
 export function Contact() {
   const [state, setState] = useState('idle'); // idle → sending → sent | error
+  const sendingRef = useRef(false);
+  const resetState = () => { if (state === 'error') setState('idle'); };
   const submit = async (e) => {
     e.preventDefault();
+    // ref guard: double-click / Enter before React commits `sending` can't
+    // double-post (state alone is async and racy here)
+    if (sendingRef.current) return;
     if (!APPS_SCRIPT_URL) {
       setState('error');
       return;
     }
     const fd = new FormData(e.target);
     const payload = {
-      name: fd.get('name') || '',
-      email: fd.get('email') || '',
-      budget: fd.get('budget') || '',
-      message: fd.get('message') || '',
+      name: (fd.get('name') || '').toString().trim(),
+      email: (fd.get('email') || '').toString().trim(),
+      budget: (fd.get('budget') || '').toString().trim(),
+      message: (fd.get('message') || '').toString().trim(),
     };
+    if (!payload.name || !payload.email || !payload.message) {
+      setState('error');
+      return;
+    }
+    sendingRef.current = true;
     setState('sending');
     try {
+      // no-cors → opaque response: network delivery is assumed on resolve.
+      // Apps Script returns 200 JSON; HTTP errors surface only as rejects.
       await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -373,6 +399,8 @@ export function Contact() {
       e.target.reset();
     } catch {
       setState('error');
+    } finally {
+      sendingRef.current = false;
     }
   };
 
@@ -391,7 +419,7 @@ export function Contact() {
           <p className="small muted" style={{ marginTop: 12 }}>Preferred: GitHub issue or LinkedIn DM with a 1-liner problem + deadline. I'll send a 1-day plan.</p>
         </Reveal>
 
-        <Reveal from="right" delay={120} className="form glass-card" as="form" onSubmit={submit}>
+        <Reveal from="right" delay={0.12} className="form glass-card" as="form" onSubmit={submit} onChange={resetState}>
           <label>Name<input name="name" required placeholder="Omprakash" /></label>
           <label>Email<input name="email" type="email" required placeholder="you@example.com" /></label>
           <label>Budget / Timeline
@@ -408,14 +436,21 @@ export function Contact() {
               <button type="button" className="btn btn--sm" onClick={() => setState('idle')}>Send another</button>
             </div>
           ) : (
-            <motion.button
-              className="btn btn--primary btn--xl magnetic"
-              type="submit"
-              disabled={state === 'sending'}
-              whileTap={{ scale: 0.97 }}
-            >
-              {state === 'sending' ? 'Sending…' : 'Send — let\'s ship'}
-            </motion.button>
+            <>
+              {!APPS_SCRIPT_URL && (
+                <p className="small" style={{ color: 'var(--muted)' }}>
+                  Form endpoint not configured yet — email me directly below.
+                </p>
+              )}
+              <motion.button
+                className="btn btn--primary btn--xl magnetic"
+                type="submit"
+                disabled={state === 'sending'}
+                whileTap={{ scale: 0.97 }}
+              >
+                {state === 'sending' ? 'Sending…' : 'Send — let\'s ship'}
+              </motion.button>
+            </>
           )}
           {state === 'error' && (
             <p className="small" style={{ color: '#f87171' }}>

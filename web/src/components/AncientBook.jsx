@@ -115,44 +115,39 @@ export default function AncientBook() {
   const [dragging, setDragging] = useState(null);
 
   const flip = useCallback((dir) => {
-    playPageSound();
     setSpread((s) => {
-      const n = s + dir;
-      if (n < -1) return -1;
-      if (n > 1) return 1;
+      const n = Math.max(-1, Math.min(1, s + dir));
+      // sound only when the spread actually changes — not on edge clicks
+      if (n !== s) playPageSound();
       return n;
     });
     if (!open) setOpen(true);
   }, [open]);
 
-  // keyboard nav
+  // keyboard nav — active only while the book is open, so arrows never
+  // hijack page scroll on the story route / behind the modal
   useEffect(() => {
+    if (!open) return;
     const onKey = (e) => {
       if (e.key === 'ArrowRight') flip(1);
       if (e.key === 'ArrowLeft') flip(-1);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [flip]);
+  }, [open, flip]);
 
-  // drag page corner
+  // drag a turned page: left = forward, right = back (single live gesture)
   const onPointerDown = (e, leafIdx) => {
     if (spread <= leafIdx) return;
     e.preventDefault();
-    setDragging({ leafIdx, startX: e.clientX });
+    setDragging({ startX: e.clientX });
   };
 
   const onPointerMove = (e) => {
     if (!dragging) return;
     const dx = e.clientX - dragging.startX;
-    const threshold = 80;
-    if (dx < -threshold && spread > dragging.leafIdx) {
-      flip(1);
-      setDragging(null);
-    } else if (dx > threshold && spread <= dragging.leafIdx) {
-      flip(-1);
-      setDragging(null);
-    }
+    if (dx < -80) { flip(1); setDragging(null); }
+    else if (dx > 80) { flip(-1); setDragging(null); }
   };
 
   const onPointerUp = () => setDragging(null);
@@ -246,7 +241,7 @@ export default function AncientBook() {
         </span>
         <button className="ctrl" onClick={() => flip(1)} aria-label="Next">Next →</button>
       </div>
-      <div className="book-dots" aria-hidden="true">
+      <div className="book-dots">
         {Array.from({ length: 3 }, (_, i) => (
           <button
             key={i}
