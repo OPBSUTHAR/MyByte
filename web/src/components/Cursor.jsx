@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { prefersReduce } from '../hooks/useCountUp';
 
-// Custom cursor: an instant dot + a lerped ring. Both use mix-blend-mode:
-// difference so they invert whatever they hover. The ring expands over
-// interactive elements and magnetically snaps toward the element's center.
-// Desktop (fine pointer) only — touch devices and reduced-motion users keep
+// Custom cursor: an instant emerald dot + a tight trailing ring. Both track
+// the pointer itself 1:1 — no magnetic snap to element centers, no blend
+// modes — so the cursor never feels detached or laggy. The ring converges in
+// ~3 frames (fast follow, not a slow glide) and only grows over interactive
+// elements. Desktop (fine pointer) only — touch and reduced-motion users keep
 // the native cursor.
 export default function Cursor() {
   const dotRef = useRef(null);
@@ -23,28 +24,30 @@ export default function Cursor() {
 
       let mx = innerWidth / 2;
       let my = innerHeight / 2;
-      let tx = mx; // ring target (snaps to element center when hovering)
-      let ty = my;
       let rx = mx;
       let ry = my;
       let raf = 0;
       let running = false;
 
+      const place = (el, x, y) => {
+        el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+      };
+
       const onMove = (e) => {
         mx = e.clientX;
         my = e.clientY;
-        dot.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+        place(dot, mx, my); // dot: exact 1:1, zero lag
       };
 
       const loop = () => {
         if (!running) return;
-        // skip the write entirely when the ring already rests on target
-        if (Math.abs(tx - rx) > 0.05 || Math.abs(ty - ry) > 0.05) {
-          const hovering = document.body.classList.contains('cursor-hover');
-          const ease = hovering ? 0.34 : 0.16; // magnetic snap is faster
-          rx += (tx - rx) * ease;
-          ry += (ty - ry) * ease;
-          ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+        const dx = mx - rx;
+        const dy = my - ry;
+        // skip the write once settled — no pointless style churn when idle
+        if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+          rx += dx * 0.5;
+          ry += dy * 0.5;
+          place(ring, rx, ry);
         }
         raf = requestAnimationFrame(loop);
       };
@@ -53,39 +56,25 @@ export default function Cursor() {
       // hidden tabs burn no CPU on an invisible cursor
       const onVis = () => (document.hidden ? stop() : start());
 
+      // hover state only grows the ring — the ring stays on the pointer
       const onOver = (e) => {
         const hit = e.target.closest?.(
           'a, button, [data-cursor], input, textarea, select, .card, .shot, .domain, .tl'
         );
         document.body.classList.toggle('cursor-hover', Boolean(hit));
-        if (hit) {
-          const r = hit.getBoundingClientRect();
-          // magnetic snap: ring glides to the element center
-          tx = r.left + r.width / 2;
-          ty = r.top + r.height / 2;
-        } else {
-          tx = mx;
-          ty = my;
-        }
-      };
-
-      const onLeave = () => {
-        document.body.classList.remove('cursor-hover');
-        tx = mx;
-        ty = my;
       };
 
       document.addEventListener('mousemove', onMove, { passive: true });
       document.addEventListener('mouseover', onOver, { passive: true });
-      document.documentElement.addEventListener('mouseleave', onLeave);
       document.addEventListener('visibilitychange', onVis);
+      place(dot, mx, my);
+      place(ring, rx, ry);
       start();
 
       return () => {
         stop();
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('mouseover', onOver);
-        document.documentElement.removeEventListener('mouseleave', onLeave);
         document.removeEventListener('visibilitychange', onVis);
         document.documentElement.classList.remove('fx-cursor');
         document.body.classList.remove('cursor-hover');
