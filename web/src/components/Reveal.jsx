@@ -32,18 +32,20 @@ export default function Reveal({
       return;
     }
     const offset =
-      from === 'left' ? { x: -40, y: 0 } :
-      from === 'right' ? { x: 40, y: 0 } :
-      from === 'scale' ? { y: 36, scale: 0.97 } :
-      { y: 40, scale: 0.985 };
+      from === 'left' ? { x: -48, y: 0 } :
+      from === 'right' ? { x: 48, y: 0 } :
+      from === 'scale' ? { y: 40, scale: 0.96 } :
+      { y: 48, scale: 0.98 };
 
     const tween = gsap.from(el, {
       ...offset,
       autoAlpha: 0,
       duration,
       delay,
-      ease: 'power3.out',
+      ease: 'expo.out',
       onComplete: () => {
+        // tilt + hover systems gate on this — reveal owns the transform until here
+        el.setAttribute('data-revealed', '1');
         gsap.set(el, { clearProps: 'transform,opacity,visibility,filter' });
       },
       scrollTrigger: { trigger: el, start: 'top 88%', once: true },

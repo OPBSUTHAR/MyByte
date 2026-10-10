@@ -10,13 +10,15 @@
 
 /* ---------- tokens ---------- */
 :root{
-  --bg:#0D0E10; --bg2:#131417; --card:#1E2025; --card2:#26292F;
+  --bg:#0A0D12; --bg2:#0F1319; --card:#1E2025; --card2:#26292F;
   --text:#FFFFFF; --muted:#9BA0A8; --line:#2A2D35;
   --primary:#00E599;
+  --neon:#00FF87;
   --primary-ink:#052E22;
   --radius:18px; --radius-lg:24px;
   --shadow:0 18px 50px rgba(0,0,0,.5);
   --glow:0 0 0 1px rgba(0,229,153,.28), 0 10px 36px rgba(0,229,153,.12);
+  --glow-neon:0 0 24px rgba(0,255,135,.22), 0 0 64px rgba(0,255,135,.08), inset 0 0 18px rgba(0,255,135,.05);
   --ease-spring:cubic-bezier(.34,1.56,.64,1);
   --grain-op:.04;
   --cursor-bg:#fff; --cursor-ring:rgba(255,255,255,.8); --cursor-border:rgba(0,0,0,.9);
@@ -60,10 +62,15 @@ h1,h2,h3{text-wrap:balance}
 /* ---------- background mesh ---------- */
 .bg-mesh{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
 /* static radial glows — no per-frame blur/blend cost; only orb--1 drifts */
-.orb{position:absolute; border-radius:50%; opacity:.16}
-.orb--1{width:640px; height:640px; background:radial-gradient(circle at 30% 30%, rgba(0,229,153,.5), transparent 62%); left:-140px; top:-180px; animation:float 16s ease-in-out infinite}
-.orb--2{width:720px; height:720px; background:radial-gradient(circle at 50% 50%, rgba(16,185,129,.45), transparent 64%); right:-220px; top:8%}
-.orb--3{width:560px; height:560px; background:radial-gradient(circle at 50% 50%, rgba(52,211,153,.4), transparent 66%); left:28%; bottom:-240px; opacity:.1}
+.orb{position:absolute; border-radius:50%; opacity:.2}
+.orb--1{width:640px; height:640px; background:radial-gradient(circle at 30% 30%, rgba(0,255,135,.5), transparent 62%); left:-140px; top:-180px; animation:float 16s ease-in-out infinite}
+.orb--2{width:720px; height:720px; background:radial-gradient(circle at 50% 50%, rgba(0,229,153,.45), transparent 64%); right:-220px; top:8%}
+.orb--3{width:560px; height:560px; background:radial-gradient(circle at 50% 50%, rgba(0,255,135,.32), transparent 66%); left:28%; bottom:-240px; opacity:.12}
+/* cyber glass tint over the hero — static, zero blur cost */
+.hero::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse 70% 45% at 50% 0%, rgba(0,255,135,.06), transparent 70%);
+}
 .grid-fade{position:absolute; inset:0; background:
   linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size:48px 48px; opacity:.08; mask:radial-gradient(ellipse 80% 60% at 50% 10%, black 60%, transparent 85%)}
@@ -81,7 +88,7 @@ h1,h2,h3{text-wrap:balance}
 .nav{
   position:sticky; top:0; z-index:20;
   backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-  background:rgba(13,14,16,.85);
+  background:rgba(10,13,18,.85);
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 .nav__inner{
@@ -148,10 +155,22 @@ h1,h2,h3{text-wrap:balance}
    ============================================================ */
 .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:11px 16px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--text); font-weight:650; cursor:pointer; transition:transform .18s, box-shadow .18s, border-color .18s, background-color .18s, filter .18s; font-size:.92rem}
 .btn:hover{transform:translateY(-1px); box-shadow:var(--shadow); border-color:color-mix(in srgb, var(--primary) 40%, var(--line))}
-.btn--primary{background:var(--primary); color:var(--primary-ink); border-color:transparent; box-shadow:0 8px 24px rgba(0,229,153,.25)}
-.btn--primary:hover{filter:brightness(1.05); box-shadow:0 12px 36px rgba(0,229,153,.35)}
+.btn--primary{background:var(--primary); color:var(--primary-ink); border-color:transparent; box-shadow:0 8px 24px rgba(0,229,153,.25), 0 0 18px rgba(0,255,135,.12)}
+.btn--primary:hover{filter:brightness(1.05); box-shadow:0 12px 36px rgba(0,229,153,.35), 0 0 32px rgba(0,255,135,.28)}
 .btn--ghost{background:var(--card)}
 .btn--glow{box-shadow:var(--glow)} .btn--sm{padding:8px 14px; border-radius:10px} .btn--xl{padding:13px 18px; border-radius:14px; font-size:.95rem}
+
+/* neon cyber card — static emerald glow, no backdrop blur, explicit props */
+.neon-glow-card{
+  border:1px solid rgba(0,255,135,.3);
+  box-shadow:0 0 20px rgba(0,255,135,.12), inset 0 0 15px rgba(0,255,135,.04);
+  transition:transform .3s var(--ease-spring), box-shadow .3s, border-color .3s;
+}
+.neon-glow-card:hover{
+  border-color:var(--neon);
+  box-shadow:var(--glow-neon);
+  transform:translateY(-3px);
+}
 .magnetic{position:relative}
 
 /* ============================================================
@@ -398,6 +417,17 @@ h1:hover,h2:hover{
   background:var(--primary); box-shadow:0 0 12px 3px rgba(0,229,153,.55);
   transform:translate(-50%,-50%); pointer-events:none; z-index:2;
 }
+/* fading light tail — a pulsing halo that trails the traveler (transform +
+   opacity only, so it stays compositor-cheap) */
+.traveler::after{
+  content:""; position:absolute; inset:-7px; border-radius:50%;
+  border:2px solid rgba(0,255,135,.7);
+  animation:tailPulse 1.4s ease-out infinite;
+}
+@keyframes tailPulse{
+  0%{transform:scale(.4); opacity:1}
+  100%{transform:scale(1.5); opacity:0}
+}
 
 /* ============================================================
    OVERVIEW / SHOWCASE
@@ -497,7 +527,7 @@ h1:hover,h2:hover{
 .cursor-dot,.cursor-ring{position:fixed; top:0; left:0; pointer-events:none; z-index:10000; border-radius:50%; mix-blend-mode:difference}
 .cursor-dot{width:8px; height:8px; background:var(--cursor-bg,#fff); border:1px solid var(--cursor-border, transparent)}
 .cursor-ring{width:36px; height:36px; border:1.5px solid var(--cursor-ring,rgba(255,255,255,.75)); opacity:.8; transition:width .25s ease, height .25s ease, opacity .25s ease, border-color .25s ease}
-body.cursor-hover .cursor-ring{width:60px; height:60px; opacity:1}
+body.cursor-hover .cursor-ring{width:60px; height:60px; opacity:1; border-color:var(--neon); box-shadow:0 0 18px rgba(0,255,135,.35)}
 @media (pointer:fine){ html.fx-cursor, html.fx-cursor *{cursor:none} }
 @media (pointer:coarse){ .cursor-dot,.cursor-ring{display:none} }
 @media (prefers-reduced-motion:reduce){ .cursor-dot,.cursor-ring{display:none} }
@@ -841,4 +871,7 @@ body.cursor-hover .cursor-ring{width:60px; height:60px; opacity:1}
   .grain{animation:none}
   .book-cover{transition:none}
   .card,.domain,.case,.goal,.skill,.shot,.b-card{transition:none}
+  /* global kill-switch: every remaining loop (marquee, orbs, pulses, tails,
+     headline aura) freezes on its first frame */
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
 }

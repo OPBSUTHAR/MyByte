@@ -178,7 +178,7 @@ export default function Hero({ ready, onFrugal, onOpenStory }) {
         <div className="hero__visual" ref={visual}>
           <Terminal onFrugal={onFrugal} />
 
-          <motion.div className="profile-float anim-float" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+          <motion.div className="profile-float anim-float neon-glow-card" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
             <img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="Omprakash" />
             <div><b>Omprakash Suthar</b><span>Full-Stack • AI • C/C++ • OPBSUTHAR</span></div>
             <span className="badge badge-pulse">Open to collabs</span>
@@ -193,7 +193,7 @@ export default function Hero({ ready, onFrugal, onOpenStory }) {
               <motion.button
                 key={key}
                 type="button"
-                className="mini-float anim-float"
+                className="mini-float anim-float neon-glow-card"
                 data-cursor="view"
                 title={`Open ${b} live preview`}
                 initial={{ opacity: 0, x: 18 }}

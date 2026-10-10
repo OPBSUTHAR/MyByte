@@ -4,18 +4,21 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Reveal from './Reveal';
 import { prefersReduce } from '../hooks/useCountUp';
+import { useTiltGrid } from '../hooks/useTilt';
 import { DOMAINS, CASES, GOALS, SKILLS, BENTO, TIMELINE } from '../content.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ---------------- 00 VISION ---------------- */
 export function Vision() {
+  const bento = useRef(null);
+  useTiltGrid(bento, { max: 5 });
   return (
     <section id="vision" className="section">
       <div className="container">
         <div className="section__eyebrow">00 — North Star • Why I Build</div>
-        <div className="bento">
-          <Reveal className="bento__main">
+        <div className="bento" ref={bento}>
+          <Reveal className="bento__main" data-tilt>
             <h2>Byte-scale craft.<br /><span className="accent-text">Bharat-scale problems.</span></h2>
             <p>
               Most portfolios show <em>what</em> I built. I want to show <em>why</em>. My ambition is to build <b>intelligent systems that are fast, frugal and field-ready</b> — that work when the internet doesn't, on low compute, for people who need it most — farmer in Rajasthan, controller at airport, student without laptop.
@@ -227,14 +230,16 @@ export function Domains() {
 
 /* ---------------- 02 CASE STUDIES ---------------- */
 export function Cases() {
+  const grid = useRef(null);
+  useTiltGrid(grid);
   return (
     <section id="featured" className="section">
       <div className="container">
         <div className="section__eyebrow">02 — Featured Case Studies • Curated, Not Dumped</div>
         <div className="section__head"><h2>3 builds that explain how I think</h2><p className="muted">Challenge → Role → Process → Result. Like a real studio portfolio.</p></div>
-        <div className="case-grid">
+        <div className="case-grid" ref={grid}>
           {CASES.map((c, i) => (
-            <Reveal key={c.h} as="article" className="case" from="scale" delay={i * 0.09}>
+            <Reveal key={c.h} as="article" className="case" data-tilt from="scale" delay={i * 0.09}>
               <div className="case__bar" />
               <div className="case__body">
                 <div className="case__eyebrow">{c.eyebrow}</div>
