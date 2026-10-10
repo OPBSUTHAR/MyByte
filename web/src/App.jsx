@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MotionConfig } from 'motion/react';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -126,6 +127,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <Analytics />
+      <SpeedInsights />
       <ProjectsContext.Provider value={ctx}>
         <div id="progress" />
         <Background />

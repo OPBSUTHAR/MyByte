@@ -17,6 +17,7 @@
     "@theatre/core": "^0.7.2",
     "@theatre/studio": "^0.7.2",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "animejs": "^3.2.2",
     "gsap": "^3.12.5",
     "lenis": "^1.1.14",
