@@ -454,7 +454,9 @@ export function Contact() {
           )}
           {state === 'error' && (
             <p className="small" style={{ color: '#f87171' }}>
-              Submission failed — email me directly: omprakashsuthar.os974660@gmail.com
+              {!APPS_SCRIPT_URL
+                ? 'Form backend not connected yet (missing VITE_APPS_SCRIPT_URL) — email me directly: omprakashsuthar.os974660@gmail.com'
+                : 'Submission failed — email me directly: omprakashsuthar.os974660@gmail.com'}
             </p>
           )}
         </Reveal>
