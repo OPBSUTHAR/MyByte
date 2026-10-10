@@ -344,7 +344,7 @@ export function Journey() {
 // Deploy the doPost() snippet (Extensions → Apps Script → Deploy → Web app)
 // and paste the Web App URL here — submissions append to the Sheet AND
 // email you instantly. No mailto:, no client redirect.
-const APPS_SCRIPT_URL = import.meta.env?.VITE_APPS_SCRIPT_URL || '';
+const APPS_SCRIPT_URL = import.meta.env?.VITE_APPS_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbxQ58KiMf6jIFamF2IjxVxzxg5I35HHNmqVPIClRfFsYr5voIgmhcBJCmTHWlKS3VvY1Q/exec';
 
 export function Contact() {
   const [state, setState] = useState('idle'); // idle → sending → sent | error
