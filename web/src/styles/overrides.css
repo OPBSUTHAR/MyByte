@@ -7,7 +7,11 @@
 }
 
 /* stacking: vignette/scanline layers behind content but above the canvas */
-#root { position: relative; z-index: 2; }
+#root { position: relative; z-index: 2; width: 100%; max-width: 100%; margin: 0; padding: 0; }
+
+/* full-bleed shell — containers in site.css are fluid; shell must not cap width */
+html, body { width: 100%; max-width: 100%; margin: 0; padding: 0; }
+main, .hero, .section, .footer { width: 100%; max-width: 100%; margin-left: 0; margin-right: 0; }
 
 /* smooth scrolling is driven by Lenis on the React build */
 html.lenis, html.lenis body { height: auto; }

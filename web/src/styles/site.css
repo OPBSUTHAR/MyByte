@@ -43,7 +43,7 @@ h1,h2,h3{text-wrap:balance}
 ::selection{background:var(--primary); color:var(--primary-ink)}
 
 /* ---------- utilities ---------- */
-.container{max-width:1160px; margin:0 auto; padding:0 22px}
+.container{width:100%; max-width:100%; margin:0 auto; padding:0 clamp(16px,4vw,48px)}
 .muted{color:var(--muted)} .small{font-size:.82rem} .center{text-align:center} .mt{margin-top:18px}
 
 /* film grain — subtle stone texture over the whole site */
@@ -95,7 +95,7 @@ h1,h2,h3{text-wrap:balance}
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 .nav__inner{
-  max-width:1280px; width:100%; margin:0 auto; padding:.75rem 1.5rem; box-sizing:border-box;
+  max-width:100%; width:100%; margin:0 auto; padding:.75rem clamp(16px,4vw,48px); box-sizing:border-box;
   display:flex; align-items:center; justify-content:space-between; gap:1.25rem;
   min-height:66px;
 }
@@ -247,7 +247,7 @@ h1{font-family:Fraunces,serif; font-size:clamp(2.6rem,6vw,4.4rem); line-height:.
 .mini-dot{position:absolute; top:8px; right:8px; width:6px; height:6px; border-radius:50%; background:var(--primary); animation:miniPulse 2s infinite}
 @keyframes miniPulse{0%,100%{opacity:1}50%{opacity:.5}}
 button.mini-float{font:inherit; text-align:left; cursor:pointer; color:var(--text)}
-.marquee{margin-top:22px; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--card); max-width:1160px; margin-left:auto; margin-right:auto}
+.marquee{margin-top:22px; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--card); width:100%; max-width:100%; margin-left:auto; margin-right:auto}
 .marquee__track{display:flex; gap:18px; padding:10px 16px; animation:marquee 24s linear infinite; white-space:nowrap; font-family:JetBrains Mono,monospace; font-weight:700; font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); opacity:.85; width:max-content; will-change:transform}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .marquee:hover .marquee__track{animation-play-state:paused}
