@@ -865,7 +865,7 @@ body.cursor-hover .cursor-ring{width:56px; height:56px; opacity:1; border-color:
 
 /* floating hover preview card */
 .row-preview{
-  position:fixed; z-index:9000; width:340px; pointer-events:none;
+  position:fixed; left:0; top:0; z-index:9000; width:340px; pointer-events:none;
   background:var(--card); border:1px solid color-mix(in srgb, var(--primary) 40%, var(--line));
   border-radius:16px; overflow:hidden; box-shadow:var(--shadow), var(--glow);
 }

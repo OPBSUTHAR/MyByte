@@ -20,9 +20,9 @@ function RowPreview({ p, mx, my }) {
     <motion.div
       className="row-preview"
       style={{ x: sx, y: sy }}
-      initial={{ opacity: 0, scale: .85, y: 15 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: .9, y: -10 }}
+      initial={{ opacity: 0, scale: .85 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: .9 }}
       transition={{ duration: .25, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="row-preview__thumb">
@@ -135,8 +135,8 @@ export default function Work() {
 
   // offset: +20px right, −140px up — clamped into the viewport
   const onHover = (p, x, y) => {
-    mx.set(Math.min(x + 20, innerWidth - 380));
-    my.set(Math.max(y - 140, 80));
+    mx.set(Math.max(8, Math.min(x + 20, innerWidth - 360)));
+    my.set(Math.max(80, Math.min(y - 140, innerHeight - 360)));
     setPreview((prev) => (prev && prev.p.name === p.name ? prev : { p }));
   };
   const onLeave = () => setPreview(null);
