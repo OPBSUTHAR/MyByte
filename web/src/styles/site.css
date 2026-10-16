@@ -77,6 +77,15 @@ h1,h2,h3{text-wrap:balance}
 .grid-fade{position:absolute; inset:0; background:
   linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size:48px 48px; opacity:.08; mask:radial-gradient(ellipse 80% 60% at 50% 10%, black 60%, transparent 85%)}
+
+/* blender anime stage — rendered DBS night-arena still (assets/blender/*.webp).
+   Fixed layer, transform-only cursor parallax + scroll drift; scrims keep text readable */
+.blender-bg{position:absolute; inset:-28px; overflow:hidden; opacity:.55}
+.blender-bg img{width:100%; height:100%; object-fit:cover; object-position:center 38%; display:block; transform:translateZ(0); will-change:transform}
+.blender-bg::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, var(--bg) 0%, transparent 26%, transparent 60%, var(--bg) 100%)}
+@media(max-width:900px){ .blender-bg{opacity:.38} }
+@media (prefers-reduced-motion:reduce){ .blender-bg img{will-change:auto} }
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
 
 /* particle canvas — strictly fixed, out of flow, behind content */

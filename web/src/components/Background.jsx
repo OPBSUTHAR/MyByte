@@ -10,7 +10,42 @@ gsap.registerPlugin(ScrollTrigger);
 // plus GSAP orb parallax and floating tech-icon chips at different depths.
 export default function Background() {
   const canvas = useRef(null);
+  const blenderImg = useRef(null);
   const desktop = useDesktop();
+
+  // blender anime stage — cursor parallax (transform-only lerp, desktop +
+  // fine pointer only, static everywhere else, paused while tab hidden)
+  useEffect(() => {
+    const el = blenderImg.current;
+    const coarse = matchMedia('(pointer: coarse)').matches;
+    if (!el || prefersReduce() || coarse || !desktop) return;
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    let visible = !document.hidden;
+    const onMove = (e) => {
+      tx = (e.clientX / innerWidth - 0.5) * 28;
+      ty = (e.clientY / innerHeight - 0.5) * 20;
+    };
+    const loop = () => {
+      raf = 0;
+      if (!visible) return;
+      cx += (tx - cx) * 0.06;
+      cy += (ty - cy) * 0.06;
+      el.style.transform = `translate3d(${cx.toFixed(2)}px,${cy.toFixed(2)}px,0)`;
+      raf = requestAnimationFrame(loop);
+    };
+    const onVis = () => {
+      visible = !document.hidden;
+      if (visible && !raf) raf = requestAnimationFrame(loop);
+    };
+    addEventListener('pointermove', onMove, { passive: true });
+    document.addEventListener('visibilitychange', onVis);
+    raf = requestAnimationFrame(loop);
+    return () => {
+      cancelAnimationFrame(raf);
+      removeEventListener('pointermove', onMove);
+      document.removeEventListener('visibilitychange', onVis);
+    };
+  }, [desktop]);
 
   // particle field with pointer repulsion — desktop + fine pointer only,
   // paused while the tab is hidden
@@ -90,7 +125,7 @@ export default function Background() {
     };
   }, [desktop]);
 
-  // orb scroll parallax — desktop only
+  // orb + blender scroll parallax — desktop only
   useEffect(() => {
     if (prefersReduce() || !desktop) return;
     const tweens = gsap.utils.toArray('.orb').map((orb, i) =>
@@ -98,7 +133,14 @@ export default function Background() {
         yPercent: 12 + i * 7, ease: 'none',
         scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
       }));
-    return () => tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
+    const bgDrift = gsap.to('.blender-bg', {
+      yPercent: 10, ease: 'none',
+      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
+    });
+    return () => {
+      tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
+      bgDrift.scrollTrigger?.kill(); bgDrift.kill();
+    };
   }, [desktop]);
 
   return (
@@ -106,6 +148,9 @@ export default function Background() {
       <canvas id="techCanvas" ref={canvas} aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />
       <div className="bg-mesh" aria-hidden="true">
+        <div className="blender-bg" aria-hidden="true">
+          <img ref={blenderImg} src="/assets/blender/shot1_charging_aura.webp" alt="" loading="eager" decoding="async" />
+        </div>
         <div className="orb orb--1" />
         <div className="orb orb--2" />
         <div className="orb orb--3" />
