@@ -793,6 +793,8 @@ body.cursor-hover .cursor-ring{width:56px; height:56px; opacity:1; border-color:
    PROJECTS TABLE (interactive rows)
    ============================================================ */
 .proj-table{display:grid; gap:6px; margin-top:14px}
+/* work rows stay readable — shell is full-bleed, this section caps centered */
+#work .container{max-width:1160px}
 .proj-row{
   display:grid;
   grid-template-columns:34px 1.6fr 1fr .9fr .8fr;

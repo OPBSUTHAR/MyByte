@@ -98,6 +98,7 @@ export default function Work() {
   const [q, setQ] = useState('');
   const [lang, setLang] = useState('all');
   const [domain, setDomain] = useState('all');
+  const [liveOnly, setLiveOnly] = useState(true);
   const [preview, setPreview] = useState(null);
 
   // tag micro-secret: hovering a domain/lang/star badge plays a one-shot
@@ -120,6 +121,19 @@ export default function Work() {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
 
+  // hover card must never stick while the page scrolls under it
+  useEffect(() => {
+    const close = () => setPreview(null);
+    window.addEventListener('scroll', close, { passive: true, capture: true });
+    window.addEventListener('wheel', close, { passive: true });
+    window.addEventListener('touchmove', close, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', close, { capture: true });
+      window.removeEventListener('wheel', close);
+      window.removeEventListener('touchmove', close);
+    };
+  }, []);
+
   const filtered = useMemo(() => {
     const query = q.toLowerCase().trim();
     return list
@@ -128,10 +142,11 @@ export default function Work() {
         const text = `${p.name} ${p.desc} ${p.lang} ${p.domain}`.toLowerCase();
         const okLang = lang === 'all' || (p.lang || '').toLowerCase() === lang.toLowerCase();
         const okDomain = domain === 'all' || p.domain === domain;
+        const okLive = !liveOnly || isLiveCandidate(p.lang, p.name);
         const okQ = !query || text.includes(query);
-        return okLang && okDomain && okQ;
+        return okLang && okDomain && okLive && okQ;
       });
-  }, [list, q, lang, domain]);
+  }, [list, q, lang, domain, liveOnly]);
 
   // offset: +20px right, −140px up — clamped into the viewport
   const onHover = (p, x, y) => {
@@ -157,13 +172,16 @@ export default function Work() {
           </div>
         </div>
         <div className="filter" style={{ marginTop: 12 }}>
+          <button className={liveOnly ? 'active' : ''} onClick={() => setLiveOnly((v) => !v)}>
+            {liveOnly ? '● Live only' : '○ Live only'}
+          </button>
           {DOMAINS.map((d) => (
             <button key={d} className={domain === d ? 'active' : ''} onClick={() => setDomain(d)}>
               {d === 'all' ? 'All Domains' : domainLabel(d)}
             </button>
           ))}
         </div>
-        <p className="muted small" style={{ marginTop: 10 }}>{filtered.length} of {list.length} projects • hover a row for preview.</p>
+        <p className="muted small" style={{ marginTop: 10 }}>{filtered.length} live of {list.length} projects • hover a row for preview.</p>
 
         <div className="proj-table" ref={tableRef}>
           <div className="proj-row proj-row--head">
