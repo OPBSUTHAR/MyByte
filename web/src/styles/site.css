@@ -1227,49 +1227,64 @@ html.crt-mode .scanlines{opacity:.28}
 }
 
 /* ============================================================
-   STORYBOARD — sketch comic that watercolors itself on scroll
-   Paper frames, ink line-art, watercolor washes. Washes start
-   hidden when .sb-on is armed (JS + motion allowed) and paint
-   in panel by panel, scrubbed by scroll position. No JS or
-   reduced motion → the comic simply ships fully painted.
+   STORYBOARD — transparent sticky-note comics
+   Neon-ink sketch frames on translucent glass notes with sharp
+   edges and emerald glow. Scroll (.sb-on) paints the soft wash
+   in panel by panel; the hover lens — an SVG mask circle that
+   follows the pointer — reveals a solid-paint patch of the
+   comic right under the cursor (.sb-vivid). No JS or reduced
+   motion → the comic ships fully painted.
    ============================================================ */
-.sb-head{max-width:680px; margin-bottom:30px}
+.sb-head{max-width:680px; margin-bottom:26px}
 .sb-hint{display:flex; align-items:center; gap:10px; margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--primary)}
 .sb-hint i{width:34px; height:1px; display:inline-block; background:linear-gradient(90deg, var(--primary), transparent)}
 .sb-hint i.b2{transform:scaleX(-1)}
-.sb-grid{display:grid; grid-template-columns:1fr 1fr; gap:34px 26px; margin-top:6px}
-@media(max-width:920px){ .sb-grid{grid-template-columns:1fr} }
+.sb-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(226px, 1fr)); gap:24px 18px; margin-top:6px}
 
 .sb-panel{
-  position:relative; margin:8px 0 0;
-  background:#F7F2E8;
-  background-image:radial-gradient(120% 90% at 16% 6%, rgba(255,255,255,.85), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(75,66,56,.022) 0 2px, transparent 2px 5px);
-  border:1px solid rgba(75,66,56,.3); border-radius:16px;
-  padding:14px 14px 4px;
-  box-shadow:0 24px 48px rgba(0,0,0,.5);
+  position:relative; margin:6px 0 0; padding:10px 10px 2px;
+  border-radius:6px;
+  background:color-mix(in srgb, var(--primary) 6%, color-mix(in srgb, var(--card) 24%, transparent));
+  border:1px solid color-mix(in srgb, var(--primary) 42%, transparent);
+  box-shadow:
+    inset 0 0 18px color-mix(in srgb, var(--primary) 8%, transparent),
+    0 0 16px color-mix(in srgb, var(--primary) 16%, transparent),
+    0 16px 38px rgba(0,0,0,.45);
+  -webkit-backdrop-filter:blur(10px) saturate(1.2);
+  backdrop-filter:blur(10px) saturate(1.2);
   transform:rotate(var(--tilt,0deg));
-  transition:transform .35s var(--ease-spring), box-shadow .3s;
+  transition:transform .3s var(--ease-spring), box-shadow .3s, border-color .3s;
+  overflow:hidden;
 }
-.sb-panel:nth-child(odd){--tilt:-.7deg}
-.sb-panel:nth-child(even){--tilt:.55deg}
-.sb-panel:hover{transform:rotate(0deg) translateY(-4px); box-shadow:0 32px 64px rgba(0,0,0,.55)}
-.sb-panel::before{
-  content:""; position:absolute; top:-10px; left:50%; width:92px; height:20px;
-  transform:translateX(-50%) rotate(-2.4deg); border-radius:2px; opacity:.85;
-  background:color-mix(in srgb, var(--primary) 24%, rgba(243,238,226,.65));
-  box-shadow:0 1px 2px rgba(0,0,0,.2);
+.sb-panel:nth-child(odd){--tilt:-.6deg}
+.sb-panel:nth-child(even){--tilt:.5deg}
+.sb-panel:hover{
+  transform:rotate(0deg) translateY(-3px);
+  border-color:color-mix(in srgb, var(--primary) 78%, transparent);
+  box-shadow:
+    inset 0 0 22px color-mix(in srgb, var(--primary) 12%, transparent),
+    0 0 26px color-mix(in srgb, var(--primary) 30%, transparent),
+    0 0 60px color-mix(in srgb, var(--primary) 14%, transparent),
+    0 20px 44px rgba(0,0,0,.5);
+}
+/* sticky-note fold — bottom-right corner curl */
+.sb-panel::after{
+  content:""; position:absolute; right:0; bottom:0; width:26px; height:26px; pointer-events:none;
+  background:linear-gradient(135deg, transparent 46%, color-mix(in srgb, var(--primary) 34%, transparent) 46%);
+  border-top-left-radius:6px;
 }
 .sb-svg{display:block; width:100%; height:auto}
-.sb-ink{stroke:#4A4238; stroke-width:2.1; stroke-linecap:round; stroke-linejoin:round; fill:none}
+.sb-ink{stroke:#9BE9C9; stroke-width:2.1; stroke-linecap:round; stroke-linejoin:round; fill:none; filter:drop-shadow(0 0 3px rgba(0,229,153,.4))}
 .sb-ink--dash{stroke-dasharray:6 7; stroke-width:1.6}
-.sb-hand{font-family:Caveat,'Segoe Print',cursive; font-size:17px; font-weight:700; fill:#4A4238; stroke:none}
-.sb-wash{filter:blur(5px); mix-blend-mode:multiply}
+.sb-hand{font-family:Caveat,'Segoe Print',cursive; font-size:17px; font-weight:700; fill:#D9F7EA; stroke:none}
+.sb-wash{filter:blur(5px)}
+.sb-vivid{opacity:0; transition:opacity .3s}
+.sb-panel:hover .sb-vivid{opacity:1}
 .wb{transform-box:fill-box; transform-origin:center}
 .sb-on .wb{opacity:0}
-.sb-cap{display:grid; gap:2px; margin:8px 2px 10px}
-.sb-cap b{font-family:'JetBrains Mono',monospace; font-size:.64rem; letter-spacing:.16em; color:#0E8A63}
-.sb-cap p{margin:0; font-family:Caveat,'Segoe Print','Comic Sans MS',cursive; font-size:1.16rem; line-height:1.28; color:#3E372E}
+.sb-cap{display:grid; gap:1px; margin:6px 2px 8px}
+.sb-cap b{font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:.16em; color:var(--primary)}
+.sb-cap p{margin:0; font-family:Caveat,'Segoe Print','Comic Sans MS',cursive; font-size:1.05rem; line-height:1.22; color:#D9F2E7}
 @media (prefers-reduced-motion:reduce){
-  .sb-panel,.sb-panel:hover{transition:none}
+  .sb-panel,.sb-panel:hover,.sb-vivid{transition:none}
 }
