@@ -423,14 +423,44 @@ h1:hover,h2:hover{
 .domain p b{color:var(--text)}
 .domain__link{margin-top:auto; font-weight:700; font-size:.88rem; display:inline-flex; gap:6px; align-items:center}
 .domain__index{position:absolute; top:14px; right:14px; font-family:JetBrains Mono,monospace; font-size:.62rem; letter-spacing:.12em; color:var(--muted); font-weight:700}
+/* the ∞ band — translucent so the living backdrop (aurora canvas, rendered
+   loop, orbs) keeps flowing through instead of a flat slab; a ghost ∞
+   watermark breathes behind the cards and drifts with the pinned loop */
+.domains.section--alt{
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--bg2) 94%, transparent) 0%,
+    color-mix(in srgb, var(--bg2) 58%, transparent) 46%,
+    color-mix(in srgb, var(--bg2) 94%, transparent) 100%);
+  border-top:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+}
+.domains .section__eyebrow,.domains .section__head,.domains__progress{position:relative}
+.domains__ghost{
+  position:absolute; inset:0; display:grid; place-items:center; z-index:0;
+  font-family:Fraunces,serif; font-weight:800; font-size:min(46vw,560px); line-height:1;
+  color:var(--primary); opacity:.05; pointer-events:none; user-select:none;
+  will-change:transform; animation:ghostBreathe 14s ease-in-out infinite;
+}
+@keyframes ghostBreathe{0%,100%{opacity:.04}50%{opacity:.07}}
 @media (min-width:901px){
   .domains{padding:0}
   .domains__stage{height:100vh; display:flex; flex-direction:column; padding-top:9vh}
   .domains__viewport{flex:1; overflow:hidden; display:flex; align-items:center; margin-top:0}
   .domains__track{display:flex; gap:22px; padding:0 8vw; align-items:stretch; flex:none}
-  .domains__track .domain{flex:0 0 auto; width:min(56vw, 780px); margin:0}
-  .domains__progress{display:block; height:3px; background:var(--line); border-radius:999px; overflow:hidden; margin-top:3vh}
-  .domains__progress i{display:block; height:100%; background:var(--primary); transform:scaleX(0); transform-origin:left}
+  .domains__track .domain{flex:0 0 auto; width:min(56vw, 780px); margin:0; transition:filter .5s ease, border-color .5s ease, box-shadow .5s ease}
+  /* loop spotlight — the element nearest the loop position ignites, the
+     rest sink back (filter/overlay only, so motion's inline styles on the
+     cards are never fought) */
+  .domains__track .domain.is-far{filter:brightness(.58) saturate(.7)}
+  .domains__track .domain.is-current{border-color:color-mix(in srgb, var(--primary) 50%, var(--line))}
+  .domains__track .domain::after{
+    content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0;
+    transition:opacity .5s ease; z-index:1;
+    background:radial-gradient(120% 90% at 50% 0%, rgba(0,229,153,.13), transparent 62%);
+    box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--primary) 40%, transparent);
+  }
+  .domains__track .domain.is-current::after{opacity:1}
+  .domains__progress{display:block; height:3px; background:color-mix(in srgb, var(--line) 80%, transparent); border-radius:999px; overflow:hidden; margin-top:3vh}
+  .domains__progress i{display:block; height:100%; background:linear-gradient(90deg, var(--mint), var(--primary) 55%, var(--teal)); box-shadow:0 0 14px rgba(0,229,153,.55); transform:scaleX(0); transform-origin:left}
 }
 
 /* case studies */
@@ -468,7 +498,7 @@ h1:hover,h2:hover{
 .free-infinity{width:min(420px, 100%); filter:drop-shadow(0 10px 18px rgba(0,0,0,.08))}
 .free-infinity__svg{width:100%; height:auto; overflow:visible}
 .free-infinity__path{stroke:var(--primary); stroke-width:2.6; fill:none; stroke-linecap:round}
-.free-dots circle{fill:var(--card); stroke:var(--line); stroke-width:1.3; transition:fill .2s, stroke .2s, r .2s}
+.free-dots circle{fill:var(--card); stroke:var(--line); stroke-width:1.3; transition:fill .25s, stroke .25s, transform .25s; transform-box:fill-box; transform-origin:center}
 .free-dots circle:hover{fill:var(--primary); stroke:var(--primary)}
 .free-infinity__labels{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:10px; font-family:JetBrains Mono,monospace; font-size:.62rem; font-weight:700; letter-spacing:.06em; color:var(--muted)}
 .free-infinity__labels span{padding:4px 8px; border-radius:999px; border:1px solid var(--line); background:var(--card2)}
@@ -479,6 +509,25 @@ h1:hover,h2:hover{
 @media(max-width:1020px){ .infinity__grid{grid-template-columns:repeat(2,1fr)} }
 @media(max-width:560px){ .infinity__grid{grid-template-columns:1fr} }
 .infinity__badge{display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border-radius:999px; border:1px solid var(--line); font-family:JetBrains Mono,monospace; font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+/* ∞ card life — a breathing emerald halo behind the symbol, the core
+   medallion glow, and the node/chip choreography lit by the traveler dot
+   (transform + opacity only, so it stays compositor-cheap) */
+.infinity__wrap::before{
+  content:""; position:absolute; top:-16%; right:-8%; width:min(60vw,620px); aspect-ratio:1;
+  border-radius:50%; pointer-events:none; z-index:0;
+  background:radial-gradient(circle at 50% 50%, rgba(0,229,153,.16), rgba(45,212,191,.06) 46%, transparent 72%);
+  animation:infinityHalo 9s ease-in-out infinite;
+}
+@keyframes infinityHalo{0%,100%{transform:scale(1); opacity:.7}50%{transform:scale(1.16); opacity:1}}
+.free-infinity__core{animation:coreGlow 3.4s ease-in-out infinite}
+@keyframes coreGlow{0%,100%{opacity:.82}50%{opacity:1}}
+.free-dots circle.is-lit{fill:var(--primary); stroke:var(--primary); transform:scale(1.45)}
+.infinity__labels span,.free-infinity__labels span{transition:background-color .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease}
+.infinity__labels span.is-lit,.free-infinity__labels span.is-lit{
+  background:color-mix(in srgb, var(--primary) 24%, var(--card2));
+  border-color:color-mix(in srgb, var(--primary) 60%, var(--line));
+  color:var(--primary); box-shadow:0 0 16px rgba(0,229,153,.28);
+}
 .traveler{
   position:absolute; left:0; top:0; width:10px; height:10px; border-radius:50%;
   background:var(--primary); box-shadow:0 0 12px 3px rgba(0,229,153,.55);

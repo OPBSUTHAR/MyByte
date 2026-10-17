@@ -77,14 +77,23 @@ export function InfinitySection() {
     }
   };
 
-  // traveling light particle along the ∞ path — paused while offscreen
+  // traveling light particle along the ∞ path — paused while offscreen.
+  // As it passes each node, that dot lights up and both label rows follow,
+  // so the eight elements visibly take the loop one at a time.
   useEffect(() => {
     if (prefersReduce()) return;
     const path = svgRef.current?.querySelector('.free-infinity__path');
     const dot = travelerRef.current;
     if (!path || !dot) return;
+    const wrap = svgRef.current.closest('.infinity__wrap');
+    const dots = Array.from(svgRef.current.querySelectorAll('.free-dots circle'));
+    const chips = wrap ? Array.from(wrap.querySelectorAll('.infinity__labels span, .free-infinity__labels span')) : [];
+    // node anchors in viewBox units — same order as the two label rows
+    const DX = [68, 132, 268, 332, 332, 268, 132, 68];
+    const DY = [62, 28, 28, 62, 78, 112, 112, 78];
     let raf = 0;
     let inView = true;
+    let lit = -1;
     const start = performance.now();
     const tick = (t) => {
       raf = 0;
@@ -96,6 +105,19 @@ export function InfinitySection() {
       const sx = rect.width / 400;
       const sy = rect.height / 140;
       dot.style.transform = `translate(${pt.x * sx}px, ${pt.y * sy}px) translate(-50%,-50%)`;
+      // light the node closest to the traveler (cheap squared distances)
+      let near = lit;
+      let best = Infinity;
+      for (let i = 0; i < 8; i++) {
+        const dx = pt.x - DX[i], dy = pt.y - DY[i];
+        const d = dx * dx + dy * dy;
+        if (d < best) { best = d; near = i; }
+      }
+      if (near !== lit) {
+        lit = near;
+        dots.forEach((el, i) => el.classList.toggle('is-lit', i === near));
+        chips.forEach((el, i) => el.classList.toggle('is-lit', i % 8 === near));
+      }
       raf = requestAnimationFrame(tick);
     };
     const obs = new IntersectionObserver((es) => {
@@ -149,8 +171,10 @@ export function InfinitySection() {
                         onMouseEnter={() => setActive(i)} onMouseLeave={() => setActive(null)} />
                     ))}
                   </g>
-                  <circle cx="200" cy="70" r="10" fill="var(--card)" stroke="var(--line)" strokeWidth="1.2" />
-                  <text x="200" y="74" textAnchor="middle" fontFamily="Fraunces,serif" fontSize="13" fontWeight="800" fill="var(--text)">∞</text>
+                  <g className="free-infinity__core">
+                    <circle cx="200" cy="70" r="10" fill="var(--card)" stroke="var(--line)" strokeWidth="1.2" />
+                    <text x="200" y="74" textAnchor="middle" fontFamily="Fraunces,serif" fontSize="13" fontWeight="800" fill="var(--text)">∞</text>
+                  </g>
                 </svg>
                 <div ref={travelerRef} className="traveler" aria-hidden="true" onClick={onTravelerClick} title="∞" style={{ cursor: 'pointer' }} />
                 <div className="free-infinity__labels">{labels.map((l, i) => <span key={l} style={active === i ? { color: 'var(--primary)' } : undefined}>{l}</span>)}</div>
@@ -168,16 +192,22 @@ export function Domains() {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
   const barRef = useRef(null);
+  const ghostRef = useRef(null);
 
   useEffect(() => {
     if (prefersReduce()) return;
     // Desktop: pin the stage and slide the 8 domain cards sideways as the
-    // user scrolls vertically. Mobile/tablet: plain vertical grid (no pin).
+    // user scrolls vertically. The card nearest the loop position takes the
+    // emerald spotlight while the rest sink back; the ghost ∞ drifts and
+    // tilts with progress. Mobile/tablet: plain vertical grid (no pin).
     const mm = ScrollTrigger.matchMedia({
       '(min-width: 901px)': () => {
         const track = trackRef.current;
         const viewport = track?.parentElement;
         if (!track || !viewport) return;
+        const cards = Array.from(track.children);
+        const ghost = ghostRef.current;
+        let current = -1;
         const getAmount = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
         return gsap.to(track, {
           x: () => -getAmount(),
@@ -191,8 +221,29 @@ export function Domains() {
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              if (barRef.current) barRef.current.style.transform = `scaleX(${self.progress})`;
+              const p = self.progress;
+              if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
+              if (ghost) ghost.style.transform = `translateY(${((0.5 - p) * 40).toFixed(1)}px) rotate(${((p - 0.5) * 6).toFixed(2)}deg)`;
+              // spotlight the element nearest the viewport centre (rects are
+              // cheap here — transforms never dirty layout)
+              const mid = window.innerWidth / 2;
+              let idx = 0;
+              let best = Infinity;
+              for (let i = 0; i < cards.length; i++) {
+                const r = cards[i].getBoundingClientRect();
+                const d = Math.abs(r.left + r.width / 2 - mid);
+                if (d < best) { best = d; idx = i; }
+              }
+              if (idx !== current) {
+                current = idx;
+                cards.forEach((el, i) => {
+                  el.classList.toggle('is-current', i === idx);
+                  el.classList.toggle('is-far', i !== idx);
+                });
+              }
             },
+            onLeave: () => cards.forEach((el) => el.classList.remove('is-current', 'is-far')),
+            onLeaveBack: () => cards.forEach((el) => el.classList.remove('is-current', 'is-far')),
           },
         });
       },
@@ -203,6 +254,7 @@ export function Domains() {
   return (
     <section id="domains" className="section section--alt domains" ref={sectionRef}>
       <div className="container domains__stage">
+        <div className="domains__ghost" ref={ghostRef} aria-hidden="true">∞</div>
         <div className="section__eyebrow">01 — Domains • ∞ 8 Elements • One Loop</div>
         <div className="section__head">
           <h2>Eight elements, one infinite system</h2>
