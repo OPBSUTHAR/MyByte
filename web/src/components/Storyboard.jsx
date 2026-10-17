@@ -232,7 +232,6 @@ export default function Storyboard() {
         <div className="sb-head">
           <div className="section__eyebrow">∞ — Storyboard</div>
           <h2>The story behind the bytes.</h2>
-          <p className="muted">Transparent sticky-note comics — scroll to paint a frame, hover to watercolor it solid.</p>
           <div className="sb-hint" aria-hidden="true"><i /> ink first · scroll paints · hover fills solid <i className="b2" /></div>
         </div>
         <div className="sb-grid">
