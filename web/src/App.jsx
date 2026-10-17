@@ -11,6 +11,7 @@ import './styles/overrides.css';
 import Background from './components/Background';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
+import Storyboard from './components/Storyboard';
 import Highlights from './components/Highlights';
 import Showcase from './components/Showcase';
 import Work from './components/Work';
@@ -121,6 +122,7 @@ export default function App() {
         onFrugal={handleFrugal}
         onOpenStory={() => setStoryOpen(true)}
       />
+      <Storyboard />
       <Highlights />
       <Vision />
       <InfinitySection />
