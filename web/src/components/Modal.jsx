@@ -35,12 +35,13 @@ export default function Modal({ project, onClose }) {
         >
           <motion.div
             role="dialog" aria-modal="true" aria-label={project.name}
+            className="modal-panel"
             onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, y: 26, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 260, damping: 26 }}
-            style={{ width: 'min(980px, 92vw)', maxHeight: '86vh', background: 'var(--card)', color: 'var(--text)', border: '1px solid var(--line)', borderRadius: 18, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,.6)' }}
+            style={{ width: 'min(980px, 92vw)', maxHeight: '86vh', background: 'var(--card)', color: 'var(--text)', borderRadius: 18, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,.6)' }}
           >
             <div className="modal__head">
               <div><h3>{project.name}</h3><p className="muted">{project.desc}</p></div>

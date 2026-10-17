@@ -427,11 +427,12 @@ h1:hover,h2:hover{
    loop, orbs) keeps flowing through instead of a flat slab; a ghost ∞
    watermark breathes behind the cards and drifts with the pinned loop */
 .domains.section--alt{
-  background:linear-gradient(180deg,
-    color-mix(in srgb, var(--bg2) 94%, transparent) 0%,
-    color-mix(in srgb, var(--bg2) 58%, transparent) 46%,
-    color-mix(in srgb, var(--bg2) 94%, transparent) 100%);
-  border-top:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  background:linear-gradient(90deg, transparent, var(--trace) 10%, var(--trace) 90%, transparent) 0 4px/100% 1px no-repeat,
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--bg2) 94%, transparent) 0%,
+      color-mix(in srgb, var(--bg2) 58%, transparent) 46%,
+      color-mix(in srgb, var(--bg2) 94%, transparent) 100%);
+  border-top:1px solid var(--edge-hi);
 }
 .domains .section__eyebrow,.domains .section__head,.domains__progress{position:relative}
 .domains__ghost{
@@ -1063,4 +1064,110 @@ html.crt-mode .scanlines{opacity:.28}
   /* global kill-switch: every remaining loop (marquee, orbs, pulses, tails,
      headline aura) freezes on its first frame */
   *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
+}
+
+/* ============================================================
+   CHIP EDGES — processor-package outlines everywhere
+   Every panel, control and chip now reads like a processor edge:
+   a solid emerald-tinted border (bevelled — lit top edge, shaded
+   bottom edge) plus a second parallel "trace" line just outside
+   it, drawn with outline so children, hover shadows and the
+   motion inline styles never fight it. Panels get a 3px trace,
+   small components tighten to 2px; section bands, the nav and the
+   footer carry the doubled line edge-to-edge as a rail. Static
+   paint only — reduced-motion safe.
+   ============================================================ */
+:root{
+  --edge:color-mix(in srgb, var(--primary) 26%, var(--line));
+  --edge-hi:color-mix(in srgb, var(--primary) 48%, var(--line));
+  --edge-lo:color-mix(in srgb, var(--bg) 62%, var(--line));
+  --trace:color-mix(in srgb, var(--primary) 26%, transparent);
+  --trace-dim:color-mix(in srgb, var(--primary) 15%, transparent);
+  --rail:linear-gradient(90deg, transparent, color-mix(in srgb, var(--primary) 26%, transparent) 10%, color-mix(in srgb, var(--primary) 26%, transparent) 90%, transparent);
+}
+
+/* panels — the outer trace line */
+.card,.domain,.case,.goal,.skill,.b-card,.overview-card,.tl,.shot,
+.principle-card,.stat-grid,.next-banner,.profile-float,.mini-float,
+.marquee,.glass-card,.bento__main,.infinity__wrap,.preloader__box,
+.acc,.resume-header,.resume-block,.resume-proj__item,.browser,.iframeWrap,
+.contact-list a,.proj-row,.row-preview,.form-success,
+.resume-modal,.story-modal,.secret-card,.modal-panel{
+  outline:1px solid var(--trace);
+  outline-offset:3px;
+}
+
+/* panels — the bevelled solid border (.case / .secret-card / .row-preview /
+   .form-success keep their conic/lit borders and only take the trace) */
+.card,.domain,.goal,.skill,.b-card,.overview-card,.tl,.shot,
+.principle-card,.stat-grid,.next-banner,.profile-float,.mini-float,
+.marquee,.glass-card,.bento__main,.infinity__wrap,.preloader__box,
+.acc,.resume-header,.resume-block,.resume-proj__item,.browser,.iframeWrap,
+.contact-list a,.proj-row,.resume-modal,.story-modal,.modal-panel{
+  border-color:var(--edge);
+  border-top-color:var(--edge-hi);
+  border-bottom-color:var(--edge-lo);
+}
+
+/* controls & chips — tighter 2px trace */
+.btn,.icon-btn,.nav__github,.logo__mark,.ctrl,.pill,
+.filter button,.resume-tabs button,.modal__tabs button,
+.chips span,.tags span,.elem-chip,.badge-pill,
+.domain__icon,.domain__head span,.case__stats span,.goal__when,
+.infinity__labels span,.free-infinity__labels span,.infinity__badge,.live-dot,
+.stats div,.resume-contacts a,.spread-idx,.resume-certs>div,
+.row-preview__stack span,.row-preview__actions a,
+.proj-row__tags span,.proj-row__actions a,.acc__meta span,
+.secrets-hud,.secret-toast,
+.toolbar input,.form input,.form textarea,.form select{
+  outline:1px solid var(--trace-dim);
+  outline-offset:2px;
+}
+
+/* chips & rows — light bevel (.goal__when / .live-dot / .logo__mark /
+   .nav__github / .secrets-hud / .secret-toast keep their lit borders) */
+.ctrl,.filter button,.resume-tabs button,.modal__tabs button,
+.chips span,.tags span,.elem-chip,.badge-pill,.domain__icon,
+.domain__head span,.case__stats span,
+.infinity__labels span,.free-infinity__labels span,.infinity__badge,
+.stats div,.resume-contacts a,.spread-idx,.resume-certs>div,
+.row-preview__actions a,.proj-row__tags span,.proj-row__actions a,
+.toolbar input,.form input,.form textarea,.form select{
+  border-color:var(--edge);
+  border-top-color:var(--edge-hi);
+  border-bottom-color:var(--edge-lo);
+}
+
+/* dense chip clusters (6px gaps) — tighten so parallel traces never kiss */
+.free-infinity__labels span,.proj-row__tags span,.row-preview__stack span{outline-offset:1px}
+
+/* full-width rails — section bands, nav and footer run the doubled
+   edge line edge-to-edge (border + trace 3px inside it) */
+.section--alt{
+  border-top-color:var(--edge-hi);
+  background-image:var(--rail);
+  background-size:100% 1px;
+  background-position:0 4px;
+  background-repeat:no-repeat;
+}
+.nav{
+  border-bottom-color:var(--edge-hi);
+  background-image:var(--rail);
+  background-size:100% 1px;
+  background-position:0 calc(100% - 4px);
+  background-repeat:no-repeat;
+}
+.nav__links.open{
+  border-bottom-color:var(--edge-hi);
+  background-image:var(--rail);
+  background-size:100% 1px;
+  background-position:0 calc(100% - 4px);
+  background-repeat:no-repeat;
+}
+.footer{
+  border-top-color:var(--edge-hi);
+  background-image:var(--rail);
+  background-size:100% 1px;
+  background-position:0 4px;
+  background-repeat:no-repeat;
 }
