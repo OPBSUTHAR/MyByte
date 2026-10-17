@@ -1216,3 +1216,12 @@ html.crt-mode .scanlines{opacity:.28}
       color-mix(in srgb, var(--bg2) 55%, transparent) 32%,
       color-mix(in srgb, var(--bg2) 55%, transparent) 100%);
 }
+
+/* about band — fill removed entirely (rail kept) so the backdrop
+   animation runs clear through it; its cards go deeper glass */
+#about.section--alt{
+  background:linear-gradient(90deg, transparent, var(--trace) 10%, var(--trace) 90%, transparent) 0 4px/100% 1px no-repeat;
+}
+#about .bento__main,#about .b-card{
+  background:color-mix(in srgb, var(--card) 40%, transparent);
+}
