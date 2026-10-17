@@ -72,7 +72,13 @@ const lerpRGB = (a, b, t) => [
 
 export default function Background({ routeKey = '/' }) {
   const canvas = useRef(null);
+  const vid = useRef(null);
   const desktop = useDesktop();
+  // the Blender render plays on capable desktops; everything else
+  // (mobile, coarse pointer, reduced motion) gets the static poster frame
+  const coarse = typeof window !== 'undefined' ? matchMedia('(pointer: coarse)').matches : true;
+  const reduced = prefersReduce();
+  const showVideo = desktop && !coarse && !reduced;
   // live palette — tweened by ScrollTrigger, read by the canvas each frame
   const tint = useRef({
     ar: TINT0[0][0], ag: TINT0[0][1], ab: TINT0[0][2],
@@ -97,6 +103,7 @@ export default function Background({ routeKey = '/' }) {
     let energy = 0;    // smoothed scroll velocity, 0..1
     let dir = 1;       // 1 = scrolling down, -1 = up
     let cometCd = 1.2; // comet cooldown (s)
+    let vOp = 0.5;     // last written opacity of the Blender video layer
 
     const resize = () => {
       w = window.innerWidth; h = window.innerHeight;
@@ -128,6 +135,14 @@ export default function Background({ routeKey = '/' }) {
       energy += (target - energy) * Math.min(1, dt * (target > energy ? 7 : 2.2));
       const progress = y / Math.max(1, document.documentElement.scrollHeight - h);
       pointer.sx += ((pointer.x < -1000 ? 0 : (pointer.x / w) * 2 - 1) - pointer.sx) * Math.min(1, dt * 3);
+
+      // the Blender render brightens a touch as scroll velocity rises —
+      // opacity only, so the change is compositor-cheap
+      const vEl = vid.current;
+      if (vEl) {
+        const tv = 0.44 + energy * 0.22;
+        if (Math.abs(tv - vOp) > 0.015) { vOp = tv; vEl.style.opacity = tv.toFixed(3); }
+      }
 
       const A = [tint.current.ar, tint.current.ag, tint.current.ab];
       const B = [tint.current.br, tint.current.bg, tint.current.bb];
@@ -298,6 +313,26 @@ export default function Background({ routeKey = '/' }) {
     };
   }, [desktop]);
 
+  // the Blender loop is armed once the page settles, so it never races LCP;
+  // the poster attribute keeps the frame in place until playback starts
+  useEffect(() => {
+    const v = vid.current;
+    if (!v || !showVideo) return undefined;
+    let cancelled = false;
+    const arm = () => {
+      if (cancelled) return;
+      v.preload = 'auto';
+      v.load();
+      v.play().catch(() => {});
+    };
+    const hasIdle = typeof window.requestIdleCallback === 'function';
+    const id = hasIdle ? window.requestIdleCallback(arm, { timeout: 2500 }) : window.setTimeout(arm, 1200);
+    return () => {
+      cancelled = true;
+      if (hasIdle) window.cancelIdleCallback(id); else clearTimeout(id);
+    };
+  }, [showVideo]);
+
   // palette crossfade + depth parallax — (re)armed per route so triggers
   // always point at live sections; skipped entirely under reduced motion
   useEffect(() => {
@@ -337,12 +372,38 @@ export default function Background({ routeKey = '/' }) {
         gsap.to(el, { yPercent: 9 + i * 7, ease: 'none', scrollTrigger: scr() }));
       gsap.utils.toArray('.veil-par').forEach((el, i) =>
         gsap.fromTo(el, { yPercent: -6 + i * 4 }, { yPercent: 8 - i * 4, ease: 'none', scrollTrigger: scr() }));
+      // the rendered world drifts against the page — transform only,
+      // ±2.6% inside a 5% bleed so no edge ever shows
+      gsap.utils.toArray('.video-par').forEach((el) =>
+        gsap.fromTo(el, { yPercent: -2.6 }, { yPercent: 2.6, ease: 'none', scrollTrigger: scr() }));
     });
     return () => ctx.revert();
   }, [routeKey]);
 
   return (
     <>
+      <div className="bg-video-wrap" aria-hidden="true">
+        <div className="video-par">
+          {showVideo ? (
+            <video
+              ref={vid}
+              className="bg-video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              disablePictureInPicture
+              preload="none"
+              poster="/media/backdrop-poster.jpg"
+            >
+              <source src="/media/backdrop-loop.webm" type="video/webm" />
+            </video>
+          ) : (
+            <img className="bg-video bg-poster" src="/media/backdrop-poster.jpg" alt="" decoding="async" />
+          )}
+        </div>
+        <div className="video-veil" />
+      </div>
       <canvas id="techCanvas" ref={canvas} aria-hidden="true" />
       <div className="aurora-veils" aria-hidden="true">
         <div className="veil-par"><div className="veil veil--1" /></div>

@@ -61,6 +61,18 @@ h1,h2,h3{text-wrap:balance}
 /* ---------- progress bar ---------- */
 #progress{position:fixed; top:0; left:0; height:2px; width:0; background:linear-gradient(90deg, var(--mint), var(--primary), var(--teal)); z-index:99; transition:width .1s}
 
+/* ---------- Blender-rendered world (Obsidian Current) ----------
+   An actual 3D render made in Blender (see blender-ai/scenes) plays as a
+   seamless loop under everything; capable desktops get the video, every
+   other context gets its poster frame. The .video-par wrapper takes the
+   GSAP scroll drift inside a 5% bleed so no edge can ever show. */
+.bg-video-wrap{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
+.video-par{position:absolute; inset:-5% 0}
+.bg-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.5}
+.video-veil{position:absolute; inset:0; background:
+  radial-gradient(120% 92% at 50% 40%, rgba(10,13,18,0) 42%, rgba(10,13,18,.48) 76%, rgba(10,13,18,.9) 100%),
+  linear-gradient(180deg, rgba(10,13,18,.74) 0%, rgba(10,13,18,0) 20%, rgba(10,13,18,0) 70%, rgba(10,13,18,.62) 100%)}
+
 /* ---------- background mesh ---------- */
 .bg-mesh{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
 /* static radial glows — light-through-prism variety across the emerald
