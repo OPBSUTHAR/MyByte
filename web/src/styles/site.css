@@ -468,8 +468,18 @@ h1:hover,h2:hover{
 .case-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px}
 @media(max-width:980px){ .case-grid{grid-template-columns:1fr} }
 .case{display:flex; flex-direction:column; border:1px solid transparent;
-  background:linear-gradient(var(--card), var(--card)) padding-box,
-    conic-gradient(from 100deg, rgba(167,243,208,.55), rgba(0,229,153,.28), rgba(45,212,191,.4), rgba(6,95,70,.5), rgba(167,243,208,.55)) border-box;
+  background:var(--card-a);
+  -webkit-backdrop-filter:var(--glass-blur);
+  backdrop-filter:var(--glass-blur);
+}
+/* conic sheen kept as a masked 1px ring so the case cards can go translucent */
+.case::before{
+  content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; pointer-events:none;
+  background:conic-gradient(from 100deg, rgba(167,243,208,.55), rgba(0,229,153,.28), rgba(45,212,191,.4), rgba(6,95,70,.5), rgba(167,243,208,.55));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite:exclude;
 }
 .case__bar{height:3px; background:var(--primary)}
 .case__body{padding:18px; display:flex; flex-direction:column; gap:10px; flex:1}
@@ -1170,4 +1180,39 @@ html.crt-mode .scanlines{opacity:.28}
   background-size:100% 1px;
   background-position:0 4px;
   background-repeat:no-repeat;
+}
+
+/* ============================================================
+   TRANSPARENT SURFACES — glass cards, rows & contact band
+   Every card and row drops its opaque fill so the living
+   backdrop (video loop + aurora) reads straight through, with a
+   soft backdrop blur that keeps text crisp over the motion.
+   Chips, buttons and modal panels stay solid so hierarchy still
+   reads: glass for content, solid for controls.
+   ============================================================ */
+:root{
+  --card-a:color-mix(in srgb, var(--card) 55%, transparent);
+  --card2-a:color-mix(in srgb, var(--card2) 62%, transparent);
+  --glass-blur:blur(8px) saturate(1.15);
+}
+
+.card,.domain,.goal,.skill,.b-card,.bento__main,.glass-card,
+.principle-card,.stat-grid,.next-banner,.infinity__wrap,.marquee,
+.profile-float,.mini-float,.stats div,.tl,.proj-row,.contact-list a,
+.row-preview,.showcase__track .shot{
+  background:var(--card-a);
+  -webkit-backdrop-filter:var(--glass-blur);
+  backdrop-filter:var(--glass-blur);
+}
+.proj-row--head,.principle-card{background:var(--card2-a)}
+.shot__thumb,.row-preview__thumb{background:var(--card2-a)}
+
+/* contact band — the backdrop reads through the whole section
+   (rail kept as the top layer of the stack) */
+#contact.section--alt{
+  background:linear-gradient(90deg, transparent, var(--trace) 10%, var(--trace) 90%, transparent) 0 4px/100% 1px no-repeat,
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--bg2) 94%, transparent) 0%,
+      color-mix(in srgb, var(--bg2) 55%, transparent) 32%,
+      color-mix(in srgb, var(--bg2) 55%, transparent) 100%);
 }
