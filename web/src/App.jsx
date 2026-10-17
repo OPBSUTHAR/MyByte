@@ -142,7 +142,7 @@ export default function App() {
       <SpeedInsights />
       <ProjectsContext.Provider value={ctx}>
         <div id="progress" />
-        <Background />
+        <Background routeKey={route} />
         <div className="grain" aria-hidden="true" />
         {isHome && !ready && <Preloader onDone={handleReady} />}
         <Cursor />

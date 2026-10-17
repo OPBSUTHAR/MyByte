@@ -64,11 +64,17 @@ h1,h2,h3{text-wrap:balance}
 /* ---------- background mesh ---------- */
 .bg-mesh{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
 /* static radial glows — light-through-prism variety across the emerald
-   spectrum; no per-frame blur/blend cost; only orb--1 drifts */
-.orb{position:absolute; border-radius:50%; opacity:.2}
-.orb--1{width:640px; height:640px; background:radial-gradient(circle at 30% 30%, rgba(167,243,208,.5), transparent 62%); left:-140px; top:-180px; animation:float 16s ease-in-out infinite}
-.orb--2{width:720px; height:720px; background:radial-gradient(circle at 50% 50%, rgba(0,229,153,.45), transparent 64%); right:-220px; top:8%}
-.orb--3{width:560px; height:560px; background:radial-gradient(circle at 50% 50%, rgba(45,212,191,.36), transparent 66%); left:28%; bottom:-240px; opacity:.12}
+   spectrum; each orb sits in a same-size .orb-par depth wrapper so GSAP
+   can counter-drift the page (wrapper) while the orb keeps its own slow
+   float loop (child) — no transform conflicts, small composited layers */
+.orb-par{position:absolute; pointer-events:none}
+.orb-par--1{width:640px; height:640px; left:-140px; top:-180px}
+.orb-par--2{width:720px; height:720px; right:-220px; top:8%}
+.orb-par--3{width:560px; height:560px; left:28%; bottom:-240px}
+.orb{position:absolute; inset:0; border-radius:50%; opacity:.2}
+.orb--1{background:radial-gradient(circle at 30% 30%, rgba(167,243,208,.5), transparent 62%); animation:float 16s ease-in-out infinite}
+.orb--2{background:radial-gradient(circle at 50% 50%, rgba(0,229,153,.45), transparent 64%); animation:float 22s ease-in-out infinite; animation-delay:-8s}
+.orb--3{background:radial-gradient(circle at 50% 50%, rgba(45,212,191,.36), transparent 66%); opacity:.12; animation:float 27s ease-in-out infinite; animation-delay:-15s}
 /* cyber glass tint over the hero — static, zero blur cost */
 .hero::before{
   content:""; position:absolute; inset:0; pointer-events:none;
@@ -79,8 +85,22 @@ h1,h2,h3{text-wrap:balance}
   background-size:48px 48px; opacity:.08; mask:radial-gradient(ellipse 80% 60% at 50% 10%, black 60%, transparent 85%)}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
 
+/* aurora veils — three soft light bands layered over the canvas; the
+   wrapper takes the GSAP scroll parallax, the band keeps a slow CSS
+   drift loop (transform/opacity only, both GPU-friendly) */
+.aurora-veils{position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none}
+.veil-par{position:absolute; inset:0}
+.veil{position:absolute; left:-12%; width:124%; border-radius:50%; transform:translate3d(0,0,0); animation:veilDrift 34s ease-in-out infinite}
+.veil--1{top:3%; height:32vh; opacity:.15; background:radial-gradient(ellipse 62% 56% at 50% 50%, rgba(167,243,208,.42), transparent 70%); animation-duration:27s}
+.veil--2{top:34%; height:46vh; opacity:.12; background:radial-gradient(ellipse 68% 60% at 50% 50%, rgba(45,212,191,.40), transparent 72%); animation-duration:38s; animation-direction:reverse}
+.veil--3{top:70%; height:38vh; opacity:.10; background:radial-gradient(ellipse 60% 56% at 50% 50%, rgba(0,229,153,.42), transparent 72%); animation-duration:46s}
+@keyframes veilDrift{
+  0%,100%{transform:translate3d(-2.5%,1.5%,0) scaleY(1)}
+  50%{transform:translate3d(2.5%,-2.5%,0) scaleY(1.15)}
+}
+
 /* particle canvas — strictly fixed, out of flow, behind content */
-#techCanvas{position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; display:block; opacity:.5}
+#techCanvas{position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; display:block; opacity:.62}
 
 /* scanlines */
 .scanlines{position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.025; background:repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,229,153,.5) 2px 3px)}
