@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { motion } from 'motion/react';
-import { isLiveCandidate, liveUrl, ogUrl, domainLabel } from '../lib/github';
+import { isLiveCandidate, liveUrl, ogUrl, domainLabel, featuredRank } from '../lib/github';
 import { useProjects } from '../ProjectsContext';
 
 // 03 — Selected Work. Cards enter via whileInView; no AnimatePresence (the
@@ -8,8 +8,11 @@ import { useProjects } from '../ProjectsContext';
 export default function Showcase() {
   const { list, openProject } = useProjects();
   const featured = useMemo(() => {
-    const live = list.filter((p) => isLiveCandidate(p.lang, p.name));
-    return (live.length >= 3 ? live : list).slice(0, 8);
+    const live = list.filter((p) => isLiveCandidate(p));
+    const ranked = (live.length >= 3 ? live : list)
+      .slice()
+      .sort((a, b) => featuredRank(a.name) - featuredRank(b.name));
+    return ranked.slice(0, 8);
   }, [list]);
 
   return (
@@ -42,7 +45,7 @@ export default function Showcase() {
                     <p>{p.desc}</p>
                     <div className="shot__meta">
                       <span>{p.lang}</span><span>★ {p.stars ?? 0}</span><span>⑂ {p.forks ?? 0}</span>
-                      <span>{isLiveCandidate(p.lang, p.name) ? '● Live' : domainLabel(p.domain || 'other')}</span>
+                      <span>{isLiveCandidate(p) ? '● Live' : domainLabel(p.domain || 'other')}</span>
                     </div>
                   </div>
                 </motion.div>

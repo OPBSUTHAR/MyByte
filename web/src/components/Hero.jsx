@@ -155,7 +155,7 @@ export default function Hero({ ready, onFrugal, onOpenStory }) {
           <p className="lead paper-anim" style={{ maxWidth: '62ch', lineHeight: 1.6 }}>
             <span className="paper-line"><span>I'm <strong>Omprakash Suthar</strong> — <b>Regular, On-Campus — 3rd Year BCA @ CHRIST Yeshwantpur</b></span></span>
             <span className="paper-line"><span>builder of <b>∞ loop systems across 8 elements: Land • Infrastructure • Power • AI/ML/DL/NLP/Tech</b></span></span>
-            <span className="paper-line"><span><b>Agriculture • Space • Transportation • Ocean</b> — my life symbol is <b>∞</b>. <b>42 repos</b> live.</span></span>
+            <span className="paper-line"><span><b>Agriculture • Space • Transportation • Ocean</b> — my life symbol is <b>∞</b>. <b>48 repos</b> live.</span></span>
           </p>
           <div className="hero__cta">
             <button type="button" className="btn btn--primary btn--xl magnetic" onClick={onOpenStory}><GlitchText text="Open Story →" /></button>
@@ -168,7 +168,7 @@ export default function Hero({ ready, onFrugal, onOpenStory }) {
               <span>Regular @ CHRIST Yeshwantpur • Bengaluru • he/him • Reply &lt; 24h</span>
             </div>
             <div className="stats">
-              <Stat value={42} label="Repos" />
+              <Stat value={48} label="Repos" />
               <Stat value={23} label="Stars" />
               <div><b>95+</b><span>Lighthouse</span></div>
               <Stat value={14} label="Live demos" />

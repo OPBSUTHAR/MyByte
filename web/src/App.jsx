@@ -29,7 +29,7 @@ import Story from './pages/Story';
 import NotFound from './pages/NotFound';
 
 import { ProjectsContext } from './ProjectsContext';
-import { loadProjects, projectDomain } from './lib/github';
+import { loadProjects, projectDomain, featuredRank } from './lib/github';
 import { useLenis } from './hooks/useLenis';
 import { useRoute, navigate } from './router';
 
@@ -74,7 +74,9 @@ export default function App() {
     let alive = true;
     loadProjects().then(({ list }) => {
       if (!alive) return;
-      setProjects(list.map((p) => ({ ...p, domain: p.domain || projectDomain(p.name) })));
+      const withDomain = list.map((p) => ({ ...p, domain: p.domain || projectDomain(p.name) }));
+      // flagship systems first (FEATURED_ORDER), then the API order (stars/recency)
+      setProjects(withDomain.sort((a, b) => featuredRank(a.name) - featuredRank(b.name)));
     });
     return () => { alive = false; };
   }, []);

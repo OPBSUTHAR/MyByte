@@ -142,7 +142,7 @@ const PANELS = [
   },
   {
     tag: '04 — YOUR FRAME',
-    cap: '42 repos live, and the loop keeps turning. The next frame could be ours \u2014 say hi.',
+    cap: '48 repos live, and the loop keeps turning. The next frame could be ours \u2014 say hi.',
     washes: [
       ['.65', '#35D399', 'M170 48 C150 22 118 28 116 50 C114 72 150 76 170 48 C190 24 222 30 222 50 C222 70 190 76 170 48 Z'],
       ['.6', '#A7F3D0', 'M148 172 Q146 130 170 128 Q194 130 193 172 L193 202 L148 202 Z'],

@@ -1,6 +1,6 @@
 # MyByte — Full-Stack React Portfolio by Omprakash Suthar (@OPBSUTHAR)
 
-> A gamified, motion-rich developer portfolio — React SPA with an interactive terminal, XP quest system, Konami arcade mode, pinned horizontal scroll, and a neo-stone (Igloo-inspired) design system. Hosted on Vercel.
+> A gamified, motion-rich developer portfolio — React SPA with an interactive terminal, XP quest system, Konami arcade mode, pinned horizontal scroll, and a neo-stone (Igloo-inspired) design system. Hosted on Vercel. Live data: 48 repos, 10 live demos.
 
 ![Deploy](https://github.com/OPBSUTHAR/MyByte/actions/workflows/deploy.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-Proprietary-red)
@@ -14,8 +14,19 @@
 - 🎨 **Neo-stone design** — obsidian/bone/cyber materials, film grain, tactile shadows, acid-lime accents; dark/light themes that actually work
 - 🖱 **Immersive mouse physics** — magnetic cursor with snap-to-button, pointer-reactive particle field, heavy-slab 3D tilt
 - 🎬 **Cinematic motion** — 1s compile preloader, SplitType-style char reveals, Lenis momentum scroll, GSAP pinned horizontal domains gallery
-- 🔗 **GitHub-aware** — live repos via API + Python generator (`tools/fetch_github.py` → `data/projects.json` → `web/public/data/`)
+- 🔗 **GitHub-aware** — live repos via API + Python generator (`tools/fetch_github.py` → `data/projects.json` → `web/public/data/`), with real demo URLs from each repo's homepage (Vercel) and a GitHub Pages fallback
 - ♿ **Accessible** — `prefers-reduced-motion` fallbacks everywhere, keyboard-navigable book, semantic HTML
+
+## 🚀 Live work surfaced in the site
+
+| System | What it is |
+| --- | --- |
+| [FreightOps AI](https://freightops-ai.vercel.app) | Multi-agent freight control tower — RAG, per-step traces, 9 evals, human approval gate |
+| [SentinelVault](https://sentinelvault-pearl.vercel.app) | Zero-knowledge password manager — AES-256-GCM, Argon2id, HIBP breach checks, TOTP |
+| [CrimeIntel Command Center](https://crimeintel-commandcenter.vercel.app) | Conversational crime intelligence for KSP — FastAPI + React + FAISS |
+| [AeroGrid SafetyNLP](https://aerogrid-safetynlp.vercel.app) | Aviation & power-grid incident classification with RAG explanations |
+| [Omnia (orbisnova)](https://opbsuthar.github.io/orbisnova/) | Local-first cross-platform super-app — Expo + React Native, one codebase |
+| [RailSetu](https://railway-management-system-nine.vercel.app) | Railway booking and operations with seat maps and live route tracking |
 
 ## 🧰 Stack
 - **Frontend:** React 18, Vite 5, GSAP + ScrollTrigger, Lenis, Motion, Three.js, PixiJS, Spline, Theatre.js, Lottie, Anime.js, Popmotion, Mo.js

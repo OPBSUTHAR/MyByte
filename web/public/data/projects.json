@@ -2,20 +2,92 @@
   {
     "name": "OPBSUTHAR",
     "lang": "Other",
-    "desc": "Config files for my GitHub profile.",
+    "desc": "My GitHub profile - agentic AI, full-stack engineering and security. Includes the full language, skill and tool stack.",
     "stars": 1,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/OPBSUTHAR",
-    "updated": "2026-06-05T12:39:58Z"
+    "home": "https://github.com/OPBSUTHAR",
+    "updated": "2026-10-30T04:57:10Z"
+  },
+  {
+    "name": "autonomous-data-annotator",
+    "lang": "TypeScript",
+    "desc": "Reactive full-stack web app that automatically annotates any file type. Live: https://autonomous-data-annotator.vercel.app",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/autonomous-data-annotator",
+    "home": "https://autonomous-data-annotator.vercel.app",
+    "updated": "2026-10-27T15:43:33Z"
+  },
+  {
+    "name": "orbisnova",
+    "lang": "TypeScript",
+    "desc": "Omnia - one app, every device. A local-first cross-platform super-app with live in-app update alerts.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/orbisnova",
+    "home": "https://opbsuthar.github.io/orbisnova/",
+    "updated": "2026-10-27T13:08:12Z"
+  },
+  {
+    "name": "freightops-ai",
+    "lang": "Python",
+    "desc": "Multi-agent freight operations control tower: FastAPI, React, RAG, evals and human-in-the-loop approval. Built by Omprakash Suthar.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/freightops-ai",
+    "home": "https://freightops-ai.vercel.app",
+    "updated": "2026-10-22T07:55:19Z"
+  },
+  {
+    "name": "railway-management-system",
+    "lang": "JavaScript",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/railway-management-system",
+    "home": "https://railway-management-system-nine.vercel.app",
+    "updated": "2026-10-21T15:18:08Z"
+  },
+  {
+    "name": "SentinelVault",
+    "lang": "Python",
+    "desc": "AI-powered password manager - zero-knowledge AES-256-GCM vault, breach monitoring (HIBP k-anonymity), password health scoring, TOTP 2FA, secure sharing, auto-rotation, login anomaly + phishing detection, Chrome auto-fill extension",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/SentinelVault",
+    "home": "https://sentinelvault-pearl.vercel.app",
+    "updated": "2026-10-19T14:01:18Z"
+  },
+  {
+    "name": "CrimeIntel-CommandCenter",
+    "lang": "Python",
+    "desc": "AI-powered Crime Intelligence Platform (KSP prototype) - CRIMA AI conversational assistant, case explorer, analytics, evidence, heat maps - FastAPI + React",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/CrimeIntel-CommandCenter",
+    "home": "https://crimeintel-commandcenter.vercel.app",
+    "updated": "2026-10-19T08:44:14Z"
+  },
+  {
+    "name": "AeroGrid-SafetyNLP",
+    "lang": "Python",
+    "desc": "Aviation & Power-Grid Safety Incident NLP - TF-IDF/SGD classifier, RAG explainability, live monitoring alerts, Ollama LLM assistant, React + FastAPI dashboard.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/AeroGrid-SafetyNLP",
+    "home": "https://aerogrid-safetynlp.vercel.app",
+    "updated": "2026-10-19T05:10:05Z"
   },
   {
     "name": "MyByte",
-    "lang": "HTML",
+    "lang": "JavaScript",
     "desc": "MyByte — Portfolio by Omprakash Suthar. Efficient GitHub Pages-ready portfolio (HTML/CSS/JS + Python tooling).",
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/MyByte",
-    "updated": "2026-10-03T04:54:16Z"
+    "home": "https://my-byte.vercel.app",
+    "updated": "2026-10-17T11:08:51Z"
   },
   {
     "name": "Agri360",
@@ -24,6 +96,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/Agri360",
+    "home": "",
     "updated": "2026-09-18T11:20:26Z"
   },
   {
@@ -33,6 +106,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/LoRa_IoT_AgriSim",
+    "home": "",
     "updated": "2026-09-15T18:57:41Z"
   },
   {
@@ -42,6 +116,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/file-lock-app",
+    "home": "",
     "updated": "2026-09-15T18:40:06Z"
   },
   {
@@ -51,6 +126,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/SUTHARA_AI",
+    "home": "",
     "updated": "2026-09-15T18:31:41Z"
   },
   {
@@ -60,6 +136,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/BioSite",
+    "home": "",
     "updated": "2026-09-15T18:27:08Z"
   },
   {
@@ -69,6 +146,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/BharatVista-Nexus",
+    "home": "https://opbsuthar.github.io/BharatVista-Nexus/",
     "updated": "2026-09-15T18:20:11Z"
   },
   {
@@ -78,6 +156,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/project-E",
+    "home": "",
     "updated": "2026-09-15T18:07:06Z"
   },
   {
@@ -87,6 +166,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/Aviation_NLP_Project",
+    "home": "",
     "updated": "2026-09-15T18:02:36Z"
   },
   {
@@ -96,6 +176,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/delhivery-pipeline",
+    "home": "",
     "updated": "2026-09-15T17:59:14Z"
   },
   {
@@ -105,6 +186,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/data-enginnering",
+    "home": "",
     "updated": "2026-09-15T17:54:26Z"
   },
   {
@@ -114,6 +196,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/crimeintel-ai",
+    "home": "",
     "updated": "2026-09-15T17:47:57Z"
   },
   {
@@ -123,6 +206,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/ai-scanner",
+    "home": "",
     "updated": "2026-09-15T17:35:28Z"
   },
   {
@@ -132,6 +216,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/DataZen",
+    "home": "",
     "updated": "2026-09-15T17:30:09Z"
   },
   {
@@ -141,6 +226,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/cannibals-missionaries",
+    "home": "",
     "updated": "2026-09-15T17:23:34Z"
   },
   {
@@ -150,6 +236,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/Satora",
+    "home": "",
     "updated": "2026-09-15T17:19:46Z"
   },
   {
@@ -159,6 +246,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/student-registration",
+    "home": "",
     "updated": "2026-09-15T04:35:04Z"
   },
   {
@@ -168,6 +256,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/salary-prediction",
+    "home": "",
     "updated": "2026-09-15T04:28:12Z"
   },
   {
@@ -177,6 +266,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/sarathi-ll-face-simulator",
+    "home": "",
     "updated": "2026-09-15T03:35:16Z"
   },
   {
@@ -186,6 +276,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/cyber",
+    "home": "",
     "updated": "2026-09-10T14:09:16Z"
   },
   {
@@ -195,6 +286,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/Expense-Tracker",
+    "home": "",
     "updated": "2026-08-27T09:21:06Z"
   },
   {
@@ -204,6 +296,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/AstraForge",
+    "home": "",
     "updated": "2026-08-27T07:48:05Z"
   },
   {
@@ -213,6 +306,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/Krishi-Gati-AI",
+    "home": "",
     "updated": "2026-08-07T04:50:01Z"
   },
   {
@@ -222,6 +316,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/SpaceFlightMonitor",
+    "home": "",
     "updated": "2026-07-26T16:30:41Z"
   },
   {
@@ -231,6 +326,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/SynchroGroundedNet",
+    "home": "",
     "updated": "2026-06-05T10:25:04Z"
   },
   {
@@ -240,6 +336,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/ledgerly",
+    "home": "",
     "updated": "2026-05-29T10:17:25Z"
   },
   {
@@ -249,6 +346,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/priority_scheduler",
+    "home": "",
     "updated": "2025-09-02T06:18:35Z"
   },
   {
@@ -258,6 +356,7 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/student-tracker",
+    "home": "",
     "updated": "2025-07-28T04:33:57Z"
   },
   {
@@ -267,6 +366,117 @@
     "stars": 0,
     "forks": 0,
     "url": "https://github.com/OPBSUTHAR/MemoryCardGame",
+    "home": "",
     "updated": "2025-06-27T04:16:13Z"
+  },
+  {
+    "name": "Basic-Calculator",
+    "lang": "JavaScript",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/Basic-Calculator",
+    "home": "",
+    "updated": "2025-06-13T03:41:40Z"
+  },
+  {
+    "name": "gym-management-system",
+    "lang": "HTML",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/gym-management-system",
+    "home": "",
+    "updated": "2025-06-12T13:08:51Z"
+  },
+  {
+    "name": "recipe-book",
+    "lang": "JavaScript",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/recipe-book",
+    "home": "",
+    "updated": "2025-06-01T05:39:18Z"
+  },
+  {
+    "name": "Tic-Tac-Toe-Game",
+    "lang": "CSS",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/Tic-Tac-Toe-Game",
+    "home": "",
+    "updated": "2025-06-01T04:43:15Z"
+  },
+  {
+    "name": "To-Do-Master",
+    "lang": "JavaScript",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/To-Do-Master",
+    "home": "",
+    "updated": "2025-06-01T02:55:07Z"
+  },
+  {
+    "name": "catering-reservation-and-order-system",
+    "lang": "HTML",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/catering-reservation-and-order-system",
+    "home": "",
+    "updated": "2025-05-31T09:50:52Z"
+  },
+  {
+    "name": "countdown-timer",
+    "lang": "CSS",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/countdown-timer",
+    "home": "",
+    "updated": "2025-05-31T08:12:42Z"
+  },
+  {
+    "name": "electric-vehicle-recharge-bunk",
+    "lang": "Other",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/electric-vehicle-recharge-bunk",
+    "home": "",
+    "updated": "2025-05-25T04:32:07Z"
+  },
+  {
+    "name": "student-teacher-appointment-booking",
+    "lang": "JavaScript",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/student-teacher-appointment-booking",
+    "home": "",
+    "updated": "2025-05-24T12:34:27Z"
+  },
+  {
+    "name": "Econnect",
+    "lang": "HTML",
+    "desc": "",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/Econnect",
+    "home": "",
+    "updated": "2025-04-29T18:42:07Z"
+  },
+  {
+    "name": "login-template",
+    "lang": "HTML",
+    "desc": "my first experience in git",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/login-template",
+    "home": "https://opbsuthar.github.io/login-template/",
+    "updated": "2025-04-22T13:45:04Z"
   }
 ]

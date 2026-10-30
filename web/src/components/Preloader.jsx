@@ -7,7 +7,7 @@ import { prefersReduce } from '../hooks/useCountUp';
 
 const LINES = [
   '$ python build.py --deploy my-byte',
-  '▸ hydrating 42 repos ✓ — 0 errors',
+  '▸ hydrating 48 repos ✓ — 0 errors',
   '▸ gsap ✓  lenis ✓  motion ✓  splittype ✓',
   '▸ compiling nybyte.py … done in 0.8s',
   '▶ DEPLOY READY — https://my-byte.vercel.app',

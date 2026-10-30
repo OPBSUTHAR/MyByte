@@ -29,13 +29,40 @@
   ],
   "projects": [
     {
+      "name": "FreightOps AI",
+      "subtitle": "Agentic Freight Control Tower",
+      "stack": "Python, FastAPI, React, RAG, LLM Evals",
+      "status": "Live",
+      "desc": "Planner → executor → reviewer agents quote, book and track freight with retrieval over tariffs and SOPs, per-step traces, 9 behavioral evals and a hard human-approval gate.",
+      "link": "https://github.com/OPBSUTHAR/freightops-ai",
+      "domain": "AI / Logistics"
+    },
+    {
+      "name": "SentinelVault",
+      "subtitle": "Zero-Knowledge Password Manager",
+      "stack": "Python, FastAPI, React, AES-256-GCM, Argon2id",
+      "status": "Live",
+      "desc": "Encrypted vault with breach monitoring via HIBP k-anonymity, password-health scoring, TOTP 2FA, secure sharing, phishing detection and a Chrome auto-fill extension.",
+      "link": "https://github.com/OPBSUTHAR/SentinelVault",
+      "domain": "Security"
+    },
+    {
       "name": "CrimeIntel",
       "subtitle": "Intelligence Analytics Platform",
-      "stack": "Python, AI/ML, MERN Stack",
-      "status": "Ongoing",
-      "desc": "Advanced intelligence application integrating investigative data models, secure predictive threat analysis, and dynamic analytics dashboards for law enforcement workflows.",
-      "link": "https://github.com/OPBSUTHAR/crimeintel-ai",
+      "stack": "Python, FastAPI, React, TypeScript, FAISS",
+      "status": "Live",
+      "desc": "Conversational crime-intelligence platform for Karnataka State Police — CRIMA assistant, case explorer, analytics, evidence views and heat maps over grounded retrieval.",
+      "link": "https://github.com/OPBSUTHAR/CrimeIntel-CommandCenter",
       "domain": "Safety"
+    },
+    {
+      "name": "Orbisnova (Omnia)",
+      "subtitle": "Local-first Cross-Platform Super-App",
+      "stack": "TypeScript, Expo, React Native, PWA",
+      "status": "Live",
+      "desc": "One codebase for web, PWA and Android with a local-first data layer and in-app update alerts — one app, every device.",
+      "link": "https://github.com/OPBSUTHAR/orbisnova",
+      "domain": "Product"
     },
     {
       "name": "FieldSync",
@@ -63,12 +90,12 @@
     }
   ],
   "skills": {
-    "Technical": ["C", "C++", "C#", "Java", "Python", "JavaScript", "TypeScript", "SQL"],
-    "Frontend": ["React.js", "Tailwind CSS", "HTML5", "CSS3", "Windows Forms", "UI/UX Design"],
-    "Backend & Databases": ["Node.js", "Express.js", "REST API Design", "Java Networking (Sockets/RMI)", "MS SQL Server", "MongoDB Atlas"],
-    "Tools & Platforms": ["VS Code", "Git", "GitHub", "Docker", "Figma", "Vercel"],
-    "AI & Advanced": ["DeepSpeed", "Hugging Face", "Neural Networks from Scratch", "LLM/SLM Fine-tuning", "Agentic Workflows"],
-    "Domains": ["Agriculture & Land (GIS, Geolocation)", "Space (Telemetry, Orbital Sim)", "Transportation (Fleet Tracking)", "Infrastructure (Distributed Systems)", "Power (Automation)"],
+    "Technical": ["C", "C++", "C#", "Java", "Python", "JavaScript", "TypeScript", "SQL", "AutoHotkey"],
+    "Frontend": ["React.js", "Next.js", "React Native (Expo)", "Tailwind CSS", "HTML5", "CSS3", "GSAP", "Leaflet", "Jetpack Compose"],
+    "Backend & Databases": ["Node.js", "Express.js", "FastAPI", "Flask", "Spring Boot", "REST API Design", "PostgreSQL", "MySQL", "MongoDB", "SQLite", "Redis", "Supabase", "Neo4j", "InfluxDB", "MS SQL Server"],
+    "Tools & Platforms": ["VS Code", "Git", "GitHub Actions", "Docker", "Vercel", "Figma", "Ollama", "OpenCode CLI", "LangChain", "CrewAI"],
+    "AI & Advanced": ["RAG", "Agentic Workflows", "LLM/SLM Fine-tuning", "Hugging Face", "PyTorch", "scikit-learn", "OpenCV / OCR", "NLP (spaCy, NLTK)", "FAISS", "DeepSpeed"],
+    "Domains": ["Agriculture & Land (GIS, Geolocation)", "Space (Telemetry, Orbital Sim)", "Transportation (Fleet Tracking)", "Infrastructure (Distributed Systems)", "Power (Automation)", "Security (Zero-knowledge, AES-GCM)"],
     "Soft Skills": ["Data Storytelling", "Problem Solving", "Cross-functional Collaboration", "Adaptability", "Accountability"],
     "Languages": ["English — Proficient (C1)", "Hindi — Fluent", "Kannada — Conversational"]
   },

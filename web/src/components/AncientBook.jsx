@@ -175,7 +175,7 @@ export default function AncientBook() {
           <div className="book-cover__label">Liber • MyByte • MMXXVI — Yeshwantpur</div>
           <h2>MyByte —<br />Ancient Book</h2>
           <div className="seal">∞</div>
-          <p><b>Omprakash Suthar</b> — 3rd Year BCA @ CHRIST Yeshwantpur • 42 repos<br />Stories &amp; marginalia from Land → Ocean.</p>
+          <p><b>Omprakash Suthar</b> — 3rd Year BCA @ CHRIST Yeshwantpur • 48 repos<br />Stories &amp; marginalia from Land → Ocean.</p>
           <div className="cover-actions">
             <button className="btn btn--primary" onClick={() => { setOpen(true); setSpread((s) => (s < 0 ? 0 : s)); }}>Open book →</button>
           </div>

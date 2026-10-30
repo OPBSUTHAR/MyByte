@@ -22,7 +22,7 @@ export default function Modal({ project, onClose }) {
     return () => clearTimeout(t);
   }, [project]);
 
-  const live = project ? liveUrl(project.name) : '#';
+  const live = project ? liveUrl(project) : '#';
 
   return (
     <AnimatePresence>

@@ -36,7 +36,7 @@ const SKILL_TIPS = {
   'OCR': 'Edge document intelligence — ai-scanner, offline-first',
   'NLP': 'Aviation_NLP, CrimeIntel explainability, Aviation NLP project',
   'LLM/SLM': 'Fine-tuning, agentic workflows, Hugging Face pipelines',
-  'Git': '42 repos, clean version trees, CI/CD, concurrent codebases',
+  'Git': '48 repos, clean version trees, CI/CD, concurrent codebases',
   'Docker': 'Containerized deploys, reproducible builds',
   'Figma': 'UI/UX design → handoff, design systems',
   'Vercel': 'Edge deploys — this portfolio is live on Vercel',

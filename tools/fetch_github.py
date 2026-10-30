@@ -44,14 +44,15 @@ for x in filtered:
         "stars": x.get("stargazers_count",0),
         "forks": x.get("forks_count",0),
         "url": x.get("html_url"),
+        "home": x.get("homepage") or "",
         "updated": x.get("pushed_at"),
         "fork": x.get("fork", False),
     })
 # sort: stars desc then recently pushed
 mapped.sort(key=lambda a: (a["stars"], a["updated"] or ""), reverse=True)
 
-# keep top 30 for portfolio — keep forks + updated for realtime display
-out_data = [{k:v for k,v in m.items() if k!="fork"} for m in mapped[:30]]
+# keep the whole portfolio (60 cap keeps API headroom) — forks included for live display
+out_data = [{k:v for k,v in m.items() if k!="fork"} for m in mapped[:60]]
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(json.dumps(out_data, indent=2, ensure_ascii=False), encoding="utf-8")

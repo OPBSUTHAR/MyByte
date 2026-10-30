@@ -7,12 +7,12 @@ import { scrambleTo } from '../hooks/useScramble';
 import { prefersReduce } from '../hooks/useCountUp';
 
 const LANGS = ['all', 'Python', 'JavaScript', 'TypeScript', 'HTML', 'C'];
-const DOMAINS = ['all', 'krishi', 'safety', 'space', 'edu', 'other'];
+const DOMAINS = ['all', 'krishi', 'safety', 'space', 'ai', 'edu', 'other'];
 
 // ─── Hover preview card with spring mouse-tracking ──────────────────────────
 function RowPreview({ p, mx, my }) {
-  const live = liveUrl(p.name);
-  const isLive = isLiveCandidate(p.lang, p.name);
+  const live = liveUrl(p);
+  const isLive = isLiveCandidate(p);
   // spring config: damping 20, stiffness 200, mass 0.5 — smooth inertia
   const sx = useSpring(mx, { damping: 20, stiffness: 200, mass: 0.5 });
   const sy = useSpring(my, { damping: 20, stiffness: 200, mass: 0.5 });
@@ -56,8 +56,8 @@ function RowPreview({ p, mx, my }) {
 
 // ─── Table row ──────────────────────────────────────────────────────────────
 function Row({ p, index, onOpen, onHover, onLeave }) {
-  const live = liveUrl(p.name);
-  const isLive = isLiveCandidate(p.lang, p.name);
+  const live = liveUrl(p);
+  const isLive = isLiveCandidate(p);
   return (
     <motion.div
       layout
@@ -142,7 +142,7 @@ export default function Work() {
         const text = `${p.name} ${p.desc} ${p.lang} ${p.domain}`.toLowerCase();
         const okLang = lang === 'all' || (p.lang || '').toLowerCase() === lang.toLowerCase();
         const okDomain = domain === 'all' || p.domain === domain;
-        const okLive = !liveOnly || isLiveCandidate(p.lang, p.name);
+        const okLive = !liveOnly || isLiveCandidate(p);
         const okQ = !query || text.includes(query);
         return okLang && okDomain && okLive && okQ;
       });
