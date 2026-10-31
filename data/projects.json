@@ -1,5 +1,15 @@
 [
   {
+    "name": "pramaan",
+    "lang": "Dart",
+    "desc": "Pramaan - Proof before you pay. Offline UPI scam shield for India. On-device Scam DNA fingerprints + UPI QR/link inspector, Hindi + English, zero network.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/pramaan",
+    "home": "https://pramaan-five.vercel.app",
+    "updated": "2026-10-31T08:40:00Z"
+  },
+  {
     "name": "OPBSUTHAR",
     "lang": "Other",
     "desc": "My GitHub profile - agentic AI, full-stack engineering and security. Includes the full language, skill and tool stack.",
