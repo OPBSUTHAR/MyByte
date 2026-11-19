@@ -95,6 +95,9 @@ export default function Nav({ onOpenResume }) {
 
         {/* RIGHT ZONE — actions */}
         <div className="nav__actions">
+          <a className="nav__sponsor" href="https://github.com/sponsors/OPBSUTHAR" target="_blank" rel="noopener" style={{marginRight:8}}>
+            <span>Sponsor</span> <span aria-hidden="true">♥</span>
+          </a>
           <a className="nav__github" href="https://github.com/OPBSUTHAR" target="_blank" rel="noopener">
             <span>GitHub</span> <span aria-hidden="true">↗</span>
           </a>

@@ -8,7 +8,7 @@ export const PHRASES = [
   'BharatVista Nexus — Pure C + SQLite • live @ data.gov.in',
   'Agnirva NEAT 5.0 — AI for Indian Satellites • ISRO track',
   'CrimeIntel Command Center → grounded answers with FAISS',
-  'C • Python • JS/TS • 48 repos live — shipped 🚀',
+  'C • Python • JS/TS • 51 repos live — shipped 🚀',
 ];
 
 export const MARQUEE = ['∞ Land', '•', 'Infrastructure', '•', 'Power', '•', 'AI/ML/DL/NLP', '•', 'Agriculture', '•', 'Space', '•', 'Transportation', '•', 'Ocean', '•', 'Pure C', '•', 'BharatVista Nexus', '•', 'Agnirva NEAT 5.0', '•'];
@@ -16,7 +16,7 @@ export const MARQUEE = ['∞ Land', '•', 'Infrastructure', '•', 'Power', '�
 export const HIGHLIGHTS = [
   { eyebrow: '01 — Focus', h: '∞ 8 Elements — One System', p: 'Land • Infrastructure • Power • AI/ML/DL/NLP • Agriculture • Space • Transportation • Ocean', href: '#infinity', link: 'View focus →' },
   { eyebrow: '02 — Vision', h: 'Why I Build', p: 'Frugal, field-ready systems that work offline — for farmers, controllers, students.', href: '#vision', link: 'Read vision →' },
-  { eyebrow: '03 — Featured', h: 'FreightOps AI, BharatVista & Agnirva', p: 'Agentic freight ops with a human gate, a Pure C + SQLite open-data nexus, and AI for Indian Satellites — 48 repos live.', href: '#featured', link: 'See case studies →' },
+  { eyebrow: '03 — Featured', h: 'FreightOps AI, BharatVista & Agnirva', p: 'Agentic freight ops with a human gate, a Pure C + SQLite open-data nexus, and AI for Indian Satellites — 51 repos live.', href: '#featured', link: 'See case studies →' },
   { eyebrow: '04 — Work', h: 'Selected Projects & Portfolio', p: 'Live previews, domain filters, showcase — every project shipped.', href: '#work', link: 'Browse work →' },
   { eyebrow: '05 — Next', h: 'Goals & Contact', p: "2026–30 roadmap, stack, journey — regular @ CHRIST Yeshwantpur. Let's build.", href: '#contact', link: 'Get in touch →' },
 ];

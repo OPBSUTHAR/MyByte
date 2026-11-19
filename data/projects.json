@@ -1,5 +1,35 @@
 [
   {
+    "name": "reachpilot-ai",
+    "lang": "TypeScript",
+    "desc": "ReachPilot - calm AI influencer research, outreach and reply studio. Next.js + TypeScript, shipped on Vercel.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/reachpilot-ai",
+    "home": "https://reachpilot-ai.vercel.app",
+    "updated": "2026-11-18T14:04:27Z"
+  },
+  {
+    "name": "airescout",
+    "lang": "TypeScript",
+    "desc": "AirScout - clean-air routing for Indian cities. Compares routes by AQI exposure, not just minutes.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/airescout",
+    "home": "",
+    "updated": "2026-11-16T18:38:09Z"
+  },
+  {
+    "name": "responsa",
+    "lang": "TypeScript",
+    "desc": "Responsa - AI-powered email management dashboard prototype for personal assistants.",
+    "stars": 0,
+    "forks": 0,
+    "url": "https://github.com/OPBSUTHAR/responsa",
+    "home": "",
+    "updated": "2026-11-15T08:59:41Z"
+  },
+  {
     "name": "pramaan",
     "lang": "Dart",
     "desc": "Pramaan - Proof before you pay. Offline UPI scam shield for India. On-device Scam DNA fingerprints + UPI QR/link inspector, Hindi + English, zero network.",
