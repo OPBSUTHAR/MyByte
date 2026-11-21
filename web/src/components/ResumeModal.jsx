@@ -128,6 +128,7 @@ export default function ResumeModal({ open, onClose }) {
               </div>
               <div className="resume-modal__actions">
                 <a className="btn btn--sm btn--primary" href={PDF_URL} download="Omprakash_Suthar_Resume.pdf">Download PDF</a>
+                <a className="btn btn--sm" href={PDF_URL} target="_blank" rel="noopener">View PDF</a>
                 <button className="btn btn--sm" onClick={() => copy('email')}>{copied === 'email' ? 'Email copied' : 'Copy Email'}</button>
                 <button className="btn btn--sm" onClick={() => copy('text')}>{copied === 'text' ? 'Copied' : 'Copy Link'}</button>
                 <button className="icon-btn" onClick={onClose} aria-label="Close resume">X</button>
