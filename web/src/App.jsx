@@ -158,11 +158,13 @@ export default function App() {
           {!isHome && route !== '/story' && route !== '/resume' && <NotFound />}
         </main>
 
-        <footer className="footer">
-          <div className="container footer__inner">
-            <p>© 2026 Omprakash Suthar — Built with precision. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source Code ↗</a></p>
-          </div>
-        </footer>
+        {route !== '/resume' && (
+          <footer className="footer">
+            <div className="container footer__inner">
+              <p>© 2026 Omprakash Suthar — Built with precision. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source Code ↗</a></p>
+            </div>
+          </footer>
+        )}
 
         {!frugal && <div className="bloat-banner">⚠ Bloat mode — frugal = false (+42KB)</div>}
 

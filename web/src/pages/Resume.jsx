@@ -8,6 +8,9 @@ export default function Resume() {
 
   useEffect(() => {
     document.title = 'Resume — Omprakash Suthar';
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
   }, []);
 
   return (
@@ -33,7 +36,7 @@ export default function Resume() {
           border: '1px solid var(--line)', borderRadius: 16, overflow: 'hidden',
           background: 'var(--card)', boxShadow: 'var(--shadow)',
         }}>
-          <object data={pdfUrl} type="application/pdf" width="100%" height="900" style={{ display: 'block' }}>
+          <object data={pdfUrl} type="application/pdf" width="100%" height="calc(100vh - 230px)" style={{ display: 'block' }}>
             <p className="muted" style={{ padding: 18 }}>
               Your browser can't display the PDF inline.{' '}
               <a href={pdfUrl} download="Om_Prakash_Suthar_Resume.pdf">Download it here</a>.
