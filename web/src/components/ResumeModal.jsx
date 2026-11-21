@@ -42,7 +42,7 @@ const SKILL_TIPS = {
   'Vercel': 'Edge deploys â€” this portfolio is live on Vercel',
 };
 
-const PDF_URL = '/assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf';
+const PDF_URL = '/assets/resume/Om_Prakash_Suthar_Resume.pdf';
 const EMAIL = 'omprakashsuthar.os974660@gmail.com';
 
 export default function ResumeModal({ open, onClose }) {

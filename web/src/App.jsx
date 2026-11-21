@@ -25,8 +25,8 @@ import SecretModal from './components/SecretModal';
 import MatrixRain from './components/MatrixRain';
 import { Vision, InfinitySection, Domains, Cases, Goals, Stack, About, Journey, Contact } from './components/sections';
 import Story from './pages/Story';
-import Resume from './pages/Resume';
 import NotFound from './pages/NotFound';
+import ResumeModal from './components/ResumeModal';
 
 import { ProjectsContext } from './ProjectsContext';
 import { loadProjects, projectDomain, featuredRank } from './lib/github';
@@ -40,12 +40,16 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
   const route = useRoute();
   const isHome = route === '/';
+  // Resume is a first-class route: keep the home page rendered behind the
+  // modal so the UI is identical to opening Resume from the nav.
+  const showHome = isHome || route === '/resume';
 
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
   const [ready, setReady] = useState(false);
   const [frugal, setFrugal] = useState(true);
   const [storyOpen, setStoryOpen] = useState(false);
+  const resumeOpen = route === '/resume';
   const secrets = useSecretEngine();
 
   useLenis();
@@ -116,7 +120,7 @@ export default function App() {
     setTimeout(() => window.__scrollToId?.('contact'), 160);
   }, [route, secrets]);
 
-  const home = isHome && (
+  const home = showHome && (
     <>
       <Hero
         ready={ready}
@@ -152,24 +156,22 @@ export default function App() {
         <Nav />
 
         <main>
-          {isHome && home}
+          {showHome && home}
           {route === '/story' && <Story />}
-          {route === '/resume' && <Resume />}
-          {!isHome && route !== '/story' && route !== '/resume' && <NotFound />}
+          {!showHome && route !== '/story' && route !== '/resume' && <NotFound />}
         </main>
 
-        {route !== '/resume' && (
-          <footer className="footer">
-            <div className="container footer__inner">
-              <p>© 2026 Omprakash Suthar — Built with precision. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source Code ↗</a></p>
-            </div>
-          </footer>
-        )}
+        <footer className="footer">
+          <div className="container footer__inner">
+            <p>© 2026 Omprakash Suthar — Built with precision. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source Code ↗</a></p>
+          </div>
+        </footer>
 
         {!frugal && <div className="bloat-banner">⚠ Bloat mode — frugal = false (+42KB)</div>}
 
 
         <StoryModal open={storyOpen} onClose={() => setStoryOpen(false)} />
+        <ResumeModal open={resumeOpen} onClose={() => navigate('/')} />
         <Modal project={active} onClose={() => setActive(null)} />
         <SecretsHud count={secrets.unlocked.length} total={secrets.total} toast={secrets.toast} />
         {secrets.modal && (
