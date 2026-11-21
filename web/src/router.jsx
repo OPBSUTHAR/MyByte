@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 // In-page section links (#vision, #work, …) are handled separately by
 // Lenis scrollTo — see useLenis' anchor interceptor (it skips "#/" hrefs).
 
-const KNOWN = ['/story'];
+const KNOWN = ['/story', '/resume'];
 
 export function useRoute() {
   const read = () => {

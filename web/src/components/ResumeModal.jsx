@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useScrollLock, useTopmostEscape } from '../hooks/useScrollLock';
 
-// Interactive web-native resume — modal with filter tabs, expandable
+// Interactive web-native resume â€” modal with filter tabs, expandable
 // accordions, skill tooltips and a recruiter action bar.
 // Data source: data/resume.json (same file the Python fetch tool generates).
 
@@ -15,31 +15,31 @@ const TAB_MATCH = {
 };
 
 const SKILL_TIPS = {
-  'C': 'BharatVista Nexus (POSIX/WinSock, pthreads, libcurl, SQLite) — production C server',
+  'C': 'BharatVista Nexus (POSIX/WinSock, pthreads, libcurl, SQLite) â€” production C server',
   'C++': 'Data structures, SCALER coursework, systems programming',
-  'C#': 'SpaceFlightMonitor — .NET WinForms, MS SQL, multi-threaded telemetry',
-  'Java': 'SynchroGroundedNet — networking, RMI, distributed dashboards',
+  'C#': 'SpaceFlightMonitor â€” .NET WinForms, MS SQL, multi-threaded telemetry',
+  'Java': 'SynchroGroundedNet â€” networking, RMI, distributed dashboards',
   'Python': 'CrimeIntel-AI, ai-scanner (OpenCV/OCR), Krishi-Gati-AI, Satora',
   'JavaScript': 'SpaceFlightMonitor dashboards, Leaflet frontends, 11+ mini apps',
-  'TypeScript': 'AstraForge — typed tooling and libraries',
+  'TypeScript': 'AstraForge â€” typed tooling and libraries',
   'SQL': 'SQLite (BharatVista), MS SQL Server (telemetry), MongoDB (MERN)',
   'React': 'FieldSync, SynchroGroundedNet dashboards, this portfolio',
   'Node.js': 'Express APIs, REST design, MongoDB backends',
-  'MongoDB': 'FieldSync GIS app — geospatial schemas, Express + Mongo',
-  'MS SQL': 'SpaceFlightMonitor — async multi-threaded DB updates',
-  'OpenCV': 'ai-scanner — edge detection, perspective warp, classifier pipelines',
-  'Tesseract': 'ai-scanner — on-device OCR, no cloud',
+  'MongoDB': 'FieldSync GIS app â€” geospatial schemas, Express + Mongo',
+  'MS SQL': 'SpaceFlightMonitor â€” async multi-threaded DB updates',
+  'OpenCV': 'ai-scanner â€” edge detection, perspective warp, classifier pipelines',
+  'Tesseract': 'ai-scanner â€” on-device OCR, no cloud',
   'Leaflet': 'BharatVista satellite ground-tracks, FieldSync maps',
   'satellite.js': 'SGP4 orbital propagation, live TLE tracking',
-  'GSAP': 'This site — ScrollTrigger, pinned galleries, timelines',
+  'GSAP': 'This site â€” ScrollTrigger, pinned galleries, timelines',
   'React-Three': 'WebGL scenes and 3D interactions',
-  'OCR': 'Edge document intelligence — ai-scanner, offline-first',
+  'OCR': 'Edge document intelligence â€” ai-scanner, offline-first',
   'NLP': 'Aviation_NLP, CrimeIntel explainability, Aviation NLP project',
   'LLM/SLM': 'Fine-tuning, agentic workflows, Hugging Face pipelines',
   'Git': '48 repos, clean version trees, CI/CD, concurrent codebases',
   'Docker': 'Containerized deploys, reproducible builds',
-  'Figma': 'UI/UX design → handoff, design systems',
-  'Vercel': 'Edge deploys — this portfolio is live on Vercel',
+  'Figma': 'UI/UX design â†’ handoff, design systems',
+  'Vercel': 'Edge deploys â€” this portfolio is live on Vercel',
 };
 
 const PDF_URL = '/assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf';
@@ -64,7 +64,7 @@ export default function ResumeModal({ open, onClose }) {
       .catch(() => setData(null));
   }, [open]);
 
-  // changing tabs repoints index-based accordion ids — collapse on switch
+  // changing tabs repoints index-based accordion ids â€” collapse on switch
   useEffect(() => { setExpanded(null); }, [tab]);
 
   useEffect(() => () => clearTimeout(copyTimer.current), []);
@@ -79,7 +79,7 @@ export default function ResumeModal({ open, onClose }) {
   }, [data, tab]);
 
   const copy = async (kind) => {
-    const text = kind === 'email' ? EMAIL : `OM PRAKASH SUTHAR — Resume\n${location.origin}/assets/resume/RESUME_OM_PRAKASH_SUTHAR.pdf`;
+    const text = kind === 'email' ? EMAIL : `${location.origin}/#/resume`;
     const done = () => {
       setCopied(kind);
       clearTimeout(copyTimer.current);
@@ -89,7 +89,7 @@ export default function ResumeModal({ open, onClose }) {
       await navigator.clipboard.writeText(text);
       done();
     } catch {
-      // http / denied clipboard — legacy execCommand fallback
+      // http / denied clipboard â€” legacy execCommand fallback
       try {
         const ta = document.createElement('textarea');
         ta.value = text;
@@ -111,7 +111,7 @@ export default function ResumeModal({ open, onClose }) {
           className="overlay-backdrop"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose}
-          role="dialog" aria-modal="true" aria-label="Resume — Omprakash Suthar"
+          role="dialog" aria-modal="true" aria-label="Resume â€” Omprakash Suthar"
         >
           <motion.div
             className="resume-modal"
@@ -127,15 +127,15 @@ export default function ResumeModal({ open, onClose }) {
                 <img src="https://avatars.githubusercontent.com/u/178475619?v=4" alt="" />
                 <div>
                   <b>OM PRAKASH SUTHAR</b>
-                  <span>BCA • CHRIST Yeshwantpur • Bengaluru</span>
+                  <span>BCA â€¢ CHRIST Yeshwantpur â€¢ Bengaluru</span>
                 </div>
                 <span className="live-dot"><i /> Open to offers</span>
               </div>
               <div className="resume-modal__actions">
-                <a className="btn btn--sm btn--primary" href={PDF_URL} download="Omprakash_Suthar_Resume.pdf">⬇ Download PDF</a>
-                <button className="btn btn--sm" onClick={() => copy('email')}>{copied === 'email' ? '✓ Email copied' : '✉ Copy Email'}</button>
-                <button className="btn btn--sm" onClick={() => copy('text')}>{copied === 'text' ? '✓ Copied' : '⧉ Copy Text'}</button>
-                <button className="icon-btn" onClick={onClose} aria-label="Close resume">✕</button>
+                <a className="btn btn--sm btn--primary" href={PDF_URL} download="Omprakash_Suthar_Resume.pdf">â¬‡ Download PDF</a>
+                <button className="btn btn--sm" onClick={() => copy('email')}>{copied === 'email' ? 'âœ“ Email copied' : 'âœ‰ Copy Email'}</button>
+                <button className="btn btn--sm" onClick={() => copy('text')}>{copied === 'text' ? 'Copied' : 'Copy Link'}</button>
+                <button className="icon-btn" onClick={onClose} aria-label="Close resume">âœ•</button>
               </div>
             </div>
 
@@ -148,7 +148,7 @@ export default function ResumeModal({ open, onClose }) {
 
             {/* body */}
             <div className="resume-modal__body">
-              {!data && <p className="muted">Loading resume…</p>}
+              {!data && <p className="muted">Loading resumeâ€¦</p>}
 
               {data && (
                 <>
@@ -163,10 +163,10 @@ export default function ResumeModal({ open, onClose }) {
                             {x.logo && <img src={x.logo} alt="" loading="lazy" />}
                             <div>
                               <b>{x.role}</b>
-                              <span>{x.org} • {x.period} — {x.location}</span>
+                              <span>{x.org} â€¢ {x.period} â€” {x.location}</span>
                             </div>
                           </div>
-                          <span className="acc__chev">{isOpen ? '−' : '+'}</span>
+                          <span className="acc__chev">{isOpen ? 'âˆ’' : '+'}</span>
                         </button>
                         <AnimatePresence initial={false}>
                           {isOpen && (
@@ -198,12 +198,12 @@ export default function ResumeModal({ open, onClose }) {
                       <div className="resume-proj">
                         {proj.map((p, i) => (
                           <div className="resume-proj__item" key={i}>
-                            <b>{p.name}</b> <span className="muted">— {p.subtitle}</span>
+                            <b>{p.name}</b> <span className="muted">â€” {p.subtitle}</span>
                             <p className="muted small">{p.desc}</p>
                             <div className="tags">
                               {p.stack.split(',').map((s) => <span key={s.trim()}>{s.trim()}</span>)}
                             </div>
-                            {p.link && <a href={p.link} target="_blank" rel="noopener">Code ↗</a>}
+                            {p.link && <a href={p.link} target="_blank" rel="noopener">Code â†—</a>}
                           </div>
                         ))}
                       </div>
@@ -235,7 +235,7 @@ export default function ResumeModal({ open, onClose }) {
                         {e.logo && <img src={e.logo} alt="" loading="lazy" />}
                         <div>
                           <b>{e.degree}</b>
-                          <span className="muted">{e.org} • {e.period}</span>
+                          <span className="muted">{e.org} â€¢ {e.period}</span>
                         </div>
                       </div>
                     ))}
@@ -247,7 +247,7 @@ export default function ResumeModal({ open, onClose }) {
                       {(data.certifications || []).map((c, i) => (
                         <div key={i}>
                           <b>{c.name}</b>
-                          <span className="muted">{c.org} • {c.date}</span>
+                          <span className="muted">{c.org} â€¢ {c.date}</span>
                         </div>
                       ))}
                     </div>

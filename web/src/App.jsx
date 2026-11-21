@@ -45,8 +45,9 @@ export default function App() {
   const [active, setActive] = useState(null);
   const [ready, setReady] = useState(false);
   const [frugal, setFrugal] = useState(true);
-  const [resumeOpen, setResumeOpen] = useState(false);
   const [storyOpen, setStoryOpen] = useState(false);
+  // Resume is a first-class route so it gets its own shareable URL (#/resume).
+  const resumeOpen = route === '/resume';
   const secrets = useSecretEngine();
 
   useLenis();
@@ -150,12 +151,13 @@ export default function App() {
         <div className="grain" aria-hidden="true" />
         {isHome && !ready && <Preloader onDone={handleReady} />}
         <Cursor />
-        <Nav onOpenResume={() => setResumeOpen(true)} />
+        <Nav />
 
         <main>
           {isHome && home}
           {route === '/story' && <Story />}
-          {!isHome && route !== '/story' && <NotFound />}
+          {route === '/resume' && null}
+          {!isHome && route !== '/story' && route !== '/resume' && <NotFound />}
         </main>
 
         <footer className="footer">
@@ -166,7 +168,7 @@ export default function App() {
 
         {!frugal && <div className="bloat-banner">⚠ Bloat mode — frugal = false (+42KB)</div>}
 
-        <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
+        <ResumeModal open={resumeOpen} onClose={() => navigate('/')} />
         <StoryModal open={storyOpen} onClose={() => setStoryOpen(false)} />
         <Modal project={active} onClose={() => setActive(null)} />
         <SecretsHud count={secrets.unlocked.length} total={secrets.total} toast={secrets.toast} />

@@ -15,7 +15,7 @@ const SECTIONS = [
   { id: 'contact', label: 'Contact' },
 ];
 
-export default function Nav({ onOpenResume }) {
+export default function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('');
   const route = useRoute();
@@ -85,8 +85,9 @@ export default function Nav({ onOpenResume }) {
           ))}
           <button
             type="button"
+            className={route === '/resume' ? 'active' : ''}
             style={linkStyle}
-            onClick={(e) => { e.preventDefault(); setOpen(false); onOpenResume(); }}
+            onClick={(e) => { e.preventDefault(); setOpen(false); navigate('/resume'); }}
           >
             <GlitchText text="Resume" />
           </button>
