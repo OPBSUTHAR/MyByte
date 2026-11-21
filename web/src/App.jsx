@@ -163,7 +163,7 @@ export default function App() {
 
         <footer className="footer">
           <div className="container footer__inner">
-            <p>© 2026 Omprakash Suthar — Built with precision. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source Code ↗</a></p>
+            <p>(c) 2026 Omprakash Suthar - Built with precision. <a href="https://github.com/OPBSUTHAR/MyByte" target="_blank" rel="noopener">Source Code</a></p>
           </div>
         </footer>
 
