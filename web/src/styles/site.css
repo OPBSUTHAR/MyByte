@@ -793,9 +793,10 @@ body.cursor-hover .cursor-ring{width:56px; height:56px; opacity:1; border-color:
    MODALS (Resume + Storybook)
    ============================================================ */
 .overlay-backdrop{
-  position:fixed; inset:0; z-index:1100; display:grid; place-items:center; padding:16px;
+  position:fixed; inset:0; z-index:1100; display:grid; place-items:start center; padding:24px 16px;
   background:rgba(5,6,8,.78);
   overflow-y:auto;
+  overscroll-behavior:contain;
 }
 
 /* storybook modal */
@@ -810,9 +811,9 @@ body.cursor-hover .cursor-ring{width:56px; height:56px; opacity:1; border-color:
 
 /* resume modal */
 .resume-modal{
-  width:min(980px,94vw); max-height:92vh; overflow-y:auto; display:flex; flex-direction:column;
+  width:min(980px,94vw); max-height:90vh; overflow-y:auto; display:flex; flex-direction:column;
   background:var(--bg); border:1px solid var(--line); border-radius:20px;
-  box-shadow:var(--shadow);
+  box-shadow:var(--shadow); overscroll-behavior:contain; margin-block:auto;
 }
 .resume-modal__bar{
   display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
