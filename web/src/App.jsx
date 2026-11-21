@@ -18,7 +18,6 @@ import Work from './components/Work';
 import Modal from './components/Modal';
 import Cursor from './components/Cursor';
 import Preloader from './components/Preloader';
-import ResumeModal from './components/ResumeModal';
 import StoryModal from './components/StoryModal';
 import { useSecretEngine } from './components/SecretEngine';
 import SecretsHud from './components/SecretsHud';
@@ -26,6 +25,7 @@ import SecretModal from './components/SecretModal';
 import MatrixRain from './components/MatrixRain';
 import { Vision, InfinitySection, Domains, Cases, Goals, Stack, About, Journey, Contact } from './components/sections';
 import Story from './pages/Story';
+import Resume from './pages/Resume';
 import NotFound from './pages/NotFound';
 
 import { ProjectsContext } from './ProjectsContext';
@@ -46,8 +46,6 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [frugal, setFrugal] = useState(true);
   const [storyOpen, setStoryOpen] = useState(false);
-  // Resume is a first-class route so it gets its own shareable URL (#/resume).
-  const resumeOpen = route === '/resume';
   const secrets = useSecretEngine();
 
   useLenis();
@@ -156,7 +154,7 @@ export default function App() {
         <main>
           {isHome && home}
           {route === '/story' && <Story />}
-          {route === '/resume' && null}
+          {route === '/resume' && <Resume />}
           {!isHome && route !== '/story' && route !== '/resume' && <NotFound />}
         </main>
 
@@ -168,7 +166,7 @@ export default function App() {
 
         {!frugal && <div className="bloat-banner">⚠ Bloat mode — frugal = false (+42KB)</div>}
 
-        <ResumeModal open={resumeOpen} onClose={() => navigate('/')} />
+
         <StoryModal open={storyOpen} onClose={() => setStoryOpen(false)} />
         <Modal project={active} onClose={() => setActive(null)} />
         <SecretsHud count={secrets.unlocked.length} total={secrets.total} toast={secrets.toast} />
